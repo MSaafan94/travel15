@@ -105,18 +105,18 @@
                 </xpath>
             </field>
         </record>
-        <record id="view_order_form_inherit_sale_stock_inherit" model="ir.ui.view">
-            <field name="name">view_order_form_inherit_sale_stock</field>
-            <field name="model">sale.order</field>
-            <field name="inherit_id" ref="sale_stock.view_order_form_inherit_sale_stock"/>
-            <field name="arch" type="xml">
-                <xpath expr="//field[@name='warehouse_id']" position="replace">
-                </xpath>
-                <xpath expr="//field[@name='sale_order_template_id']" position="after">
-                    <field name="warehouse_id" options="{'no_create': True}" groups="stock.group_stock_multi_locations"
-                           force_save="1" invisible="1"/>
-                </xpath>
-            </field>
-        </record>
+<!--        <record id="view_order_form_inherit_sale_stock_inherit" model="ir.ui.view">-->
+<!--            <field name="name">view_order_form_inherit_sale_stock</field>-->
+<!--            <field name="model">sale.order</field>-->
+<!--            <field name="inherit_id" ref="sale_stock.view_order_form_inherit_sale_stock"/>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <xpath expr="//field[@name='warehouse_id']" position="replace">-->
+<!--                </xpath>-->
+<!--                <xpath expr="//field[@name='sale_order_template_id']" position="after">-->
+<!--                    <field name="warehouse_id" options="{'no_create': True}" groups="stock.group_stock_multi_locations"-->
+<!--                           force_save="1" invisible="1"/>-->
+<!--                </xpath>-->
+<!--            </field>-->
+<!--        </record>-->
     </data>
 </odoo>
