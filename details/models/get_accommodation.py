@@ -262,7 +262,6 @@ class SaleOrrder(models.Model):
                 'partner_id': self.partner_id.id,
                 'status': status,
                 'program_name': program
-
             }))
 
         for rec in self.name_of_persons:

@@ -55,6 +55,7 @@ class SaleOrder(models.Model):
 
     # @api.multi
     def action_confirm(self):
+        print('sasdfsafasdfnsajdfhgasdjkhfgaskjhfgsakdjhfga')
         for line in self.order_line:
             if self.state == 'draft' and line.product_uom_qty > line.available:
                 raise UserError("Ordered Quantity of [{}] is greater than available quantity !".format(line.name))
@@ -73,10 +74,10 @@ class SaleOrder(models.Model):
                 account_payment.append((0, 0, {
                     'payment_amount': line.amount,
                     'customer': line.partner_id.name,
-                    'paid_on': line.payment_date,
+                    # 'paid_on': line.payment_date,
                     'payment_date': line.payment_date,
                     'payment_type': line.payment_type,
-                    'journal_id': line.journal_id,
+                    'journal_id': line.journal_id.id,
                     'name': line.name,
                     'state': line.state,
                 }))
@@ -203,9 +204,29 @@ class SaleOrder(models.Model):
             self.env['account.payment'].sudo().create(values)
 
     def payment_action(self):
-        action = self.env['ir.actions.act_window'].for_xml_id('account', 'action_account_payments')
+        action = self.env.ref('account.action_account_payments_payable').read()[0]
+        # action = self.env['ir.actions.act_window'].for_xml_id('account', 'action_account_payments_payable')
         action['domain'] = ['|', ('sale_id', '=', self.id), ('partner_id', '=', self.partner_id.id)]
+        action['context'] = {
+            'default_partner_id': self.partner_id.id,
+            'default_currency_id': self.currency_id.id,
+            'default_invoice_ids': [(6, 0, self.invoice_ids.ids)]
+        }
         return action
+
+    # def action_view_payments(self):
+    #     self.ensure_one()
+    #     payments = self.env['account.payment'].search([
+    #         ('invoice_ids', 'in', self.invoice_ids.ids)
+    #     ])
+    #     action = self.env.ref('account.action_account_payments_payable').read()[0]
+    #     action['domain'] = [('id', 'in', payments.ids)]
+    #     action['context'] = {
+    #         'default_partner_id': self.partner_id.id,
+    #         'default_currency_id': self.currency_id.id,
+    #         'default_invoice_ids': [(6, 0, self.invoice_ids.ids)]
+    #     }
+    #     return action
 
 
 class Payments(models.Model):
@@ -215,6 +236,7 @@ class Payments(models.Model):
     customer = fields.Char()
     payment_date = fields.Date()
     name = fields.Char()
+
     journal_id = fields.Many2one('account.journal')
     payment_amount = fields.Monetary()
     payment_quotation_id = fields.Many2one('sale.order')

@@ -6,8 +6,8 @@ from odoo.addons import decimal_precision as dp
 class InventoryCustom(models.Model):
     _inherit = 'product.product'
 
-    field_type = fields.Selection([('room', 'Room'), ('visa', 'Visa'), ('program', 'Program'), ('domestic', 'Domestic'),
-                                   ('international', 'International')])
+    product_category = fields.Selection([('room', 'Room'), ('visa', 'Visa'), ('program', 'Program'),
+                                         ('domestic', 'Domestic'), ('international', 'International')])
 
 
 class PurchaseCustom(models.Model):
@@ -73,11 +73,11 @@ class SaleOrderTemplateCust(models.Model):
     # @api.depends('total_rooms',)
     def _compute_stock(self):
         sale_order_domain = [('template_name', '=', self.name), ('state', 'not in', (['draft', 'waiting', 'sent', 'expired']))]
-        sale_order_line_ids_rooms = self.env['sale.order.line'].sudo().search(sale_order_domain).filtered(lambda x: x.field_type == 'room')
-        sale_order_line_ids_visa = self.env['sale.order.line'].sudo().search(sale_order_domain).filtered(lambda x: x.field_type == 'visa')
-        sale_order_line_ids_program = self.env['sale.order.line'].sudo().search(sale_order_domain).filtered(lambda x: x.field_type == 'program')
-        sale_order_line_ids_domestic = self.env['sale.order.line'].sudo().search(sale_order_domain).filtered(lambda x: x.field_type == 'domestic')
-        sale_order_line_ids_int = self.env['sale.order.line'].sudo().search(sale_order_domain).filtered(lambda x: x.field_type == 'international')
+        sale_order_line_ids_rooms = self.env['sale.order.line'].sudo().search(sale_order_domain).filtered(lambda x: x.product_category == 'room')
+        sale_order_line_ids_visa = self.env['sale.order.line'].sudo().search(sale_order_domain).filtered(lambda x: x.product_category == 'visa')
+        sale_order_line_ids_program = self.env['sale.order.line'].sudo().search(sale_order_domain).filtered(lambda x: x.product_category == 'program')
+        sale_order_line_ids_domestic = self.env['sale.order.line'].sudo().search(sale_order_domain).filtered(lambda x: x.product_category == 'domestic')
+        sale_order_line_ids_int = self.env['sale.order.line'].sudo().search(sale_order_domain).filtered(lambda x: x.product_category == 'international')
         if sale_order_line_ids_rooms:
             for x in range(len(sale_order_line_ids_rooms)):
                 self.stock_rooms += sale_order_line_ids_rooms[x].product_uom_qty
@@ -126,8 +126,8 @@ class SaleOrderOption(models.Model):
     hotel = fields.Many2one('model.hotel', string="Hotel")
     inventory = fields.Float(string="Inventory")
     analytic_tag_id = fields.Many2one('account.analytic.tag', 'Analytic Tags')
-    available = fields.Float(string="Available", compute="_compute_available", store=True)
-    field_type = fields.Selection([('room', 'Room'), ('visa', 'Visa'), ('program', 'Program'), ('domestic', 'Domestic'), ('international', 'International')])
+    available = fields.Float(string="Available", compute="_compute_available")
+    product_category = fields.Selection([('room', 'Room'), ('visa', 'Visa'), ('program', 'Program'), ('domestic', 'Domestic'), ('international', 'International')])
 
     # @api.one
     @api.depends('product_id', 'quantity')
@@ -147,9 +147,9 @@ class SaleOrderLine(models.Model):
 
     location_id = fields.Many2one('stock.location', "Location")
     cost = fields.Float('Cost', related="product_id.standard_price", store=True, readonly=False)
-    available = fields.Float(string="Available", compute="_compute_available", store=True)
+    available = fields.Float(string="Available", compute="_compute_available")
     reserved = fields.Float()
-    field_type = fields.Selection([('room', 'Room'), ('visa', 'Visa'), ('program', 'Program'), ('domestic', 'Domestic'),
+    product_category = fields.Selection([('room', 'Room'), ('visa', 'Visa'), ('program', 'Program'), ('domestic', 'Domestic'),
                                    ('international', 'International')], compute='compute_is_room', store=True)
     template_name = fields.Char(related='order_id.sale_order_template_id.name')
     # product_uom_qty = fields.Float(string='Ordered Quantity', digits=dp.get_precision('Product Unit of Measure'),
@@ -168,7 +168,7 @@ class SaleOrderLine(models.Model):
     # @api.one
     def compute_is_room(self):
         for rec in self:
-            rec.field_type = rec.product_id.field_type
+            rec.product_category = rec.product_id.product_category
 
     # @api.one
     @api.depends('product_id', 'product_uom_qty')

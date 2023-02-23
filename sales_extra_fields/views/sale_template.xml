@@ -91,7 +91,7 @@
                     <field name="analytic_tag_ids" invisible="1"/>
                     <field name="template_name" invisible="1"/>
                     <field name="inventory"/>
-                    <field name="field_type"/>
+                    <field name="product_category"/>
                     <field name="stock" string="Sold"/>
                     <field name="available"/>
                 </xpath>
