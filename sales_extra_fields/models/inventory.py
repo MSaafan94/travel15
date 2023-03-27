@@ -14,7 +14,8 @@ class SaleOrderTemplateOption(models.Model):
     available = fields.Float(string="Available", compute="_compute_available")
     analytic_tag_ids = fields.Many2one('account.analytic.tag', 'Analytic Tags')
     template_name = fields.Char(related='sale_order_template_id.name', store=True)
-    product_category = fields.Selection([('room', 'Room'), ('visa', 'Visa'), ('program', 'Program'), ('domestic', 'Domestic'), ('international', 'International')], compute='compute_type',)
+    product_category = fields.Selection([('room', 'Room'), ('visa', 'Visa'), ('program', 'Program'),
+                                         ('domestic', 'Domestic'), ('international', 'International')], compute='compute_type',)
 
     # @api.one
     def compute_type(self):
@@ -25,7 +26,6 @@ class SaleOrderTemplateOption(models.Model):
     def _compute_stock(self):
         for rec in self:
             rec.stock = 0
-            # rec.available = 0
             if rec.product_id:
                 sale_order_domain = [('product_id', '=', rec.product_id.id), ('state', 'not in', (['draft', 'waiting',
                                                                                                    'sent', 'expired']))]
@@ -37,8 +37,10 @@ class SaleOrderTemplateOption(models.Model):
     @api.depends('stock', 'inventory')
     def _compute_available(self):
         for rec in self:
-            # rec.available = rec.inventory - rec.stock
             if not rec.product_category == 'room':
                 rec.available = rec.inventory - rec.stock
             else:
-                rec.available = self.sale_order_template_id.available_rooms
+                if self.sale_order_template_id.available_rooms > rec.inventory:
+                    rec.available = rec.inventory - rec.stock
+                else:
+                    rec.available = self.sale_order_template_id.available_rooms

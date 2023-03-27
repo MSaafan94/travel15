@@ -16,21 +16,21 @@
                             <!--                                <label for="warehouse_id" string="Warehouse"/>-->
                             <!--                                <field name="warehouse_id" string="Warehouse"/>-->
                             <!--                            </div>-->
-                            <div>
+                            <div class="o_row">
                                 <label for="destination" string="Destination"/>
                                 <field name="destination" string="Destination"/>
                             </div>
-                            <div>
+                            <div class="o_row">
                                 <label for="hotel" string="Hotel"/>
                                 <field name="hotel" widget="many2many_tags"
                                        options="{'color_field': 'color', 'no_create_edit': True}"
                                        placeholder="Tags..."/>
                             </div>
-                            <div>
+                            <div class="o_row">
                                 <label for="starttime" string="From"/>
                                 <field name="starttime" string="From"/>
                             </div>
-                            <div>
+                            <div class="o_row">
                                 <label for="endtime" string="To"/>
                                 <field name="endtime" string="To"/>
 
@@ -40,7 +40,7 @@
                                 <field name="duration" string="Duration" force_save="1"/>
                                 <label for="duration" string="Nights"/>
                             </div>
-                            <div>
+                            <div class="o_row">
                                 <label for="arranged" string="Arranged"/>
                                 <field name="arranged" string="Arranged"/>
                             </div>
@@ -48,18 +48,18 @@
                                 <label for="month" string="Month"/>
                                 <field name="month" string="Month"/>
                             </div>
-                            <div>
+                            <div class="o_row">
                                  <label for="year" string="Year"/>
-                                <field name="year" string="year"/>
+                                <field name="year" string="Year"/>
                             </div>
 
                         </group>
                         <group>
-                            <div>
+                            <div class="o_row">
                                 <label for="need_room_mate" string="Need Room Mate"/>
                                 <field name="need_room_mate" string="Need Room Mate" widget="radio"/>
                             </div>
-                            <div>
+                            <div class="o_row">
                                 <label for="no_of_accompanying_persons" string="No of Accompanying Persons"/>
                                 <field name="no_of_accompanying_persons" string="No of Accompanying Persons"/>
                             </div>

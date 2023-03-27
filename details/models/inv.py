@@ -58,8 +58,8 @@ class SaleOrderAccommodationInv(models.Model):
     age_on_travel_date = fields.Char(string='Age On Travel',)
 
     def _get_date_from_quotation(self):
-        self.check_in_date = self.sale_id.starttime.date()
-        self.check_out_date = self.sale_id.endtime.date()
+        self.check_in_date = self.sale_id.starttime
+        self.check_out_date = self.sale_id.endtime
 
     # @api.one
     # @api.depends('nationality')

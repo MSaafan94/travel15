@@ -1,6 +1,6 @@
 from odoo import fields, models, api
-# from datetime import date, datetime
-import datetime
+from datetime import date, datetime,timedelta
+# import datetime
 from odoo.exceptions import ValidationError
 
 import logging
@@ -35,7 +35,7 @@ class CrmLead(models.Model):
     booking_status = fields.Many2one('booking.status', "Booking Status")
     Description = fields.Text("Description")
     owner = fields.Char("Owner")
-    created_at = fields.Datetime("Created at")
+    created_at = fields.Datetime("Created at", )
 
     def open_whatsapp_web(self):
         if len(self.whatsapp_num) <= 11:
@@ -76,6 +76,33 @@ class CrmLead(models.Model):
                 }
             else:
                 raise ValidationError("Please Provide Contact number for {}".format(self.partner_id))
+
+    # def calculate_stage_time(self):
+    #     # domain=[]
+    #     hh = self.env['crm.lead'].search([('stage_id', '=', 'new')])
+    #     print(hh)
+    #     print('asdfasdfhgjasdfuyaswdgfwjhefgasjkdhfgkasjdhfgjasdhfa')
+
+    def get_new_leads_more_than_a_dayy(self):
+        # try:
+        leads = self.env['crm.lead'].search([('stage_id', '=', 1), ])
+        print(len(leads))
+        lead_count = self.env['crm.lead'].search_count([('stage_id', '=', 1), ('active', '=', True),
+                                                        ('create_date', '<', date.today())])
+        print(lead_count)
+        # for sale_order in leads:
+        #     print(sale_order)
+        # except:
+        #     return "internal error"
+
+    # @api.model
+    # def get_new_leads_more_than_a_day(self):
+    #     """Method to get leads that have been in the new stage for more than a day."""
+    #     one_day_ago = datetime.now() - timedelta(days=1)
+    #     # new_stage = self.env.ref('crm.new')  # replace with the ID or name of your new stage
+    #     leads = self.search([('stage_id', '=', 'new'),])
+    #     print(len(leads))
+    #     return leads
 
     @api.onchange('partner_id')
     def _fill_contact_data(self):

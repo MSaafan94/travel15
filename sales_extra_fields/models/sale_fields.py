@@ -35,7 +35,7 @@ class SaleOrder(models.Model):
     res = fields.Many2one('res.partner', track_visibility='always')
     partner_age = fields.Selection(string='Age Type', related='partner_id.age_type', readonly=False, store=True)
 
-    # @api.one
+
     def generate(self):
         months = {
             '1': 'JAN',
@@ -66,14 +66,10 @@ class SaleOrder(models.Model):
             serial = search_analytics[len(search_analytics) - 1].name.partition('/')[0]
             if serial:
                 if int(serial) < 9:
-                    # print(int(serial))
                     serial = '000{}'.format(int(serial) + 1)
-                    # print(serial)
                 elif int(serial) < 99:
-                    # print(int(serial))
                     serial = '00{}'.format(int(serial) + 1)
                 elif int(serial) < 1000:
-                    # print(int(serial))
                     serial = '0{}'.format(int(serial) + 1)
                 else:
                     serial = '{}'.format(int(serial) + 1)
@@ -104,7 +100,6 @@ class SaleOrder(models.Model):
     #     action['domain'] = [('origin', '=', self.name), ]
     #     return action
 
-    # #@api.multi
     @api.onchange('name_of_persons')
     def total_name_of_persons(self):
         self.total_num = len(self.name_of_persons) + 1
@@ -134,9 +129,9 @@ class SaleOrder(models.Model):
     # hotel = fields.Many2many('model.hotel', string="Hotel")
     duration = fields.Integer('Duration', track_visibility='always')
     hotel = fields.Many2many("model.hotel", string='Hotel', track_visibility='always')
-    starttime = fields.Datetime(string='Order Date', required=True, index=True, default=fields.Datetime.now,
+    starttime = fields.Date(string='Order Date', required=True, index=True, default=fields.Datetime.now,
                                 track_visibility='always')
-    endtime = fields.Datetime(string='Order Date', required=True, index=True, default=fields.Datetime.now,
+    endtime = fields.Date(string='Order Date', required=True, index=True, default=fields.Datetime.now,
                               track_visibility='always')
     need_room_mate = fields.Selection([('yes', 'Yes'),
                                        ('no', 'No')], string="Need Room Mate", default='yes', track_visibility='always')
@@ -172,7 +167,7 @@ class SaleOrder(models.Model):
             self.adult += 1
         for rec in self.name_of_persons:
             if rec.birthday:
-                total_days = self.endtime.date() - rec.birthday
+                total_days = self.endtime - rec.birthday
                 years = abs(total_days.days / 365)
                 remaining_days = total_days.days % 365
                 if remaining_days >= 30:
@@ -203,7 +198,6 @@ class SaleOrder(models.Model):
     # @api.one
     @api.depends('name_of_persons')
     def _get_count_age_type(self):
-        # if not self.individaul:
         if self.name_of_persons:
             for rec in self.name_of_persons:
                 if rec.age_type == 'infant':
@@ -318,9 +312,9 @@ class SaleOrderTemplate(models.Model):
     # hotel = fields.Many2many('model.hotel', string="Hotel")
     duration = fields.Integer('Duration', readonly=True, store=True, track_visibility="always")
     hotel = fields.Many2many("model.hotel", string='Hotel', track_visibility="always")
-    starttime = fields.Datetime(string='Order Date', required=True, index=True, default=fields.Datetime.now,
+    starttime = fields.Date(string='Order Date', required=True, index=True, default=fields.Datetime.now,
                                 track_visibility="always")
-    endtime = fields.Datetime(string='Order Date', required=True, index=True, default=fields.Datetime.now,
+    endtime = fields.Date(string='Order Date', required=True, index=True, default=fields.Datetime.now,
                               track_visibility="always")
     need_room_mate = fields.Selection([('yes', 'Yes'),
                                        ('no', 'No')], string="Need Room Mate", default='yes', track_visibility="always")

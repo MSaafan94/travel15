@@ -22,12 +22,26 @@ class AccountPayment(models.Model):
     created_user = fields.Char("Approved user", track_visibility='always')
     payment_method_id = fields.Many2one('account.payment.method', required=False, track_visibility='always')
     journal_id = fields.Many2one('account.journal', required=False, track_visibility='always')
-    trip_reference = fields.Char("Trip Reference", track_visibility='always')
+    trip_reference = fields.Many2one("sale.order.template", track_visibility='always')
 
-    # @api.multi
-    def post(self):
-        res = super(AccountPayment, self).post()
+    def action_post(self):
+        # Call the parent method to post the payment
+        res = super(AccountPayment, self).action_post()
         self.approved_user = self.env.user.name
+        # Create a new activity record for the user(s) you want to notify
+        activity_type_id = self.env.ref('mail.mail_activity_data_todo').id # ID of the "To Do" activity type
+        if self.trip_reference and self.trip_reference.responsible_cs:
+            user_id = self.trip_reference.responsible_cs.id
+            activity_vals = {
+                'activity_type_id': activity_type_id,
+                'res_id': self.id,
+                'res_model_id': self.env.ref('account.model_account_payment').id,
+                'user_id': user_id,
+                'date_deadline': fields.Date.today(),
+                'summary': 'Payment posted',
+                'note': 'Payment %s has been posted' % self.name,
+            }
+            self.env['mail.activity'].create(activity_vals)
         return res
 
     @api.model
@@ -50,17 +64,14 @@ class SaleOrder(models.Model):
     total_due = fields.Monetary(compute='_compute_total_paid_amounts', string="Total Due", store=True)
     payment_quotation = fields.One2many('payments.payments', 'payment_quotation_id', )
     extra_money = fields.Float()
-    year = fields.Selection([('2022', '2022'), ('2023', '2023'), ('2024','2024')], related='sale_order_template_id.year', store=True)
+    year = fields.Selection([('2022', '2022'), ('2023', '2023'), ('2024', '2024')], related='sale_order_template_id.year', store=True)
 
-
-    # @api.multi
     def action_confirm(self):
-        print('sasdfsafasdfnsajdfhgasdjkhfgaskjhfgsakdjhfga')
-        for line in self.order_line:
-            if self.state == 'draft' and line.product_uom_qty > line.available:
-                raise UserError("Ordered Quantity of [{}] is greater than available quantity !".format(line.name))
-            elif self.state == 'update' and line.available < 0:
-                raise UserError("Ordered Quantity of [{}] is greater than available quantity !".format(line.name))
+        for linee in self.order_line:
+            if self.state == 'draft' and linee.product_uom_qty > linee.available:
+                raise UserError("Ordered Quantity of [{}] is greater than available quantity !".format(linee.name))
+            elif self.state == 'update' and linee.available < 0:
+                raise UserError("Ordered Quantity of [{}] is greater than available quantity !".format(linee.name))
         res = super(SaleOrder, self).action_confirm()
         return res
 

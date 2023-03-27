@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
-from datetime import datetime, date
-from datetime import timedelta
+from dateutil.relativedelta import relativedelta
+from datetime import datetime
 
 from odoo import models, fields, api, _
 
 import dateutil
-from datetime import datetime
 from odoo.exceptions import UserError, ValidationError
 
 
@@ -45,11 +44,32 @@ class SaleOrderr(models.Model):
     child_inv = fields.Integer(string='Child', track_visibility='always')
     adult_inv = fields.Integer(string='Adult', track_visibility='always')
     year = fields.Selection([('2022', '2022'), ('2023', '2023'), ('2024', '2024')], related='sale_order_template_id.year',)
+    passport_expiry = fields.Date(related='partner_id.passport_expiry')
+    expired = fields.Boolean(compute='expiry_date')
 
-    # def compute_year_from_quotation(self):
-    #     if self.sale_order_template_id:
-    #         print('asd')
+    def expiry_date(self):
+        delta = relativedelta(self.passport_expiry, self.endtime)
+        months = delta.months + 12 * delta.years
+        years_diff = relativedelta(self.passport_expiry, self.endtime).years
+        if years_diff > 0 or months >= 6:
+            self.expired = False
+        else:
+            self.expired = True
+            return
+        for line in self.name_of_persons:
+            delta = relativedelta(line.passport_expiry, self.endtime)
+            months = delta.months + 12 * delta.years
+            if months >= 6:
+                self.expired = False
+            else:
+                self.expired = True
+                return
 
+    def action_confirm(self):
+        if not self.expired and not self.individual:
+            raise UserError("You can not confirm because of expired passport")
+        res = super(SaleOrderr, self).action_confirm()
+        return res
 
     def unlink(self):
         if not self.env.user.has_group('details.group_sale_super_manager'):
@@ -60,12 +80,12 @@ class SaleOrderr(models.Model):
     def change_checkin_and_out(self):
         # if self.sale_order_accommodation:
         for line in self.sale_order_accommodation:
-            line.check_in_date = self.starttime.date()
-            line.check_out_date = self.endtime.date()
+            line.check_in_date = self.starttime
+            line.check_out_date = self.endtime
     # if self.sale_order_accommodation_inv:
         for line in self.sale_order_accommodation_inv:
-            line.check_in_date = self.starttime.date()
-            line.check_out_date = self.endtime.date()
+            line.check_in_date = self.starttime
+            line.check_out_date = self.endtime
 
 
 
@@ -74,7 +94,7 @@ class SaleOrderr(models.Model):
     def _age_on_travel_date_accommodation(self):
         for line in self.sale_order_accommodation:
             if line.partner_id.birthday:
-                total_days = self.endtime.date() - line.partner_id.birthday
+                total_days = self.endtime - line.partner_id.birthday
                 years = int(abs(total_days.days / 365))
                 remaining_days = total_days.days % 365
                 if remaining_days >= 30:
@@ -199,8 +219,8 @@ class SaleOrderAccommodation(models.Model):
     age_on_travel_date = fields.Char(string='Age On Travel', store=True)
 
     def _get_date_from_quotation(self):
-        self.check_in_date = self.sale_id.starttime.date()
-        self.check_out_date = self.sale_id.endtime.date()
+        self.check_in_date = self.sale_id.starttime
+        self.check_out_date = self.sale_id.endtime
 
     # @api.one
     # @api.depends('nationality')
@@ -290,8 +310,8 @@ class SaleOrderCity1(models.Model):
     age_on_travel_date = fields.Char(string='Age On Travel', )
 
     def _get_date_from_quotation(self):
-        self.check_in_date = self.sale_id.starttime.date()
-        self.check_out_date = self.sale_id.endtime.date()
+        self.check_in_date = self.sale_id.starttime
+        self.check_out_date = self.sale_id.endtime
 
     # @api.one
     @api.depends('nationality')
@@ -385,8 +405,8 @@ class SaleOrderCity2(models.Model):
 
 
     def _get_date_from_quotation(self):
-        self.check_in_date = self.sale_id.starttime.date()
-        self.check_out_date = self.sale_id.endtime.date()
+        self.check_in_date = self.sale_id.starttime
+        self.check_out_date = self.sale_id.endtime
 
     # @api.one
     @api.depends('nationality')
@@ -477,8 +497,8 @@ class SaleOrderCity3(models.Model):
     age_on_travel_date = fields.Char(string='Age On Travel', )
 
     def _get_date_from_quotation(self):
-        self.check_in_date = self.sale_id.starttime.date()
-        self.check_out_date = self.sale_id.endtime.date()
+        self.check_in_date = self.sale_id.starttime
+        self.check_out_date = self.sale_id.endtime
 
     # @api.one
     @api.depends('nationality')
@@ -569,8 +589,8 @@ class SaleOrderCity4(models.Model):
     age_on_travel_date = fields.Char(string='Age On Travel', )
 
     def _get_date_from_quotation(self):
-        self.check_in_date = self.sale_id.starttime.date()
-        self.check_out_date = self.sale_id.endtime.date()
+        self.check_in_date = self.sale_id.starttime
+        self.check_out_date = self.sale_id.endtime
 
     # @api.one
     @api.depends('nationality')
@@ -661,8 +681,8 @@ class SaleOrderCity5(models.Model):
     age_on_travel_date = fields.Char(string='Age On Travel', )
 
     def _get_date_from_quotation(self):
-        self.check_in_date = self.sale_id.starttime.date()
-        self.check_out_date = self.sale_id.endtime.date()
+        self.check_in_date = self.sale_id.starttime
+        self.check_out_date = self.sale_id.endtime
 
     # @api.one
     @api.depends('nationality')
@@ -753,8 +773,8 @@ class SaleOrderCity6(models.Model):
     age_on_travel_date = fields.Char(string='Age On Travel', )
 
     def _get_date_from_quotation(self):
-        self.check_in_date = self.sale_id.starttime.date()
-        self.check_out_date = self.sale_id.endtime.date()
+        self.check_in_date = self.sale_id.starttime
+        self.check_out_date = self.sale_id.endtime
 
     # @api.one
     @api.depends('nationality')

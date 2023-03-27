@@ -7,7 +7,10 @@
       <field name="inherit_id" ref="sale_management.sale_order_template_view_form"/>
       <field name="arch" type="xml">
          <xpath expr="//field[@name='hotel']" position="after">
-             <field name="inventory_account" />
+             <div class="o_row">
+                 <label for="inventory_account" string="Account"/>
+                 <field name="inventory_account" />
+             </div>
          </xpath>
       </field>
     </record>

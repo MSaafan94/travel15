@@ -31,6 +31,7 @@
         'views/quot_temp.xml',
         # 'views/invoice.xml',
         'security/security.xml',
+        'security/sec.xml',
 
     ],
     # only loaded in demonstration mode
