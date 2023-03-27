@@ -6,10 +6,10 @@
             <field name="model">sale.order</field>
             <field name="inherit_id" ref="sale.view_order_form"/>
             <field name="arch" type="xml">
-                <xpath expr="//field[@name='name']" position="before">
-                    <widget name="web_ribbon" title='valid' attrs="{'invisible': ['|',('expired', '=', True),('individual','=',True)]}"/>
-                    <widget name="web_ribbon" title='expired'  attrs="{'invisible': ['|',('expired', '=', False),('individual','=',True)]}"  bg_color="bg-danger"/>
-                </xpath>
+<!--                <xpath expr="//field[@name='name']" position="before">-->
+<!--                    <widget name="web_ribbon" title='valid' attrs="{'invisible': ['|',('expired', '=', True),('individual','=',True)]}"/>-->
+<!--                    <widget name="web_ribbon" title='expired'  attrs="{'invisible': ['|',('expired', '=', False),('individual','=',True)]}"  bg_color="bg-danger"/>-->
+<!--                </xpath>-->
                 <xpath expr="//field[@name='roommate_name']" position="after">
                     <field name="individual" invisible="0"/>
                     <field name="due_date" invisible="1"/>

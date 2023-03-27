@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="travel_notification_template">
+          <field name="name">travel_notification_template</field>
+          <field name="model">sale.order.template</field>
+          <field name="inherit_id" ref="sale_management.sale_order_template_view_form"/>
+          <field name="arch" type="xml">
+             <xpath expr="//field[@name='number_of_days']" position="after">
+                 <field name="responsible_cs" groups="sales_team.group_sale_manager" />
+             </xpath>
+          </field>
+        </record>
+
+        <record model="ir.ui.view" id="travel_notification_order">
+          <field name="name">travel_notification_order</field>
+          <field name="model">sale.order</field>
+          <field name="inherit_id" ref="sale.view_order_form"/>
+          <field name="arch" type="xml">
+             <xpath expr="//field[@name='user_id']" position="after">
+                 <field name="responsible_cs" string="CS Person" ref="base.user_admin"/>
+                 <field name="lock_order" groups="sales_team.group_sale_manager"/>
+             </xpath>
+          </field>
+        </record>
+
+        <record model="ir.ui.view" id="travel_notification_order_tree">
+          <field name="name">travel_notification_order_tree</field>
+          <field name="model">sale.order</field>
+          <field name="inherit_id" ref="sale.view_quotation_tree_with_onboarding"/>
+          <field name="arch" type="xml">
+             <xpath expr="//field[@name='name']" position="after">
+                 <field name="lock_order" groups="sales_team.group_sale_manager"/>
+             </xpath>
+          </field>
+        </record>
+    </data>
+</odoo>

@@ -174,11 +174,10 @@ class SaleOrderLine(models.Model):
     @api.depends('product_id', 'product_uom_qty')
     def _compute_available(self):
         for rec in self:
+            rec.available = 0
             if rec.product_id:
-                rec.available = 0
-                if rec.product_id:
-                    sale_order_template_option_id = self.env['sale.order.template.option'].sudo().search(
-                        [('product_id', '=', rec.product_id.id),
-                         ('template_name', '=', self.order_id.sale_order_template_id.name)], limit=1)
-                    if sale_order_template_option_id:
-                        rec.available = sale_order_template_option_id.available
+                sale_order_template_option_id = self.env['sale.order.template.option'].sudo().search(
+                    [('product_id', '=', rec.product_id.id),
+                     ('template_name', '=', self.order_id.sale_order_template_id.name)], limit=1)
+                if sale_order_template_option_id:
+                    rec.available = sale_order_template_option_id.available
