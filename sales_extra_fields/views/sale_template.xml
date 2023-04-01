@@ -76,9 +76,9 @@
                             <field name="analytic_account"/>
                             <field name="analytic_tag_ids"/>
                         </group>
-<!--                        <group>-->
-<!--                                <button name="apply_analytic_tags" type="object" string="Assign Analytic Tags" class="btn-primary"/>-->
-<!--                        </group>-->
+                        <group>
+                                <button name="apply_analytic_tags" type="object" string="Assign Analytic Tags" class="btn-primary"/>
+                        </group>
                     </group>
                 </xpath>
                 <xpath expr="//field[@name='sale_order_template_option_ids']//tree/field[@name='product_id']"
@@ -88,12 +88,14 @@
                 </xpath>
                 <xpath expr="//field[@name='sale_order_template_option_ids']//tree/field[@name='quantity']"
                        position="after">
-                    <field name="analytic_tag_ids" invisible="1"/>
+
+                    <field name="analytic_tag_ids" invisible="0"/>
                     <field name="template_name" invisible="1"/>
                     <field name="inventory"/>
                     <field name="product_category"/>
                     <field name="stock" string="Sold"/>
                     <field name="available"/>
+                    <field name="price_unit"/>
                 </xpath>
 
                 <xpath expr="//notebook[@name='main_book']" position="inside">
