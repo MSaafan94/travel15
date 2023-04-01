@@ -16,6 +16,7 @@ class SaleOrderTemplateOption(models.Model):
     template_name = fields.Char(related='sale_order_template_id.name', store=True)
     product_category = fields.Selection([('room', 'Room'), ('visa', 'Visa'), ('program', 'Program'),
                                          ('domestic', 'Domestic'), ('international', 'International')], compute='compute_type',)
+    price_unit = fields.Float()
 
     # @api.one
     def compute_type(self):
