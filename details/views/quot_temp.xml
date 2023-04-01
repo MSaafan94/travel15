@@ -32,7 +32,7 @@
                                     </tree>
                                 </field>
                             </page>
-                            <page string="City1" attrs="{'invisible':[('individual', '=', True)]}">
+                            <page string="City1" attrs="{'invisible':[('individual', '=', 'individual')]}">
                                 <field name="quot_accommodation1">
                                     <tree editable="bottom">
                                         <field name="individual" invisible='1'/>
@@ -44,7 +44,7 @@
                                     </tree>
                                 </field>
                             </page>
-                            <page string="City2" attrs="{'invisible':[('individual', '=', True)]}">
+                            <page string="City2" attrs="{'invisible':[('individual', '=', 'individual')]}">
                                 <field name="quot_accommodation2">
                                     <tree editable="bottom">
                                         <field name="individual" invisible='1'/>
@@ -56,7 +56,7 @@
                                     </tree>
                                 </field>
                             </page>
-                            <page string="City3" attrs="{'invisible':[('individual', '=', True)]}">
+                            <page string="City3" attrs="{'invisible':[('individual', '=', 'individual')]}">
                                 <field name="quot_accommodation3">
                                     <tree editable="bottom">
                                         <field name="individual" invisible='1'/>
@@ -68,7 +68,7 @@
                                     </tree>
                                 </field>
                             </page>
-                            <page string="City4" attrs="{'invisible':[('individual', '=', True)]}">
+                            <page string="City4" attrs="{'invisible':[('individual', '=', 'individual')]}">
                                 <field name="quot_accommodation4">
                                     <tree editable="bottom">
                                         <field name="individual" invisible='1'/>
@@ -80,7 +80,7 @@
                                     </tree>
                                 </field>
                             </page>
-                            <page string="City5" attrs="{'invisible':[('individual', '=', True)]}">
+                            <page string="City5" attrs="{'invisible':[('individual', '=', 'individual')]}">
                                 <field name="quot_accommodation5">
                                     <tree editable="bottom">
                                         <field name="individual" invisible='1'/>
@@ -92,7 +92,7 @@
                                     </tree>
                                 </field>
                             </page>
-                            <page string="City6" attrs="{'invisible':[('individual', '=', True)]}">
+                            <page string="City6" attrs="{'invisible':[('individual', '=', 'individual')]}">
                                 <field name="quot_accommodation6">
                                     <tree editable="bottom">
                                         <field name="individual" invisible='1'/>

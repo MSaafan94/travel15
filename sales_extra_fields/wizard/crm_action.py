@@ -23,6 +23,7 @@ class PaymentWizards(models.TransientModel):
             if self.service_type:
                 lead.service_type = self.service_type
 
+
 class CRMLead(models.Model):
     _inherit = "crm.lead"
 

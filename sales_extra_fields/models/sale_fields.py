@@ -341,7 +341,7 @@ class SaleOrderTemplate(models.Model):
     )
     year = fields.Selection([('2022', '2022'), ('2023', '2023'), ('2024', '2024')], default='2023',
                             track_visibility="always")
-    individual = fields.Boolean(string='Individual', track_visibility="always")
+    individual = fields.Selection([('individual', 'Individual'), ('visa', 'Visa'),('group','Group')],track_visibility='always',string="Branch")
     cut_of_date = fields.Date('Cut Of Date', track_visibility="always")
     analytic_account = fields.Many2one('account.analytic.account', string="Analytic Account", track_visibility="always")
     analytic_tag_ids = fields.Many2one('account.analytic.tag', 'Analytic Tags', track_visibility="always")

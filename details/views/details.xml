@@ -19,7 +19,8 @@
 
                 </xpath>
                 <xpath expr="//field[@name='payment_term_id']" position="after">
-                    <field name="revised" attrs="{'invisible':[('individual', '=', False)]}"/>
+                    <field name="completed" attrs="{'invisible':[('individual', '=', 'group')]}"/>
+                    <field name="revised" attrs="{'invisible':[('individual', '=', 'group'),]}"  groups="account.group_account_manager"/>
                 </xpath>
 
                 <xpath expr="//field[@name='payment_term_id']" position="after">
@@ -43,7 +44,7 @@
                 <xpath expr="//page[@name='attachments']" position="after">
                     <page string="Accommodation" name="accommodation" >
                         <notebook>
-                            <page string="Main" name="main" attrs="{'invisible':[('individual', '=', True)]}">
+                            <page string="Main" name="main" attrs="{'invisible':[('individual', '=', 'individual')]}">
                                 <field name="sale_order_accommodation"   nolabel="1" >
                                     <tree editable="bottom" >
                                         <field name="partner_id" invisible="1"/>
@@ -70,7 +71,7 @@
                                 </field>
 
                             </page>
-                            <page string="Main" name="main_inv" attrs="{'invisible':[('individual', '=', False)]}">
+                            <page string="Main" name="main_inv" attrs="{'invisible':[('individual', '!=', 'individual')]}">
                                 <field name="sale_order_accommodation_inv"   nolabel="1" >
                                     <tree editable="bottom" >
                                         <field name="sequence" widget="handle"/>
@@ -91,7 +92,7 @@
                                     </tree>
                                 </field>
                             </page>
-                            <page string="City1" name="city1"  groups="sales_team.group_sale_manager" attrs="{'invisible':[('individual', '=', True)]}">
+                            <page string="City1" name="city1"  groups="sales_team.group_sale_manager" attrs="{'invisible':[('individual', '=', 'individual')]}">
                                 <field name="sale_order_accommodation1" attrs="{'readonly':[('state','=','done')]}" nolabel="1" >
                                     <tree editable="bottom">
                                         <field name="sequence" widget="handle"/>
@@ -110,7 +111,7 @@
                                     </tree>
                                 </field>
                             </page>
-                            <page string="City2" name="city2" groups="sales_team.group_sale_manager" attrs="{'invisible':[('individual', '=', True)]}">
+                            <page string="City2" name="city2" groups="sales_team.group_sale_manager" attrs="{'invisible':[('individual', '=', 'individual')]}">
                                 <field name="sale_order_accommodation2" attrs="{'readonly':[('state','=','done')]}" nolabel="1" >
                                     <tree editable="bottom">
                                         <field name="sequence" widget="handle"/>
@@ -130,7 +131,7 @@
                                     </tree>
                                 </field>
                             </page>
-                            <page string="City3" name="city3" groups="sales_team.group_sale_manager" attrs="{'invisible':[('individual', '=', True)]}">
+                            <page string="City3" name="city3" groups="sales_team.group_sale_manager" attrs="{'invisible':[('individual', '=', 'individual')]}">
                                 <field name="sale_order_accommodation3" attrs="{'readonly':[('state','=','done')]}" nolabel="1" >
                                     <tree editable="bottom">
                                         <field name="sequence" widget="handle"/>
@@ -150,7 +151,7 @@
                                     </tree>
                                 </field>
                             </page>
-                             <page string="City4" name="city4" groups="sales_team.group_sale_manager" attrs="{'invisible':[('individual', '=', True)]}">
+                             <page string="City4" name="city4" groups="sales_team.group_sale_manager" attrs="{'invisible':[('individual', '=', 'individual')]}">
                                 <field name="sale_order_accommodation4" attrs="{'readonly':[('state','=','done')]}" nolabel="1" >
                                     <tree editable="bottom">
                                         <field name="sequence" widget="handle"/>
@@ -170,7 +171,7 @@
                                     </tree>
                                 </field>
                             </page>
-                             <page string="City5" name="city5" groups="sales_team.group_sale_manager" attrs="{'invisible':[('individual', '=', True)]}">
+                             <page string="City5" name="city5" groups="sales_team.group_sale_manager" attrs="{'invisible':[('individual', '=', 'individual')]}">
                                 <field name="sale_order_accommodation5" attrs="{'readonly':[('state','=','done')]}" nolabel="1" >
                                     <tree editable="bottom">
                                         <field name="sequence" widget="handle"/>
@@ -189,7 +190,7 @@
                                     </tree>
                                 </field>
                             </page>
-                             <page string="City6" name="city6" groups="sales_team.group_sale_manager" attrs="{'invisible':[('individual', '=', True)]}">
+                             <page string="City6" name="city6" groups="sales_team.group_sale_manager" attrs="{'invisible':[('individual', '=', 'individual')]}">
                                 <field name="sale_order_accommodation6" attrs="{'readonly':[('state','=','done')]}" nolabel="1" >
                                     <tree editable="bottom">
                                         <field name="sequence" widget="handle"/>
@@ -212,7 +213,7 @@
                     </page>
                     <page string="Flight">
                         <notebook>
-                            <page string="Flight International" name="flightInt" attrs="{'invisible':[('individual', '=', True)]}">
+                            <page string="Flight International" name="flightInt" attrs="{'invisible':[('individual', '=', 'individual')]}">
                                 <field name="sale_order_flight_int" attrs="{'readonly':[('state','=','done')]}" nolabel="1" >
                                     <tree editable="bottom">
                                         <field name="sequence" widget="handle"/>
@@ -243,7 +244,7 @@
                                     </tree>
                                 </field>
                             </page>
-                             <page string="Flight" name="flightInt" attrs="{'invisible':[('individual', '=', False)]}">
+                             <page string="Flight" name="flightInt" attrs="{'invisible':[('individual', '!=', 'individual')]}">
                                 <field name="sale_order_flight_int_inv" attrs="{'readonly':[('state','=','done')]}" nolabel="1">
                                     <tree editable="bottom">
                                         <field name="name"/>
@@ -259,7 +260,7 @@
                                     </tree>
                                 </field>
                              </page>
-                            <page string="Flight Domestic" name="flightDom" attrs="{'invisible':[('individual', '=', True)]}">
+                            <page string="Flight Domestic" name="flightDom" attrs="{'invisible':[('individual', '=', 'individual')]}">
                                 <field name="sale_order_flight_dom" attrs="{'readonly':[('state','=','done')]}" nolabel="1" >
                                     <tree editable="bottom">
                                         <field name="sequence" widget="handle"/>
@@ -293,7 +294,7 @@
 
                       </notebook>
                      </page>
-                     <page string="Visa" name="visa" attrs="{'invisible':[('individual', '=', True)]}">
+                     <page string="Visa" name="visa" attrs="{'invisible':[('individual', '=', 'individual')]}">
                             <field name="sale_order_visa" attrs="{'readonly':[('state','=','done')]}" nolabel="1" >
                                 <tree editable="bottom">
                                     <field name="sequence" widget="handle"/>
@@ -315,7 +316,7 @@
                                 </tree>
                             </field>
                     </page>
-                    <page string="Visa" name="visa" attrs="{'invisible':[('individual', '=', False)]}">
+                    <page string="Visa" name="visa" attrs="{'invisible':[('individual', '!=', 'individual')]}">
                             <field name="sale_order_visa_inv" attrs="{'readonly':[('state','=','done')]}" nolabel="1" >
                                 <tree editable="bottom">
                                     <field name="sequence" widget="handle"/>
@@ -335,7 +336,7 @@
                                 </tree>
                             </field>
                     </page>
-                    <page string="Medical Insurance" name="medical" attrs="{'invisible':[('individual', '=', True)]}">
+                    <page string="Medical Insurance" name="medical" attrs="{'invisible':[('individual', '=', 'individual')]}">
 
                             <field name="sale_order_medical" attrs="{'readonly':[('state','=','done')]}" nolabel="1" >
                                 <tree editable="bottom">
@@ -347,7 +348,7 @@
                                 </tree>
                             </field>
                     </page>
-                    <page string="Medical Insurance" name="medical" attrs="{'invisible':[('individual', '=', False)]}">
+                    <page string="Medical Insurance" name="medical" attrs="{'invisible':[('individual', '!=', 'individual')]}">
 
                             <field name="sale_order_medical_inv" attrs="{'readonly':[('state','=','done')]}" nolabel="1" >
                                 <tree editable="bottom">
@@ -359,7 +360,7 @@
                             </field>
                     </page>
 
-                    <page string="Vaccination" name="vaccination" attrs="{'invisible':[('individual', '=', True)]}">
+                    <page string="Vaccination" name="vaccination" attrs="{'invisible':[('individual', '=', 'individual')]}">
                             <field name="sale_order_vaccination_inv" attrs="{'readonly':[('state','=','done')]}" nolabel="1" >
                                 <tree editable="bottom">
 
@@ -375,7 +376,7 @@
                                 </tree>
                             </field>
                     </page>
-                    <page string="Vaccination" name="vaccination" attrs="{'invisible':[('individual', '=', False)]}">
+                    <page string="Vaccination" name="vaccination" attrs="{'invisible':[('individual', '!=', 'individual')]}">
                             <field name="sale_order_vaccination" attrs="{'readonly':[('state','=','done')]}" nolabel="1" >
                                 <tree editable="bottom">
                                     <field name="sequence" widget="handle"/>
@@ -385,7 +386,7 @@
                                 </tree>
                             </field>
                     </page>
-                     <page string="Program" name="program" attrs="{'invisible':[('individual', '=', True)]}">
+                     <page string="Program" name="program" attrs="{'invisible':[('individual', '=', 'individual')]}">
                             <field name="sale_order_program" attrs="{'readonly':[('state','=','done')]}" nolabel="1" >
                                 <tree editable="bottom">
                                     <field name="name"/>
@@ -397,7 +398,7 @@
                                 </tree>
                             </field>
                     </page>
-                    <page string="Program" name="program" attrs="{'invisible':[('individual', '=', False)]}">
+                    <page string="Program" name="program" attrs="{'invisible':[('individual', '!=', 'individual')]}">
                             <field name="sale_order_program_inv" attrs="{'readonly':[('state','=','done')]}" nolabel="1" >
                                 <tree editable="bottom">
                                     <field name="name"/>
@@ -409,7 +410,7 @@
                                 </tree>
                             </field>
                     </page>
-                     <page string="Transfer" name="transfer" attrs="{'invisible':[('individual', '=', True)]}">
+                     <page string="Transfer" name="transfer" attrs="{'invisible':[('individual', '=', 'individual')]}">
                             <field name="sale_order_transfer" attrs="{'readonly':[('state','=','done')]}" nolabel="1" >
                                 <tree editable="bottom">
                                     <field name="sequence" widget="handle"/>

@@ -38,7 +38,7 @@ class QuotAccommodation(models.Model):
     room_view = fields.Many2one('room.view', string='Room View')
     meal_plan = fields.Many2one('meal.plan', string="Meal Plan")
     quot_id = fields.Many2one('sale.order.template')
-    individual = fields.Boolean(related='quot_id.individual', )
+    individual = fields.Selection(related='quot_id.individual', )
 
 
 class QuotAccommodation1(models.Model):
@@ -49,7 +49,7 @@ class QuotAccommodation1(models.Model):
     room_view = fields.Many2one('room.view', string='Room View')
     meal_plan = fields.Many2one('meal.plan', string="Meal Plan")
     quot_id = fields.Many2one('sale.order.template')
-    individual = fields.Boolean(related='quot_id.individual', )
+    individual = fields.Selection(related='quot_id.individual', )
 
 
 class QuotAccommodation2(models.Model):
@@ -60,7 +60,7 @@ class QuotAccommodation2(models.Model):
     room_view = fields.Many2one('room.view', string='Room View')
     meal_plan = fields.Many2one('meal.plan', string="Meal Plan")
     quot_id = fields.Many2one('sale.order.template')
-    individual = fields.Boolean(related='quot_id.individual', )
+    individual = fields.Selection(related='quot_id.individual', )
 
 
 class QuotAccommodation3(models.Model):
@@ -71,7 +71,7 @@ class QuotAccommodation3(models.Model):
     room_view = fields.Many2one('room.view', string='Room View')
     meal_plan = fields.Many2one('meal.plan', string="Meal Plan")
     quot_id = fields.Many2one('sale.order.template')
-    individual = fields.Boolean(related='quot_id.individual', )
+    individual = fields.Selection(related='quot_id.individual', )
 
 
 class QuotAccommodation4(models.Model):
@@ -82,7 +82,7 @@ class QuotAccommodation4(models.Model):
     room_view = fields.Many2one('room.view', string='Room View')
     meal_plan = fields.Many2one('meal.plan', string="Meal Plan")
     quot_id = fields.Many2one('sale.order.template')
-    individual = fields.Boolean(related='quot_id.individual', )
+    individual = fields.Selection(related='quot_id.individual', )
 
 
 class QuotAccommodation5(models.Model):
@@ -93,7 +93,7 @@ class QuotAccommodation5(models.Model):
     room_view = fields.Many2one('room.view', string='Room View')
     meal_plan = fields.Many2one('meal.plan', string="Meal Plan")
     quot_id = fields.Many2one('sale.order.template')
-    individual = fields.Boolean(related='quot_id.individual', )
+    individual = fields.Selection(related='quot_id.individual', )
 
 
 class QuotAccommodation6(models.Model):
@@ -104,7 +104,7 @@ class QuotAccommodation6(models.Model):
     room_view = fields.Many2one('room.view', string='Room View')
     meal_plan = fields.Many2one('meal.plan', string="Meal Plan")
     quot_id = fields.Many2one('sale.order.template')
-    individual = fields.Boolean(related='quot_id.individual', )
+    individual = fields.Selection(related='quot_id.individual', )
 
 
 class FlightInternational(models.Model):
@@ -132,7 +132,7 @@ class FlightInternational(models.Model):
     transitt_city = fields.Many2one('res.country', string='Transit City', readonly=False, store=True)
     attachment = fields.Binary(string='Attachment')
     quot_id = fields.Many2one('sale.order.template')
-    individual = fields.Boolean(related='quot_id.individual')
+    individual = fields.Selection(related='quot_id.individual')
 
 
 class FlightDomestic(models.Model):
@@ -160,7 +160,7 @@ class FlightDomestic(models.Model):
     transitt_city = fields.Many2one('res.country', string='Transit City', readonly=False, store=True)
     attachment = fields.Binary(string='Attachment')
     quot_id = fields.Many2one('sale.order.template')
-    individual = fields.Boolean(related='quot_id.individual')
+    individual = fields.Selection(related='quot_id.individual')
 
 
 class QuotVisa(models.Model):
@@ -171,7 +171,7 @@ class QuotVisa(models.Model):
                                   ('no_visa_required', 'No Visa Required'), ], default='no_visa_required',
                                  string='Visa Type & Responsibility', store=True)
     quot_id = fields.Many2one('sale.order.template')
-    individual = fields.Boolean(related='quot_id.individual', )
+    individual = fields.Selection(related='quot_id.individual', )
 
 
 class QuotVaccination(models.Model):
@@ -180,7 +180,7 @@ class QuotVaccination(models.Model):
     pcr_required = fields.Many2one('pcr.required', string='PCR Required')
 
     quot_id = fields.Many2one('sale.order.template')
-    individual = fields.Boolean(related='quot_id.individual', )
+    individual = fields.Selection(related='quot_id.individual', )
 
 
 class QuotProgram(models.Model):
@@ -189,7 +189,7 @@ class QuotProgram(models.Model):
     program_name = fields.Many2many('program.city', string='Program Name', )
     status = fields.Selection([('yes', 'Yes'), ('no', 'No')], default='yes', store=True)
     quot_id = fields.Many2one('sale.order.template')
-    individual = fields.Boolean(related='quot_id.individual', )
+    individual = fields.Selection(related='quot_id.individual', )
 
 
 class DocumentFix(models.Model):

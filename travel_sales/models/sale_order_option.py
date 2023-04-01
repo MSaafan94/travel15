@@ -67,11 +67,11 @@ class SaleOrder(models.Model):
     year = fields.Selection([('2022', '2022'), ('2023', '2023'), ('2024', '2024')], related='sale_order_template_id.year', store=True)
 
     def action_confirm(self):
-        for linee in self.order_line:
-            if self.state == 'draft' and linee.product_uom_qty > linee.available:
-                raise UserError("Ordered Quantity of [{}] is greater than available quantity !".format(linee.name))
-            elif self.state == 'update' and linee.available < 0:
-                raise UserError("Ordered Quantity of [{}] is greater than available quantity !".format(linee.name))
+        for line in self.order_line:
+            if self.state == 'draft' and line.product_uom_qty > line.available:
+                raise UserError("Ordered Quantity of [{}] is greater than available quantity !".format(line.name))
+            elif self.state == 'update' and line.available < 0:
+                raise UserError("Ordered Quantity of [{}] is greater than available quantity !".format(line.name))
         res = super(SaleOrder, self).action_confirm()
         return res
 

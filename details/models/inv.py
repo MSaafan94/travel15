@@ -14,7 +14,7 @@ class SaleOrderAccommodationInv(models.Model):
     gender = fields.Selection([('male', 'Male'), ("female", 'Female')], related='partner_id.gender', string='Gender',
                               store=True)
     sequence = fields.Integer(default=10)
-    individual = fields.Boolean(related='sale_id.individual')
+    individual = fields.Selection(related='sale_id.individual')
     name = fields.Char(string="Name ___________", related='partner_id.name', readonly=False, store=True)
     relation = fields.Selection(string='Relation', related='partner_id.relation', readonly=False, store=True)
     phone_number = fields.Char(string='Phone_Number', related='partner_id.phone', readonly=False, store=True)
@@ -88,7 +88,7 @@ class SaleOrderFlightInv(models.Model):
 
     name = fields.Char(string="Name ______________", related='partner_id.name', readonly=False, store=True)
     sequence = fields.Integer(default=10)
-    individual = fields.Boolean(related='sale_id.individual')
+    individual = fields.Selection(related='sale_id.individual')
     serial_number = fields.Integer(string="S/N", name="S/N")
     flight_status = fields.Selection([('hold', 'Hold'), ('issued', 'Issued'),
                                       ('waiting_issuing', 'Waiting Issuing '), ('sent_to_client', 'Sent to Client')],

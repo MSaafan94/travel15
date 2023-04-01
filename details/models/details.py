@@ -38,8 +38,12 @@ class SaleOrderr(models.Model):
     sale_order_transfer = fields.One2many('sale.order.transfer', 'sale_id', string='transfer')
     sale_order_transfer_inv = fields.One2many('sale.order.transfer.inv', 'sale_id', string='transfer')
     balance = fields.One2many('balance.balance', 'balance_id')
-    individual = fields.Boolean(string='Individual', track_visibility="always")
-    revised = fields.Boolean( track_visibility='always')
+    individual = fields.Selection([('individual', 'Individual'), ('visa', 'Visa'), ('group', 'Group')],
+                                  track_visibility='always', string="Branch")
+    revised = fields.Selection([('revised', 'Revised')], track_visibility='always')
+    completed = fields.Selection([('completed', 'Completed')], track_visibility='always')
+
+
     infant_inv = fields.Integer(string='Infant', track_visibility='always')
     child_inv = fields.Integer(string='Child', track_visibility='always')
     adult_inv = fields.Integer(string='Adult', track_visibility='always')
@@ -174,7 +178,7 @@ class SaleOrderAccommodation(models.Model):
     gender = fields.Selection([('male', 'Male'), ("female", 'Female')], related='partner_id.gender', string='Gender',
                               store=True)
     sequence = fields.Integer(default=10)
-    individual = fields.Boolean(related='sale_id.individual')
+    individual = fields.Selection(related='sale_id.individual')
     name = fields.Char(string="Name ___________", related='partner_id.name', readonly=False, store=True)
     relation = fields.Selection(string='Relation', related='partner_id.relation', readonly=False, store=True)
     phone_number = fields.Char(string='Phone_Number', related='partner_id.phone', readonly=False, store=True)
@@ -818,7 +822,7 @@ class SaleOrderFlight(models.Model):
 
     name = fields.Char(string="Name ______________", related='partner_id.name', readonly=False, store=True)
     sequence = fields.Integer(default=10)
-    individual = fields.Boolean(related='sale_id.individual')
+    individual = fields.Selection(related='sale_id.individual')
     serial_number = fields.Integer(string="S/N", name="S/N")
     flight_status = fields.Selection([('hold', 'Hold'), ('issued', 'Issued'),
                                       ('waiting_issuing', 'Waiting Issuing '), ('sent_to_client', 'Sent to Client')],
@@ -857,9 +861,9 @@ class SaleOrderFlight(models.Model):
         [('int_grp', 'INT-GRP'), ('int_sys', 'INT-SYS'), ('without_flight', 'without flight')],
         string='Flight Type(S)')
 
-    grp =fields.Integer('international group',default=0 )
-    sys =fields.Integer('international system',default=0 )
-    without_flight_counter =fields.Integer('without flight',default=0 )
+    grp = fields.Integer('international group', default=0)
+    sys = fields.Integer('international system', default=0)
+    without_flight_counter = fields.Integer('without flight', default=0)
 
 
     @api.onchange('flight_type')
@@ -867,7 +871,7 @@ class SaleOrderFlight(models.Model):
         without_flight_counter = 0
         grp = 0
         sys = 0
-        objects=list(self.sale_id.sale_order_flight_int)
+        objects = list(self.sale_id.sale_order_flight_int)
         objects.pop()
         for line in objects:
             if line.flight_type == 'without_flight':
@@ -879,10 +883,10 @@ class SaleOrderFlight(models.Model):
         print(grp)
         print(without_flight_counter)
         print(sys)
-        self.without_flight_counter=without_flight_counter
+        self.without_flight_counter = without_flight_counter
         print(self.without_flight_counter)
-        self.grp=grp
-        self.sys=sys
+        self.grp = grp
+        self.sys = sys
         # for line in self:
         #     line.without_flight_counter=without_flight_counter
         #     line.grp=grp
@@ -894,7 +898,7 @@ class SaleOrderFlightDom(models.Model):
 
     name = fields.Char(string="Name ______________", related='partner_id.name', readonly=False, store=True)
     sequence = fields.Integer(default=10)
-    individual = fields.Boolean(related='sale_id.individual')
+    individual = fields.Selection(related='sale_id.individual')
     serial_number = fields.Integer(string="S/N", name="S/N")
     flight_status = fields.Selection([('hold', 'Hold'), ('issued', 'Issued'),
                                       ('waiting_issuing', 'Waiting Issuing '), ('sent_to_client', 'Sent to Client')],
