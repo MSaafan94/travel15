@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="view_sales_order_advance_payment" model="ir.ui.view">
+        <field name="name">sale.order.form.advance.payment</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <div name="button_box" position="inside">
+                    <button class="oe_stat_button" name="advance_payment_button" type="object" icon="fa-money" width="180px"
+                            attrs="{'invisible': [('advance_payment_count', '=', 0)]}">
+                            <field name="advance_payment_count" widget="statinfo"/>
+                    </button>
+                </div>
+            <xpath expr="//form//header//button[@name='action_draft']" position="after">
+               <button name="action_advance_payment" type="object" string="Advance Payment Register" icon="fa-money"
+                       class="btn-primary" attrs="{'invisible': [('state', '=', 'cancel')]}"/>
+            </xpath>
+        </field>
+    </record>
+
+
+    <record id="sale_order_advance_payment_register_wizard" model="ir.ui.view">
+        <field name="name">sale.advance.payment.wizard.form</field>
+        <field name="model">sale.advance.payment</field>
+        <field eval="20" name="priority"/>
+        <field name="arch" type="xml">
+            <form string="Sales Advance Payment Register">
+                <group>
+                    <group>
+                        <field name="payment_type" readonly="1"/>
+                        <field name="partner_type" readonly="1"/>
+                        <field name="partner_id" readonly="1" options='{"no_open": True, "no_create": True}'/>
+                        <field name="company_id" readonly="1"/>
+                        <field name="memo"/>
+                    </group>
+                    <group>
+                        <field name="payment_date"/>
+                        <field name="journal_id" domain="[('type', 'in', ('bank', 'cash')),('company_id', '=', company_id)]" options='{"no_open": True, "no_create": True}'/>
+                        <field name="amount"/>
+                        <field name="currency_id" readonly="1" options='{"no_open": True, "no_create": True}'/>
+                        <field name="payment_method_id" required="1" options='{"no_open": True, "no_create": True}'/>
+                        <field name="payment_method_code"  invisible="1"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="register_payment" type='object' string="Confirm Payment" class="oe_highlight" icon="fa-check-circle"/>
+                    <button string="Cancel" class="oe_highlight" special="cancel" icon="fa-times-circle"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+
+
+</odoo>
