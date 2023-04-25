@@ -16,8 +16,8 @@
     'depends': ['base', 'product', 'sale_management', 'purchase'],
     'data': [
         'wizard/select_products_wizard_view.xml',
-            # 'views/sale_views.xml',
-            # 'views/purchase_views.xml',
+        'views/sale_views.xml',
+        'views/purchase_views.xml',
         'views/quotation_template.xml',
         'security/ir.model.access.csv'
     ],

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <record model="ir.ui.view" id="sale_order_view_multi_product_selection_inherit">
+    <record model="ir.ui.view" id="sale_order_template_view_multi_product_selection_inherit">
         <field name="name">quotation.sale.order.view.multi.product.selection.inherit</field>
         <field name="model">sale.order.template</field>
         <field name="inherit_id" ref="sale_management.sale_order_template_view_form"/>
