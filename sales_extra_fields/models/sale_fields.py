@@ -146,58 +146,63 @@ class SaleOrder(models.Model):
     cut_of_date = fields.Date(related='sale_order_template_id.cut_of_date', track_visibility='always')
     roommate_name = fields.Many2one('res.partner', 'Room Mate Name', track_visibility='always')
 
-    adult = fields.Integer(  track_visibility='always')
-    child = fields.Integer(  track_visibility='always')
-    infant = fields.Integer(  track_visibility='always')
+    adult = fields.Integer(compute='calculate_adult_child', track_visibility='always',)
+    child = fields.Integer(compute='calculate_adult_child', track_visibility='always')
+    infant = fields.Integer(compute='calculate_adult_child', track_visibility='always')
 
     # adultt = fields.Integer(related="adult", store=True)
     # childd = fields.Integer(related="child", store=True)
     # infantt = fields.Integer(related="infant", store=True)
 
     # @api.one
+
     @api.onchange('name_of_persons', 'partner_id', 'partner_age')
     def calculate_adult_child(self):
-        self.ensure_one()
-        # if not self.individual:
-        if self.partner_id.age_type == 'infant':
-            self.infant += 1
-        elif self.partner_id.age_type == 'child':
-            self.child += 1
-        elif self.partner_id.age_type == 'adult':
-            self.adult += 1
-        for rec in self.name_of_persons:
-            if rec.birthday:
-                total_days = self.endtime - rec.birthday
-                years = abs(total_days.days / 365)
-                remaining_days = total_days.days % 365
-                if remaining_days >= 30:
-                    months = abs(remaining_days / 30)
-                else:
-                    months = 0
-                if (remaining_days % 30) < 30:
-                    days = (remaining_days % 30)
-                else:
-                    days = 0
-                rec.years = years
-                rec.months = months
-                rec.days = days
-                if 0 <= years < 2:
-                    rec.age_type = 'infant'
-                elif 2 <= years < 12:
-                    rec.age_type = 'child'
-                else:
-                    rec.age_type = 'adult'
+        for record in self:
+            record.infant = 0
+            record.child = 0
+            record.adult = 0
+            for partner in record.partner_id:
+                if partner.age_type == 'infant':
+                    record.infant += 1
+                elif partner.age_type == 'child':
+                    record.child += 1
+                elif partner.age_type == 'adult':
+                    record.adult += 1
+            for person in record.name_of_persons:
+                if person.birthday:
+                    total_days = record.endtime - person.birthday
+                    years = abs(total_days.days / 365)
+                    remaining_days = total_days.days % 365
+                    if remaining_days >= 30:
+                        months = abs(remaining_days / 30)
+                    else:
+                        months = 0
+                    if (remaining_days % 30) < 30:
+                        days = (remaining_days % 30)
+                    else:
+                        days = 0
+                    person.years = years
+                    person.months = months
+                    person.days = days
+                    if 0 <= years < 2:
+                        person.age_type = 'infant'
+                    elif 2 <= years < 12:
+                        person.age_type = 'child'
+                    else:
+                        person.age_type = 'adult'
 
-                if rec.age_type == 'infant':
-                    self.infant += 1
-                if rec.age_type == 'child':
-                    self.child += 1
-                if rec.age_type == 'adult':
-                    self.adult += 1
+                    if person.age_type == 'infant':
+                        record.infant += 1
+                    elif person.age_type == 'child':
+                        record.child += 1
+                    elif person.age_type == 'adult':
+                        record.adult += 1
 
     # @api.one
     @api.depends('name_of_persons')
     def _get_count_age_type(self):
+
         if self.name_of_persons:
             for rec in self.name_of_persons:
                 if rec.age_type == 'infant':
