@@ -25,7 +25,7 @@ class QuotationTemplateInherit(models.Model):
 
     #@api.multi
     def unlink(self):
-        if not self.env.user.has_group('sales_extra_fields.group_manager_quotation_template'):
+        if not self.env.user.has_group('details.group_sale_super_manager'):
             raise ValidationError("Sorry you can not delete")
 
 

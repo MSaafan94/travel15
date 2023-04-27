@@ -10,10 +10,10 @@
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='payment_transaction_id']" position="after">
                     <field name="trip_reference"  force_save="1"/>
-                    <field name="with_cheque"/>
-                    <field name="cheque_number" attrs="{'invisible': [('with_cheque', '=', False)]}"/>
-                    <field name="cheque_date" attrs="{'invisible': [('with_cheque', '=', False)]}"/>
-                    <field name="bank_name" attrs="{'invisible': [('with_cheque', '=', False)]}"/>
+<!--                    <field name="with_cheque"/>-->
+<!--                    <field name="cheque_number" attrs="{'invisible': [('with_cheque', '=', False)]}"/>-->
+<!--                    <field name="cheque_date" attrs="{'invisible': [('with_cheque', '=', False)]}"/>-->
+<!--                    <field name="bank_name" attrs="{'invisible': [('with_cheque', '=', False)]}"/>-->
                     <field name="user"/>
                     <field name="approved_user"/>
                 </xpath>

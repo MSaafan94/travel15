@@ -10,13 +10,13 @@
 <!--                    <field name="operation"/>-->
 
 <!--                </xpath>-->
-                <xpath expr="//sheet" position="after">
-                    <div class="oe_chatter">
-                        <field name="message_follower_ids" widget="mail_followers"/>
-<!--                        <field name="activity_ids" widget="mail_activity"/>-->
-                        <field name="message_ids" widget="mail_thread"/>
-                    </div>
-                </xpath>
+<!--                <xpath expr="//sheet" position="after">-->
+<!--                    <div class="oe_chatter">-->
+<!--                        <field name="message_follower_ids" widget="mail_followers"/>-->
+<!--&lt;!&ndash;                        <field name="activity_ids" widget="mail_activity"/>&ndash;&gt;-->
+<!--                        <field name="message_ids" widget="mail_thread"/>-->
+<!--                    </div>-->
+<!--                </xpath>-->
                 <xpath expr="//notebook[@name='main_book']" position="inside">
                     <page string="Accommodation" name="accommodation">
                         <notebook >

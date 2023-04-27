@@ -3,7 +3,7 @@
     'description': 'A Module to Add custom fields in sale form',
     'category': 'App',
     'version': '15.0',
-    'depends': ['base', 'sale', 'crm', 'hr', 'sales_team', 'stock', 'purchase', ],
+    'depends': ['base', 'sale', 'crm', 'hr', 'sales_team', 'stock', 'purchase', 'sale_management'],
     'data': [
         'security/security.xml',
         'security/ind_security.xml',

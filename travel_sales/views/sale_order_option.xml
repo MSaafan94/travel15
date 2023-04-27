@@ -71,17 +71,17 @@
                 </xpath>
                 <xpath expr="//button[@name='action_confirm']" position="after">
                     <button name="action_set_draft" type="object" string="Update Quotation" states="sale"/>
-                    <button name="get_payment" type="object" string="Register Payment" class="oe_highlight"
-                            states="sale,done"/>
+<!--                    <button name="get_payment" type="object" string="Register Payment" class="oe_highlight"-->
+<!--                            states="sale,done"/>-->
                     <button name="get_refund" type="object" string="Refund" class="oe_highlight"
                             states="sale,done"/>
                 </xpath>
-                <xpath expr="//button[@name='action_view_invoice']" position="after">
-                    <button name="payment_action" type="object" class="oe_stat_button" icon="fa-money"
-                            attrs="{'invisible': [('payment_count', '=', 0)]}">
-                        <field name="payment_count" widget="statinfo" string="Payments"/>
-                    </button>
-                </xpath>
+<!--                <xpath expr="//button[@name='action_view_invoice']" position="after">-->
+<!--                    <button name="payment_action" type="object" class="oe_stat_button" icon="fa-money"-->
+<!--                            attrs="{'invisible': [('payment_count', '=', 0)]}">-->
+<!--                        <field name="payment_count" widget="statinfo" string="Payments"/>-->
+<!--                    </button>-->
+<!--                </xpath>-->
                 <xpath expr="//field[@name='sale_order_option_ids']" position="after">
                     <group class="oe_subtotal_footer oe_right" colspan="2" name="sale_total">
                         <button name="transfer_optional_products" type="object" string="Transfer" class="oe_highlight"/>

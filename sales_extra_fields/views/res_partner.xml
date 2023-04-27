@@ -115,6 +115,7 @@
             <field name="inherit_id" ref="base.view_res_partner_filter"/>
             <field name="arch" type="xml">
 
+
                 <xpath expr="//field[@name='name']" position="after">
                     <field name="service_type" filter_domain="[('service_type','ilike',self)]"/>
                     <field name="whatsapp_num" filter_domain="[('whatsapp_num','ilike',self)]"/>
@@ -134,7 +135,6 @@
                     <field name="amount" filter_domain="[('amount','ilike',self)]"/>
                     <field name="points_of_loyalty" filter_domain="[('points_of_loyalty','ilike',self)]"/>
                 </xpath>
-
             </field>
         </record>
 

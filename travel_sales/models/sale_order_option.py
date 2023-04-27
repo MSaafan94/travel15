@@ -8,25 +8,25 @@ from odoo.exceptions import UserError
 from datetime import timedelta, datetime
 
 
-class AccountPayment(models.Model):
+class AccountPayment2(models.Model):
     _inherit = 'account.payment'
     active = fields.Boolean("Active", default=True, track_visibility='always')
     user = fields.Many2one('res.users', string="Payment Created User", readonly=True, track_visibility='always')
     sale_id = fields.Many2one("sale.order", track_visibility='always')
     analytic_account = fields.Many2one('account.analytic.account', track_visibility='always')
-    with_cheque = fields.Boolean("Payment With Cheque", track_visibility='always')
-    cheque_number = fields.Char("Cheque Number", track_visibility='always')
-    cheque_date = fields.Date("Cheque Date", track_visibility='always')
-    bank_name = fields.Char("Bank Name", track_visibility='always')
+    # with_cheque = fields.Boolean("Payment With Cheque", track_visibility='always')
+    # cheque_number = fields.Char("Cheque Number", track_visibility='always')
+    # cheque_date = fields.Date("Cheque Date", track_visibility='always')
+    # bank_name = fields.Char("Bank Name", track_visibility='always')
     approved_user = fields.Char("Approved user", readonly=True, track_visibility='always')
     created_user = fields.Char("Approved user", track_visibility='always')
-    payment_method_id = fields.Many2one('account.payment.method', required=False, track_visibility='always')
-    journal_id = fields.Many2one('account.journal', required=False, track_visibility='always')
+    # payment_method_id = fields.Many2one('account.payment.method', required=False, track_visibility='always')
+    # journal_id = fields.Many2one('account.journal', required=False, track_visibility='always')
     trip_reference = fields.Many2one("sale.order.template", track_visibility='always')
 
     def action_post(self):
         # Call the parent method to post the payment
-        res = super(AccountPayment, self).action_post()
+        res = super(AccountPayment2, self).action_post()
         self.approved_user = self.env.user.name
         # Create a new activity record for the user(s) you want to notify
         activity_type_id = self.env.ref('mail.mail_activity_data_todo').id # ID of the "To Do" activity type
@@ -46,7 +46,7 @@ class AccountPayment(models.Model):
 
     @api.model
     def create(self, vals):
-        rslt = super(AccountPayment, self).create(vals)
+        rslt = super(AccountPayment2, self).create(vals)
         # When a payment is created by the multi payments wizard in 'multi' mode,
         # its partner_bank_account_id will never be displayed, and hence stay empty,
         # even if the payment method requires it. This condition ensures we set
