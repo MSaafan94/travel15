@@ -37,6 +37,7 @@ class SelectProducts(models.TransientModel):
                 })
         elif self.flag_order == 'opt':  # New condition for optional product tab in quotation template
             template_id = self.env['sale.order.template'].browse(self._context.get('active_id', False))
+            self.env['sale.order.template.option'].search([('sale_order_template_id', '=', template_id.id)]).unlink()
             for product in self.product_ids:
                 self.env['sale.order.template.option'].create({
                     'name': product.name,
