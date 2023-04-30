@@ -3,5 +3,3 @@ from . import crm_lead
 from . import res_partner
 from . import purchase_details
 from . import inventory
-from . import core_sale
-from . import s

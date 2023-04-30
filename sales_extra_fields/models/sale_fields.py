@@ -361,8 +361,8 @@ class SaleOrderTemplate(models.Model):
     def apply_analytic_tags(self):
         self.ensure_one()
         if self.analytic_tag_ids:
-            if self.sale_order_template_option_id:
-                for option_product in self.sale_order_template_option_id:
+            if self.sale_order_template_option_ids:
+                for option_product in self.sale_order_template_option_ids:
                     option_product.analytic_tag_ids = self.analytic_tag_ids.id
             else:
                 raise UserError(_("No Optional products Selected"))

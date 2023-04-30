@@ -152,30 +152,26 @@ class CrmLead(models.Model):
             partner['created_at'] = vals.get('created_at')
             partner['Description'] = vals.get('Description')
 
-    @api.depends('birthday')
-    def _check_employee_age(self):
-        for rec in self:
-            if rec.birthday:
-                total_days = datetime.date.today() - rec.birthday
-                years = abs(total_days.days / 365)
-                remaining_days = total_days.days % 365
-                if remaining_days >= 30:
-                    months = abs(remaining_days / 30)
-                else:
-                    months = 0
-                if (remaining_days % 30) < 30:
-                    days = (remaining_days % 30)
-                else:
-                    days = 0
-                rec.years = years
-                rec.months = months
-                rec.days = days
-                if 0 <= years < 2:
-                    rec.age_type = 'infant'
-                elif 2 <= years < 12:
-                    rec.age_type = 'child'
-                else:
-                    rec.age_type = 'adult'
+    # @api.depends('birthday')
+    # def _check_employee_age(self):
+    #     for rec in self:
+    #         if rec.birthday:
+    #             today = datetime.date.today()
+    #             birthdate = rec.birthday
+    #             age_in_days = (today - birthdate).days
+    #             years = age_in_days // 365
+    #             remaining_days = age_in_days % 365
+    #             months = remaining_days // 30
+    #             days = remaining_days % 30
+    #             rec.years = years
+    #             rec.months = months
+    #             rec.days = days
+    #             if years < 2:
+    #                 rec.age_type = 'infant'
+    #             elif years < 12:
+    #                 rec.age_type = 'child'
+    #             else:
+    #                 rec.age_type = 'adult'
 
     def get_transfer_wizard(self):
         ctx = self.env.context
