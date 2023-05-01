@@ -81,7 +81,7 @@
                     <field name="month" invisible="1"/>
                     <field name="destination" string="Destination"/>
                     <field name="hotel" widget="many2many_tags"
-                           options="{'color_field': 'color', 'no_create_edit': True}" placeholder="Tags..."/>
+                           options="{'no_create_edit': True}" placeholder="Tags..."/>
                     <field name="starttime" string="From"/>
                     <field name="endtime" string="To"/>
                     <label for="duration" string="Duration"/>

@@ -34,6 +34,20 @@ class SaleOrderTemplateOption(models.Model):
                     lambda x: x.order_id.sale_order_template_id.id == rec.sale_order_template_id.id)
                 rec.stock = sum(sale_order_line_ids.mapped('product_uom_qty'))
 
+    def create_sale_order_option(self, sale_order):
+        order_options = self.env['sale.order.option']
+        print('asd')
+        for option in self:
+            order_options |= order_options.create({
+                'sale_order_id': sale_order.id,
+                'product_id': option.product_id.id,
+                'name': option.name,
+                'price_extra': option.price_extra,
+                'price_unit': option.price_unit,  # Pass the value of the new field to sale.order.option
+            })
+        return order_options
+
+
     # @api.one
     @api.depends('stock', 'inventory')
     def _compute_available(self):

@@ -13,9 +13,11 @@ class InventoryCustom(models.Model):
 class PurchaseCustom(models.Model):
     _inherit = 'purchase.order'
 
-    #@api.multi
+
     def unlink(self):
-        raise ValidationError("Sorry you can not delete, you can archive it instead")
+        if not self.env.user.has_group('details.group_sale_super_manager'):
+            raise ValidationError("Sorry you can not delete")
+        super(PurchaseCustom, self).unlink()
 
 
 class SaleOrderTemplateCust(models.Model):
@@ -129,7 +131,6 @@ class SaleOrderOption(models.Model):
     available = fields.Float(string="Available", compute="_compute_available")
     product_category = fields.Selection([('room', 'Room'), ('visa', 'Visa'), ('program', 'Program'), ('domestic', 'Domestic'), ('international', 'International')])
 
-    # @api.one
     @api.depends('product_id', 'quantity')
     def _compute_available(self):
         for rec in self:
@@ -139,7 +140,9 @@ class SaleOrderOption(models.Model):
                     [('product_id', '=', rec.product_id.id),
                      ('template_name', '=', self.order_id.sale_order_template_id.name)], limit=1)
                 if sale_order_template_option_id:
+                    rec.price_unit = sale_order_template_option_id.price_unit
                     rec.available = sale_order_template_option_id.available
+
 
 
 class SaleOrderLine(models.Model):
