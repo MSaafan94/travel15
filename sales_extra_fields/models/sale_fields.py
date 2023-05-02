@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
-from datetime import timedelta
+# from datetime import timedelta
 
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError
-from odoo.tools import is_html_empty
 
 
 class Destination(models.Model):
@@ -173,7 +172,7 @@ class SaleOrder(models.Model):
                 elif partner.age_type == 'adult':
                     record.adult += 1
             for person in record.name_of_persons:
-                if person.birthday:
+                if person.birthday and record.endtime:
                     total_days = record.endtime - person.birthday
                     years = abs(total_days.days / 365)
                     remaining_days = total_days.days % 365
