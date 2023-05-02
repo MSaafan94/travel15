@@ -123,7 +123,6 @@ class SaleOrrder(models.Model):
                 'hotel_name': self.sale_order_template_id.quot_accommodation3.hotel
 
             }))
-
         self.sale_order_accommodation3 = sales_accommodation
 
     #@api.multi

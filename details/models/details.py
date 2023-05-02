@@ -95,22 +95,22 @@ class SaleOrderr(models.Model):
 
 
 
-    @api.onchange('endtime')
-    def _age_on_travel_date_accommodation(self):
-        for line in self.sale_order_accommodation:
-            if line.partner_id.birthday:
-                total_days = self.endtime - line.partner_id.birthday
-                years = int(abs(total_days.days / 365))
-                remaining_days = total_days.days % 365
-                if remaining_days >= 30:
-                    months = int(abs(remaining_days / 30))
-                else:
-                    months = 0
-                if (remaining_days % 30) < 30:
-                    days = int((remaining_days % 30))
-                else:
-                    days = 0
-                line.age_on_travel_date = str(years) + " years " + str(months) + " months " + str(days) + " days"
+    # @api.onchange('endtime')
+    # def _age_on_travel_date_accommodation(self):
+    #     for line in self.sale_order_accommodation:
+    #         if line.partner_id.birthday:
+    #             total_days = self.endtime - line.partner_id.birthday
+    #             years = int(abs(total_days.days / 365))
+    #             remaining_days = total_days.days % 365
+    #             if remaining_days >= 30:
+    #                 months = int(abs(remaining_days / 30))
+    #             else:
+    #                 months = 0
+    #             if (remaining_days % 30) < 30:
+    #                 days = int((remaining_days % 30))
+    #             else:
+    #                 days = 0
+    #             line.age_on_travel_date = str(years) + " years " + str(months) + " months " + str(days) + " days"
 
 
     @api.onchange('name_of_persons', 'partner_id', )
