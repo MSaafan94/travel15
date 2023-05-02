@@ -291,11 +291,11 @@ class SaleOrder(models.Model):
             values['team_id'] = self.partner_id.team_id.id
         self.update(values)
 
-    @api.onchange('starttime', 'endtime')
-    def get_duration(self):
-        d1 = self.starttime
-        d2 = self.endtime
-        self.duration = abs((d2 - d1).days)
+    # @api.onchange('starttime', 'endtime')
+    # def get_duration(self):
+    #     d1 = self.starttime
+    #     d2 = self.endtime
+    #     self.duration = abs((d2 - d1))
 
     @api.onchange('sale_order_template_id')
     def onchange_sale_order_template_idd(self):
@@ -361,11 +361,11 @@ class SaleOrderTemplate(models.Model):
     analytic_account = fields.Many2one('account.analytic.account', string="Analytic Account", track_visibility="always")
     analytic_tag_ids = fields.Many2one('account.analytic.tag', 'Analytic Tags', track_visibility="always")
 
-    @api.onchange('endtime')
-    def get_duration(self):
-        d1 = self.starttime
-        d2 = self.endtime
-        self.duration = abs((d2 - d1).days)
+    # @api.onchange('endtime')
+    # def get_duration(self):
+    #     d1 = self.starttime
+    #     d2 = self.endtime
+    #     self.duration = abs((d2 - d1))
 
     # #@api.multi
     def apply_analytic_tags(self):
