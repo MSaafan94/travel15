@@ -11,6 +11,7 @@
                         <field name="lead_source"/>
                         <field name="service_type"/>
                         <field name="destination"/>
+                        <field name="stage"/>
                     </group>
                 </sheet>
                 <footer>

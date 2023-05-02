@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
+from datetime import timedelta
+
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError
+from odoo.tools import is_html_empty
 
 
 class Destination(models.Model):
@@ -129,9 +132,9 @@ class SaleOrder(models.Model):
     # hotel = fields.Many2many('model.hotel', string="Hotel")
     duration = fields.Integer('Duration', track_visibility='always')
     hotel = fields.Many2many("model.hotel", string='Hotel', track_visibility='always')
-    starttime = fields.Date(string='Order Date', required=True, index=True, default=fields.Datetime.now,
+    starttime = fields.Date(string='Order Date', required=True, default=fields.Datetime.now,
                                 track_visibility='always')
-    endtime = fields.Date(string='Order Date', required=True, index=True, default=fields.Datetime.now,
+    endtime = fields.Date(string='Order Date', required=True, default=fields.Datetime.now,
                               track_visibility='always')
     need_room_mate = fields.Selection([('yes', 'Yes'),
                                        ('no', 'No')], string="Need Room Mate", default='yes', track_visibility='always')
@@ -294,12 +297,19 @@ class SaleOrder(models.Model):
         d2 = self.endtime
         self.duration = abs((d2 - d1).days)
 
+    @api.onchange('sale_order_template_id')
+    def onchange_sale_order_template_idd(self):
 
-    # # #@api.multi
-    # # @api.onchange('sale_order_template_id')
-    # # def get_pricelist_from_quotaion(self):
-    # #     if self.sale_order_template_id:
-    # #         self.pricelist_id = self.sale_order_template_id.pricelist_id.id
+        template = self.sale_order_template_id
+        self.destination = template.destination
+        self.hotel = template.hotel
+        self.starttime = template.starttime
+        self.endtime = template.endtime
+        self.need_room_mate = template.need_room_mate
+        self.no_of_accompanying_persons = template.no_of_accompanying_persons
+        # self.name_of_persons = template.name_of_persons
+        self.warehouse_id = template.warehouse_id.id
+        self.analytic_account_id = template.analytic_account
 
 
 class SaleOrderLineInherit(models.Model):

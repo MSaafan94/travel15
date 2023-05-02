@@ -9,6 +9,7 @@ class PaymentWizards(models.TransientModel):
     lead_source = fields.Many2one('utm.source', "lead_Source",)
     destination = fields.Many2one('destination', 'Destination')
     service_type = fields.Many2one('service.type', 'service type')
+    stage = fields.Many2one('crm.stage', 'Stage')
 
     def set_fields(self):
         model = self.env.context.get('active_model')
@@ -22,6 +23,8 @@ class PaymentWizards(models.TransientModel):
                 lead.lead_source = self.lead_source
             if self.service_type:
                 lead.service_type = self.service_type
+            if self.stage:
+                lead.stage_id = self.stage
 
 
 class CRMLead(models.Model):

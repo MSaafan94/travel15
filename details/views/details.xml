@@ -7,14 +7,14 @@
             <field name="inherit_id" ref="sale.view_order_form"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='name']" position="before">
-                    <widget name="web_ribbon" title='valid' attrs="{'invisible': ['|',('expired', '=', True),('individual','=',True)]}"/>
-                    <widget name="web_ribbon" title='expired'  attrs="{'invisible': ['|',('expired', '=', False),('individual','=',True)]}"  bg_color="bg-danger"/>
+                    <widget name="web_ribbon" title='valid passport' attrs="{'invisible': ['|',('expired', '=', True),('individual','=', 'individual' )]}"/>
+                    <widget name="web_ribbon" title='expired passport'  attrs="{'invisible': ['|',('expired', '=', False),('individual','=','individual')]}"  bg_color="bg-danger"/>
                 </xpath>
                 <xpath expr="//field[@name='roommate_name']" position="after">
                     <field name="individual" invisible="1"/>
                     <field name="due_date" invisible="1"/>
                     <field name="year" invisible="1"/>
-                    <field name="passport_expiry" string="expiry date"/>
+                    <field name="passport_expiry" string="Expiry Date"/>
                     <field name="expired" string="expired" invisible="1"/>
 
                 </xpath>
@@ -24,7 +24,7 @@
                 </xpath>
 
                 <xpath expr="//field[@name='payment_term_id']" position="after">
-                     <label for="analytic_account_id"/>
+                    <label for="analytic_account_id"/>
                     <div class="o_row">
                             <field name="analytic_account_id"/>
                             <button name="generate" string="Generate" type="object"  attrs="{'invisible': [('individual', '!=', 'individual')]}" />

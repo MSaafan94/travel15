@@ -70,7 +70,8 @@ class SaleOrderr(models.Model):
                 return
 
     def action_confirm(self):
-        if not self.expired and not self.individual:
+        print(self.individual)
+        if self.individual == "group" and self.expired:
             raise UserError("You can not confirm because of expired passport")
         res = super(SaleOrderr, self).action_confirm()
         return res
