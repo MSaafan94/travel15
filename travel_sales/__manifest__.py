@@ -10,7 +10,7 @@
         'views/sale_order_option.xml',
         'views/account_payment.xml',
         'views/account_payment_receipt.xml',
-        # 'views/sale_report.xml',
+        'views/sale_report.xml',
         'views/sale_report_views.xml',
         'views/inventory.xml',
         # 'views/account_payment_cashout.xml',
