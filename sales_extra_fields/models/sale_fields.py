@@ -36,7 +36,9 @@ class SaleOrder(models.Model):
     # purchase = fields.Integer(compute='_purchase', string='Purchase', copy=False)
     res = fields.Many2one('res.partner', track_visibility='always')
     partner_age = fields.Selection(string='Age Type', related='partner_id.age_type', readonly=False, store=True)
-
+    user_id = fields.Many2one('res.users', string='Salesperson',
+                              help='The internal user in charge of this contact.', required=True,
+                              default=lambda self: self.env.user)
 
     def generate(self):
         months = {
@@ -279,7 +281,7 @@ class SaleOrder(models.Model):
             'payment_term_id': self.partner_id.property_payment_term_id and self.partner_id.property_payment_term_id.id or False,
             'partner_invoice_id': addr['invoice'],
             'partner_shipping_id': addr['delivery'],
-            'user_id': self.partner_id.user_id.id or self.partner_id.commercial_partner_id.user_id.id or self.env.uid,
+            # 'user_id': self.partner_id.user_id.id or self.partner_id.commercial_partner_id.user_id.id or self.env.uid,
             'name_of_persons': [(4, x) for x in child_ids]
         }
         if self.env['ir.config_parameter'].sudo().get_param(
@@ -287,7 +289,7 @@ class SaleOrder(models.Model):
             values['note'] = self.with_context(lang=self.partner_id.lang).env.user.company_id.sale_note
 
         if self.partner_id.team_id:
-            values['team_id'] = self.partner_id.team_id.id
+            values['team_id'] = self.env.user.sale_team_id.id
         self.update(values)
 
     # @api.onchange('starttime', 'endtime')

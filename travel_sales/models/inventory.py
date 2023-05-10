@@ -134,14 +134,13 @@ class SaleOrderOption(models.Model):
     @api.depends('product_id', 'quantity')
     def _compute_available(self):
         for rec in self:
-            if rec.product_id:
-                rec.available = 0
-                sale_order_template_option_id = self.env['sale.order.template.option'].sudo().search(
-                    [('product_id', '=', rec.product_id.id),
-                     ('template_name', '=', self.order_id.sale_order_template_id.name)], limit=1)
-                if sale_order_template_option_id:
-                    rec.price_unit = sale_order_template_option_id.price_unit
-                    rec.available = sale_order_template_option_id.available
+            rec.available = 0
+            sale_order_template_option_id = self.env['sale.order.template.option'].sudo().search(
+                [('product_id', '=', rec.product_id.id),
+                 ('template_name', '=', self.order_id.sale_order_template_id.name)], limit=1)
+            if sale_order_template_option_id:
+                rec.price_unit = sale_order_template_option_id.price_unit
+                rec.available = sale_order_template_option_id.available
 
 
 

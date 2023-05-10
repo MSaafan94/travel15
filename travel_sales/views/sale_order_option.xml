@@ -73,8 +73,8 @@
                     <button name="action_set_draft" type="object" string="Update Quotation" states="sale"/>
 <!--                    <button name="get_payment" type="object" string="Register Payment" class="oe_highlight"-->
 <!--                            states="sale,done"/>-->
-                    <button name="get_refund" type="object" string="Refund" class="oe_highlight"
-                            states="sale,done"/>
+<!--                    <button name="get_refund" type="object" string="Refund" class="oe_highlight"-->
+<!--                            states="sale,done"/>-->
                 </xpath>
 <!--                <xpath expr="//button[@name='action_view_invoice']" position="after">-->
 <!--                    <button name="payment_action" type="object" class="oe_stat_button" icon="fa-money"-->

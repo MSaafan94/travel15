@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- Extend the sales order form view -->
+        <record id="sale_order_form_quote_inherittttt" model="ir.ui.view">
+            <field name="name">sale_order_form_quote_inherit</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                 <xpath expr="//button[@name='action_confirm']" position="after">
+                    <button name="action_down_payment" string="DownPayment" type="object" class="oe_highlight" attrs="{'invisible': [('state', 'in', ['draft', 'sent', 'done', 'cancel', 'expired'])]}"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- UTM Source tree view -->
+    <record id="utm_source_tree_view" model="ir.ui.view">
+        <field name="name">utm.source.tree.view</field>
+        <field name="model">utm.source</field>
+        <field name="arch" type="xml">
+            <tree string="UTM Sources">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Destination tree view -->
+    <record id="destination_tree_view" model="ir.ui.view">
+        <field name="name">destination.tree.view</field>
+        <field name="model">destination</field>
+        <field name="arch" type="xml">
+            <tree string="Destinations">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Service Type tree view -->
+    <record id="service_type_tree_view" model="ir.ui.view">
+        <field name="name">service.type.tree.view</field>
+        <field name="model">service.type</field>
+        <field name="arch" type="xml">
+            <tree string="Service Types">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- UTM Source window action -->
+    <record id="utm_source_action" model="ir.actions.act_window">
+        <field name="name">UTM Sources</field>
+        <field name="res_model">utm.source</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="utm_source_tree_view"/>
+    </record>
+
+    <!-- Destination window action -->
+    <record id="destination_action" model="ir.actions.act_window">
+        <field name="name">Destinations</field>
+        <field name="res_model">destination</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="destination_tree_view"/>
+    </record>
+
+    <!-- Service Type window action -->
+    <record id="service_type_action" model="ir.actions.act_window">
+        <field name="name">Service Types</field>
+        <field name="res_model">service.type</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="service_type_tree_view"/>
+    </record>
+
+    <!-- Custom Sale menu items -->
+    <menuitem id="custom_sale_menu_root" name="Custom Sale" sequence="10" parent="sale.menu_sale_config" />
+
+    <menuitem id="custom_sale_menu_utm_source" name="UTM Sources" parent="custom_sale_menu_root" sequence="1" action="utm_source_action" />
+    <menuitem id="custom_sale_menu_destination" name="Destinations" parent="custom_sale_menu_root" sequence="2" action="destination_action" />
+    <menuitem id="custom_sale_menu_service_type" name="Service Types" parent="custom_sale_menu_root" sequence="3" action="service_type_action" />
+</odoo>

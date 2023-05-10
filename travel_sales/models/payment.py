@@ -25,3 +25,4 @@ class AccountPaymenttt(models.Model):
             raise UserError(_('please head to the accounting team to confirm it for you'))
         super(AccountPaymenttt, self).post()
 
+

@@ -24,6 +24,8 @@ class AccountPayment2(models.Model):
     # journal_id = fields.Many2one('account.journal', required=False, track_visibility='always')
     trip_reference = fields.Many2one("sale.order.template", track_visibility='always')
 
+
+
     def action_post(self):
         # Call the parent method to post the payment
         res = super(AccountPayment2, self).action_post()

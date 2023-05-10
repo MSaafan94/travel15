@@ -27,7 +27,7 @@ class ResPartner(models.Model):
     trip_code = fields.Char("Trip Code")
     passport_num = fields.Char("Passport Number")
     passport_expiry = fields.Date("Passport Expiry Date")
-    lead_source = fields.Many2one("utm.source", required=False)
+    lead_source = fields.Many2one("utm.source",)
     id_number = fields.Char("ID Number")
     destination_1 = fields.Many2one('destination', "Destination 1")
     booking_status = fields.Many2one('booking.status', "Booking Status")
@@ -53,9 +53,9 @@ class ResPartner(models.Model):
                                  ('cousin', 'Cousin'),
                                  ('friend', 'Friend')], string="Relationship")
 
-    user_id = fields.Many2one('res.users', string='Salesperson',
-                              help='The internal user in charge of this contact.', required=True,
-                              default=lambda self: self.env.user)
+    # user_id = fields.Many2one('res.users', string='Salesperson',
+    #                           help='The internal user in charge of this contact.', required=True,
+    #                           default=lambda self: self.env.user)
 
     def open_whatsapp_web(self):
         if len(self.whatsapp_num) <= 11:

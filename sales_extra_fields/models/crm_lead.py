@@ -29,7 +29,7 @@ class CrmLead(models.Model):
     trip_code = fields.Char("Trip Code")
     passport_num = fields.Char("Passport Number")
     passport_expiry = fields.Date("Passport Expiry Date")
-    lead_source = fields.Many2one("utm.source", required=True)
+    lead_source = fields.Many2one("utm.source",)
     id_number = fields.Char("ID Number")
     destination_1 = fields.Many2one('destination', "Destination 1")
     booking_status = fields.Many2one('booking.status', "Booking Status")
@@ -152,26 +152,26 @@ class CrmLead(models.Model):
             partner['created_at'] = vals.get('created_at')
             partner['Description'] = vals.get('Description')
 
-    # @api.depends('birthday')
-    # def _check_employee_age(self):
-    #     for rec in self:
-    #         if rec.birthday:
-    #             today = datetime.date.today()
-    #             birthdate = rec.birthday
-    #             age_in_days = (today - birthdate).days
-    #             years = age_in_days // 365
-    #             remaining_days = age_in_days % 365
-    #             months = remaining_days // 30
-    #             days = remaining_days % 30
-    #             rec.years = years
-    #             rec.months = months
-    #             rec.days = days
-    #             if years < 2:
-    #                 rec.age_type = 'infant'
-    #             elif years < 12:
-    #                 rec.age_type = 'child'
-    #             else:
-    #                 rec.age_type = 'adult'
+    @api.depends('birthday')
+    def _check_employee_age(self):
+        for rec in self:
+            if rec.birthday:
+                today = datetime.date.today()
+                birthdate = rec.birthday
+                age_in_days = (today - birthdate).days
+                years = age_in_days // 365
+                remaining_days = age_in_days % 365
+                months = remaining_days // 30
+                days = remaining_days % 30
+                rec.years = years
+                rec.months = months
+                rec.days = days
+                if years < 2:
+                    rec.age_type = 'infant'
+                elif years < 12:
+                    rec.age_type = 'child'
+                else:
+                    rec.age_type = 'adult'
 
     def get_transfer_wizard(self):
         ctx = self.env.context

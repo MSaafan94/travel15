@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <data>
+         <record id="invoice_form_trip_referencee" model="ir.ui.view">
+            <field name="name">Account.invoice.form.add.Trip.referencee</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='payment_reference']" position="after">
+                        <field name="payment_typee" string="payment_type"/>
+<!--                        <field name="payment_type" string="payment_type"/>-->
+                        <field name="sale_order_template_id"/>
+                        <field name="so" string="SO"/>
+
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Downpayment wizard form view -->
+        <record id="downpayment_wizard_form" model="ir.ui.view">
+            <field name="name">downpayment.wizard.form</field>
+            <field name="model">sale.advance.payment.inv</field>
+            <field name="arch" type="xml">
+                <form string="Fixed Downpayment">
+                    <group>
+                        <field name="fixed_amount"/>
+                        <field name="payment_typee" required="1" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
+                    </group>
+                    <footer>
+                        <button string="Create Downpayment" name="create_invoicess" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <!-- Downpayment wizard action -->
+        <record id="action_show_downpayment_fixed" model="ir.actions.act_window">
+            <field name="name">Fixed Downpayment</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sale.advance.payment.inv</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="downpayment_wizard_form"/>
+            <field name="target">new</field>
+        </record>
+    </data>
+</odoo>
