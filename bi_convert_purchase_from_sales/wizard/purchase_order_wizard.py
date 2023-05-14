@@ -8,6 +8,18 @@ import odoo.addons.decimal_precision as dp
 from odoo.exceptions import UserError
 
 
+class PurchaseOrderExtension(models.Model):
+    _inherit = 'purchase.order'
+
+    sale_id = fields.Many2one(
+        'sale.order', string='Sale Order',
+        help='Link to the related sale order.')
+
+    sale_order_template_id = fields.Many2one(
+        'sale.order.template', string='Trip reference',
+        help='Link to the related sale order template.')
+
+
 class createpurchaseorder(models.TransientModel):
     _name = 'create.purchaseorder'
     _description = "Create Purchase Order"
@@ -69,7 +81,9 @@ class createpurchaseorder(models.TransientModel):
             'date_order': str(self.date_order),
             'order_line': value,
             'origin': sale_order_name,
-            'partner_ref': sale_order_name
+            'partner_ref': sale_order_name,
+            'sale_id': so.id,
+            'sale_order_template_id': so.sale_order_template_id.id
         })
         sale_order = self.env['sale.order'].browse(self._context.get('active_ids', []))
         message = '<a href="#" data-oe-id=' + str(

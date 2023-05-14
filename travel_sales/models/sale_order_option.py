@@ -120,17 +120,24 @@ class SaleOrder(models.Model):
             return "internal error"
 
     # @api.one
-    @api.depends('payment_quotation')
+    @api.depends('payment_quotation','tax_totals_json')
     def _compute_total_paid_amounts(self):
-        for line in self.payment_quotation:
-            if line.is_added:
-                if line.payment_type == 'outbound':
-                    self.total_payments -= line.payment_amount
-                    # self.total_payments -= line.payment_amount
-                    self.total_due = self.amount_total - self.total_payments
-                else:
-                    self.total_payments += line.payment_amount
-                    self.total_due = self.amount_total - self.total_payments
+        for record in self:
+            total_payments = 0  # Initialize total_payments for each record
+            for line in record.payment_quotation:
+                if line.is_added:
+                    if line.payment_type == 'outbound':
+                        print('outbound')
+                        total_payments -= line.payment_amount
+                    else:
+                        print('inbound')
+                        total_payments += line.payment_amount
+
+            # Update total_payments and total_due for each record
+            record.total_payments = total_payments
+            record.total_due = record.amount_total - total_payments
+            # else:
+            #     self.
 
     def _compute_payment_count(self):
         for payment in self:
