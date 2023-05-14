@@ -28,6 +28,49 @@
                 </xpath>
             </field>
         </record>
+
+            <!-- Purchase Order list view for related Sale Orders -->
+    <record id="view_purchase_order_tree_related" model="ir.ui.view">
+        <field name="name">purchase.order.tree.related</field>
+        <field name="model">purchase.order</field>
+        <field name="arch" type="xml">
+            <tree string="Purchase Orders">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="date_order"/>
+                <field name="amount_total"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Action to open related Purchase Orders -->
+   <record id="action_open_related_purchase_orders" model="ir.actions.act_window">
+    <field name="name">Related Purchase Orders</field>
+    <field name="res_model">purchase.order</field>
+    <field name="view_mode">tree,form</field>
+    <field name="view_id" ref="view_purchase_order_tree_related"/>
+    <field name="domain">[('origin', '=', active_id)]</field>
+    <field name="context">{'search_default_group_by_partner_id': 1, 'default_origin': active_id}</field>
+</record>
+
+    <!-- Button to open related Purchase Orders from Sale Order form -->
+    <record id="view_sale_order_form_inherit" model="ir.ui.view">
+        <field name="name">sale.order.form.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_view_invoice']" position="before">
+                <button name="%(action_open_related_purchase_orders)d" type="action"
+                        string="Purchase Orders"
+                        class="oe_stat_button"
+                        attrs="{'invisible': [('po_count', '=', 0)]}"
+                        icon="fa-shopping-cart">
+                    <field name="po_count" widget="statinfo"/>
+                </button>
+            </xpath>
+        </field>
+    </record>
     </data>
 </odoo>
 

@@ -19,19 +19,18 @@ class AccountPayment2(models.Model):
     # cheque_date = fields.Date("Cheque Date", track_visibility='always')
     # bank_name = fields.Char("Bank Name", track_visibility='always')
     approved_user = fields.Char("Approved user", readonly=True, track_visibility='always')
-    created_user = fields.Char("Approved user", track_visibility='always')
+    created_user = fields.Char("Approved user", track_visibility='always',readonly=True)
     # payment_method_id = fields.Many2one('account.payment.method', required=False, track_visibility='always')
     # journal_id = fields.Many2one('account.journal', required=False, track_visibility='always')
     trip_reference = fields.Many2one("sale.order.template", track_visibility='always')
-
-
 
     def action_post(self):
         # Call the parent method to post the payment
         res = super(AccountPayment2, self).action_post()
         self.approved_user = self.env.user.name
+        self.user = self.env.user
         # Create a new activity record for the user(s) you want to notify
-        activity_type_id = self.env.ref('mail.mail_activity_data_todo').id # ID of the "To Do" activity type
+        activity_type_id = self.env.ref('mail.mail_activity_data_todo').id
         if self.trip_reference and self.trip_reference.responsible_cs:
             user_id = self.trip_reference.responsible_cs.id
             activity_vals = {
@@ -44,6 +43,19 @@ class AccountPayment2(models.Model):
                 'note': 'Payment %s has been posted' % self.name,
             }
             self.env['mail.activity'].create(activity_vals)
+
+        payment_data = {
+            'payment_amount': self.amount,
+            'customer': self.partner_id.name,
+            'payment_date': self.date,
+            'payment_type': self.payment_type,
+            'journal_id': self.journal_id.id,
+            'name': self.name,
+            'state': self.state,  # Link the payment to the sale order
+        }
+
+        if self.sale_id:
+            self.sale_id.write({'payment_quotation': [(0, 0, payment_data)]})
         return res
 
     @api.model
@@ -60,11 +72,11 @@ class AccountPayment2(models.Model):
 
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
+    payment_quotation = fields.One2many('payments.payments', 'payment_quotation_id', )
 
     payment_count = fields.Integer(compute='_compute_payment_count', copy=False)
     total_payments = fields.Monetary(compute='_compute_total_paid_amounts', string="Total Paid", store=True)
     total_due = fields.Monetary(compute='_compute_total_paid_amounts', string="Total Due", store=True)
-    payment_quotation = fields.One2many('payments.payments', 'payment_quotation_id', )
     extra_money = fields.Float()
     year = fields.Selection([('2022', '2022'), ('2023', '2023'), ('2024', '2024')], related='sale_order_template_id.year', store=True)
 
@@ -87,8 +99,7 @@ class SaleOrder(models.Model):
                 account_payment.append((0, 0, {
                     'payment_amount': line.amount,
                     'customer': line.partner_id.name,
-                    # 'paid_on': line.payment_date,
-                    'payment_date': line.payment_date,
+                    'payment_date': line.date,
                     'payment_type': line.payment_type,
                     'journal_id': line.journal_id.id,
                     'name': line.name,

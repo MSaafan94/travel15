@@ -26,11 +26,11 @@ class SaleOrderTemplateCust(models.Model):
     # number_sales = fields.Integer(compute='number_of_sales')
     # change = fields.Integer()
 
-    stock_rooms = fields.Float(compute="_compute_stock", store=True)
-    stock_visa = fields.Float(compute="_compute_stock", store=True)
-    stock_program = fields.Float(compute="_compute_stock", store=True)
-    stock_domestic = fields.Float(compute="_compute_stock", store=True)
-    stock_international = fields.Float(compute="_compute_stock", store=True)
+    stock_rooms = fields.Float(compute="_compute_stock",)
+    stock_visa = fields.Float(compute="_compute_stock",)
+    stock_program = fields.Float(compute="_compute_stock",)
+    stock_domestic = fields.Float(compute="_compute_stock",)
+    stock_international = fields.Float(compute="_compute_stock",)
 
     total_rooms = fields.Float()
     total_visa = fields.Float()
@@ -38,11 +38,11 @@ class SaleOrderTemplateCust(models.Model):
     total_domestic = fields.Float()
     total_international = fields.Float()
 
-    available_rooms = fields.Float(compute="_compute_available", store=True)
-    available_visa = fields.Float(compute="_compute_available", store=True)
-    available_program = fields.Float(compute="_compute_available",store=True)
-    available_domestic = fields.Float(compute="_compute_available",store=True)
-    available_international = fields.Float(compute="_compute_available",store=True)
+    available_rooms = fields.Float(compute="_compute_available",)
+    available_visa = fields.Float(compute="_compute_available",)
+    available_program = fields.Float(compute="_compute_available",)
+    available_domestic = fields.Float(compute="_compute_available",)
+    available_international = fields.Float(compute="_compute_available",)
 
     total_amount = fields.Float(compute='_compute_total', store=True)
     total_paid = fields.Float(compute='_compute_total', store=True)
@@ -74,27 +74,34 @@ class SaleOrderTemplateCust(models.Model):
     #@api.multi
     # @api.depends('total_rooms',)
     def _compute_stock(self):
-        sale_order_domain = [('template_name', '=', self.name), ('state', 'not in', (['draft', 'waiting', 'sent', 'expired']))]
-        sale_order_line_ids_rooms = self.env['sale.order.line'].sudo().search(sale_order_domain).filtered(lambda x: x.product_category == 'room')
-        sale_order_line_ids_visa = self.env['sale.order.line'].sudo().search(sale_order_domain).filtered(lambda x: x.product_category == 'visa')
-        sale_order_line_ids_program = self.env['sale.order.line'].sudo().search(sale_order_domain).filtered(lambda x: x.product_category == 'program')
-        sale_order_line_ids_domestic = self.env['sale.order.line'].sudo().search(sale_order_domain).filtered(lambda x: x.product_category == 'domestic')
-        sale_order_line_ids_int = self.env['sale.order.line'].sudo().search(sale_order_domain).filtered(lambda x: x.product_category == 'international')
-        if sale_order_line_ids_rooms:
-            for x in range(len(sale_order_line_ids_rooms)):
-                self.stock_rooms += sale_order_line_ids_rooms[x].product_uom_qty
-        if sale_order_line_ids_visa:
-            for y in range(len(sale_order_line_ids_visa)):
-                self.stock_visa += sale_order_line_ids_visa[y].product_uom_qty
-        if sale_order_line_ids_program:
-            for y in range(len(sale_order_line_ids_program)):
-                self.stock_program += sale_order_line_ids_program[y].product_uom_qty
-        if sale_order_line_ids_domestic:
-            for y in range(len(sale_order_line_ids_domestic)):
-                self.stock_domestic += sale_order_line_ids_domestic[y].product_uom_qty
-        if sale_order_line_ids_int:
-            for y in range(len(sale_order_line_ids_int)):
-                self.stock_international += sale_order_line_ids_int[y].product_uom_qty
+        for rec in self:
+            rec.stock_rooms = 0
+            rec.stock_visa = 0
+            rec.stock_program = 0
+            rec.stock_domestic = 0
+            rec.stock_international = 0
+            sale_order_domain = [('template_name', '=', rec.name), ('state', 'not in', (['draft', 'waiting', 'sent', 'expired']))]
+            sale_order_line_ids_rooms = rec.env['sale.order.line'].sudo().search(sale_order_domain).filtered(lambda x: x.product_category == 'room')
+            if sale_order_line_ids_rooms:
+                for x in range(len(sale_order_line_ids_rooms)):
+                    rec.stock_rooms += sale_order_line_ids_rooms[x].product_uom_qty
+            # sale_order_line_ids_visa = rec.env['sale.order.line'].sudo().search(sale_order_domain).filtered(lambda x: x.product_category == 'visa')
+            # sale_order_line_ids_program = rec.env['sale.order.line'].sudo().search(sale_order_domain).filtered(lambda x: x.product_category == 'program')
+            # sale_order_line_ids_domestic = rec.env['sale.order.line'].sudo().search(sale_order_domain).filtered(lambda x: x.product_category == 'domestic')
+            # sale_order_line_ids_int = rec.env['sale.order.line'].sudo().search(sale_order_domain).filtered(lambda x: x.product_category == 'international')
+
+            # if sale_order_line_ids_visa:
+            #     for y in range(len(sale_order_line_ids_visa)):
+            #         rec.stock_visa += sale_order_line_ids_visa[y].product_uom_qty
+            # if sale_order_line_ids_program:
+            #     for y in range(len(sale_order_line_ids_program)):
+            #         rec.stock_program += sale_order_line_ids_program[y].product_uom_qty
+            # if sale_order_line_ids_domestic:
+            #     for y in range(len(sale_order_line_ids_domestic)):
+            #         rec.stock_domestic += sale_order_line_ids_domestic[y].product_uom_qty
+            # if sale_order_line_ids_int:
+            #     for y in range(len(sale_order_line_ids_int)):
+            #         rec.stock_international += sale_order_line_ids_int[y].product_uom_qty
 
     # @api.one
     @api.depends('total_rooms', 'duration',)

@@ -26,8 +26,6 @@ class SaleOrderTemplateOption(models.Model):
     @api.depends('product_id', 'inventory', 'stock')
     def _compute_stock(self):
         for rec in self:
-            rec.stock = 0
-            if rec.product_id:
                 sale_order_domain = [('product_id', '=', rec.product_id.id), ('state', 'not in', (['draft', 'waiting',
                                                                                                    'sent', 'expired']))]
                 sale_order_line_ids = self.env['sale.order.line'].sudo().search(sale_order_domain).filtered(
@@ -36,7 +34,6 @@ class SaleOrderTemplateOption(models.Model):
 
     def create_sale_order_option(self, sale_order):
         order_options = self.env['sale.order.option']
-        print('asd')
         for option in self:
             order_options |= order_options.create({
                 'sale_order_id': sale_order.id,
@@ -47,8 +44,6 @@ class SaleOrderTemplateOption(models.Model):
             })
         return order_options
 
-
-    # @api.one
     @api.depends('stock', 'inventory')
     def _compute_available(self):
         for rec in self:

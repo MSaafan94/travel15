@@ -9,42 +9,35 @@ from odoo.exceptions import UserError
 
 class InvoiceInherit(models.Model):
     _inherit = 'account.move'
+
     payment_typee = fields.Many2one('account.journal',)
     so = fields.Many2one('sale.order')
 
-
-    def _prepare_payment_vals(self, payment_vals):
-        # Call the super method to get the original payment values
-        payment_vals = super()._prepare_payment_vals(payment_vals)
-
-        # Add or modify the payment values based on the invoice data
-        # For example, you can pass the invoice name to the payment's communication field
-        payment_vals['communication'] = self.name
-
-        # Return the updated payment values dictionary
-        return payment_vals
-
-
-    def _prepare_payment_vals(self, payment_vals):
-        payment_vals = super()._prepare_payment_vals(payment_vals)
-        payment_vals['sale_id'] = self.so
-        payment_vals['trip_reference'] = self.sale_order_template_id
-        return payment_vals
-
-
-class AccountPayment3(models.Model):
-    _inherit = 'account.payment'
-
-    @api.model
-    def create(self, vals):
-        invoice = self.env['account.move'].browse(vals.get('move_id'))
-        custom_fields = invoice.so
-        if custom_fields:
-            vals.update({
-                'sale_id': custom_fields.so,
-                'trip_reference': custom_fields.sale_order_template_id,
+    def action_register_payment(self):
+        res = super().action_register_payment()
+        if self.is_invoice(include_receipts=True):
+            # Pass custom field values to the payment wizard
+            res['context'].update({
+                'default_so': self.so.id,
+                'default_trip_reference': self.sale_order_template_id.id,
             })
-        return super(AccountPayment3, self).create(vals)
+        return res
+
+class AccountPaymentRegister(models.TransientModel):
+    _inherit = 'account.payment.register'
+
+    so = fields.Many2one('sale.order', string='SO')
+    trip_reference = fields.Many2one('sale.order.template', string='Trip_reference')
+
+    def _create_payment_vals_from_wizard(self):
+        payment_vals = super()._create_payment_vals_from_wizard()
+
+        # Add custom field values to the payment
+        payment_vals.update({
+            'sale_id': self.so.id,
+            'trip_reference': self.trip_reference.id,
+        })
+        return payment_vals
 
 
 class AdvancePayment(models.Model):
@@ -138,6 +131,5 @@ class DownpaymentWizard(models.TransientModel):
 
         # Return the updated dictionary
         return invoice_values
-
 
 
