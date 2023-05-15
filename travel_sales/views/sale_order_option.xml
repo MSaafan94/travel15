@@ -48,7 +48,7 @@
                               <field name="payment_amount" widget="monetary"/>
                               <field name="state"/>
                               <field name="payment_type"/>
-                              <field name="is_added" widget="toggle_button"/>
+<!--                              <field name="is_added" widget="toggle_button"/>-->
 <!--                              <button name="add" type="'abject" string="Add"></button>-->
                           </tree>
                       </field>

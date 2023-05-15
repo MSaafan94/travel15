@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
   <data>
+      <record model="ir.ui.view" id="sale_order_form_amount_inh">
+              <field name="name">sale.order.form.amount.inh</field>
+              <field name="model">sale.order</field>
+              <field name="inherit_id" ref="sale.view_quotation_tree_with_onboarding"/>
+              <field name="arch" type="xml">
+                  <xpath expr="//tree//field[@name='infant']" position="before">
+                        <field name="completed" optional="show"/>
+                        <field name="revised" groups="account.group_account_manager" optional="show"/>
+                </xpath>
+              </field>
+      </record>
+
       <record model="ir.ui.view" id="sale_order_form_inhh">
             <field name="name">sale.order.form.inhh</field>
             <field name="model">sale.order</field>
@@ -19,7 +31,7 @@
 
                 </xpath>
                 <xpath expr="//field[@name='payment_term_id']" position="after">
-                    <field name="completed" attrs="{'invisible':[('individual', '=', 'group')]}"/>
+                    <field name="completed"/>
                     <field name="revised" attrs="{'invisible':[('individual', '=', 'group'),]}"  groups="account.group_account_manager"/>
                 </xpath>
 

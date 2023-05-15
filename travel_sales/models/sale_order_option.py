@@ -14,15 +14,26 @@ class AccountPayment2(models.Model):
     user = fields.Many2one('res.users', string="Payment Created User", readonly=True, track_visibility='always')
     sale_id = fields.Many2one("sale.order", track_visibility='always')
     analytic_account = fields.Many2one('account.analytic.account', track_visibility='always')
-    # with_cheque = fields.Boolean("Payment With Cheque", track_visibility='always')
-    # cheque_number = fields.Char("Cheque Number", track_visibility='always')
-    # cheque_date = fields.Date("Cheque Date", track_visibility='always')
-    # bank_name = fields.Char("Bank Name", track_visibility='always')
     approved_user = fields.Char("Approved user", readonly=True, track_visibility='always')
     created_user = fields.Char("Approved user", track_visibility='always',readonly=True)
-    # payment_method_id = fields.Many2one('account.payment.method', required=False, track_visibility='always')
-    # journal_id = fields.Many2one('account.journal', required=False, track_visibility='always')
     trip_reference = fields.Many2one("sale.order.template", track_visibility='always')
+
+    def action_draft(self):
+        payment_data = {
+            'payment_amount': self.amount,
+            'customer': self.partner_id.name,
+            'payment_date': self.date,
+            'payment_type': self.payment_type,
+            'journal_id': self.journal_id.id,
+            'name': self.name,
+            'state': self.state,  # Link the payment to the sale order
+        }
+        if self.sale_id:
+            related_record = self.env['payments.payments'].search([('name', '=', payment_data['name'])], limit=1)
+            print('innnnnn')
+            if related_record:
+                self.sale_id.write({'payment_quotation': [(2, related_record.id )]})
+        super(AccountPayment2, self).action_draft()
 
     def action_post(self):
         # Call the parent method to post the payment
