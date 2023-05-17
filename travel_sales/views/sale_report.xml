@@ -37,7 +37,21 @@
                 <t t-if="doc.adult"><strong>Adult :</strong> &#160; <span t-field="doc.adult"/></t>
                 <br/>
             </xpath>
-<!--            <xpath expr="//tr[hasclass('o_total')]" position="after">-->
+            <xpath expr="//div[hasclass('clearfix')]" position="after">
+<div t-attf-class="#{'col-6' if report_type != 'html' else 'col-sm-7 col-md-6'} ml-auto">
+    <div class="row mt-2">
+        <div class="col-6 font-weight-bold">Total Paid</div>
+        <div class="col-6 text-right font-weight-bold text-nowrap">
+            <t t-esc="env['ir.qweb.field.monetary'].value_to_html(doc.total_payments, {'display_currency': doc.currency_id})"/>
+        </div>
+    </div>
+    <div class="row mt-2">
+        <div class="col-6 font-weight-bold">Total Due</div>
+        <div class="col-6 text-right font-weight-bold text-nowrap">
+            <t t-esc="env['ir.qweb.field.monetary'].value_to_html(doc.total_due, {'display_currency': doc.currency_id})"/>
+        </div>
+    </div>
+</div>
 <!--                <tr class="border-black o_payments">-->
 <!--                    <td>-->
 <!--                        <strong>Total Paid</strong>-->
@@ -54,7 +68,7 @@
 <!--                        <span t-field="doc.total_due"/>-->
 <!--                    </td>-->
 <!--                </tr>-->
-<!--            </xpath>-->
+            </xpath>
         </template>
     </data>
 </odoo>

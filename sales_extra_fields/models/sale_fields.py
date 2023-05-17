@@ -3,6 +3,7 @@
 
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError
+import datetime
 
 
 class Destination(models.Model):
@@ -93,16 +94,6 @@ class SaleOrder(models.Model):
         # print(self.partner_id.age_type)
         self.partner_age = self.partner_id.age_type
 
-    # def _purchase(self):
-    #     self.ensure_one()
-    #     for payment in self:
-    #         payment.purchase = self.env['purchase.order'].search_count(
-    #             [('origin', '=', self.name)])
-    #
-    # def purchase_action(self):
-    #     action = self.env['ir.actions.act_window'].for_xml_id('purchase', 'purchase_rfq')
-    #     action['domain'] = [('origin', '=', self.name), ]
-    #     return action
 
     @api.onchange('name_of_persons')
     def total_name_of_persons(self):
@@ -131,12 +122,13 @@ class SaleOrder(models.Model):
     cancellation_policy = fields.Boolean(track_visibility='always')
     destination = fields.Many2one('model.destination', string="Hotel", track_visibility='always')
     # hotel = fields.Many2many('model.hotel', string="Hotel")
-    duration = fields.Integer('Duration', track_visibility='always')
+    duration = fields.Integer('Duration', compute='_compute_duration', store=True, track_visibility='always')
     hotel = fields.Many2many("model.hotel", string='Hotel', track_visibility='always')
-    starttime = fields.Date(string='Order Date', required=True, default=fields.Datetime.now,
+    starttime = fields.Date(string='Start Date', required=True, default=fields.Datetime.now,
                                 track_visibility='always')
-    endtime = fields.Date(string='Order Date', required=True, default=fields.Datetime.now,
+    endtime = fields.Date(string='End Date', required=True, default=fields.Datetime.now,
                               track_visibility='always')
+
     need_room_mate = fields.Selection([('yes', 'Yes'),
                                        ('no', 'No')], string="Need Room Mate", default='yes', track_visibility='always')
     no_of_accompanying_persons = fields.Integer("No of Accompanying Persons", track_visibility='always')
@@ -158,7 +150,18 @@ class SaleOrder(models.Model):
     # childd = fields.Integer(related="child", store=True)
     # infantt = fields.Integer(related="infant", store=True)
 
-    # @api.one
+    @api.depends('starttime', 'endtime')
+    def _compute_duration(self):
+        for record in self:
+            if record.starttime and record.endtime:
+                start_date_obj = fields.Date.from_string(record.starttime)
+                end_date_obj = fields.Date.from_string(record.endtime)
+
+                date_difference = end_date_obj - start_date_obj
+                record.duration = date_difference.days
+            else:
+                record.duration = 0
+
 
     @api.onchange('name_of_persons', 'partner_id', 'partner_age')
     def calculate_adult_child(self):
@@ -319,7 +322,7 @@ class SaleOrderTemplate(models.Model):
 
     destination = fields.Many2one('model.destination', string="Hotel", track_visibility="always")
     # hotel = fields.Many2many('model.hotel', string="Hotel")
-    duration = fields.Integer('Duration', readonly=True, store=True, track_visibility="always")
+    duration = fields.Integer('Duration', compute='_compute_duration', store=True, track_visibility='always')
     hotel = fields.Many2many("model.hotel", string='Hotel', track_visibility="always")
     starttime = fields.Date(string='Order Date', required=True, index=True, default=fields.Datetime.now,
                                 track_visibility="always")
@@ -354,6 +357,18 @@ class SaleOrderTemplate(models.Model):
     cut_of_date = fields.Date('Cut Of Date', track_visibility="always")
     analytic_account = fields.Many2one('account.analytic.account', string="Analytic Account", track_visibility="always")
     analytic_tag_ids = fields.Many2many('account.analytic.tag', string='Analytic Tags', track_visibility="always")
+
+    @api.depends('starttime', 'endtime')
+    def _compute_duration(self):
+        for record in self:
+            if record.starttime and record.endtime:
+                start_date_obj = fields.Date.from_string(record.starttime)
+                end_date_obj = fields.Date.from_string(record.endtime)
+
+                date_difference = end_date_obj - start_date_obj
+                record.duration = date_difference.days
+            else:
+                record.duration = 0
 
     # @api.onchange('endtime')
     # def get_duration(self):
