@@ -9,8 +9,7 @@ access_model_transfer_salesperson_1,access.model.transfer,model_transfer_salespe
 access_model_quotation_attachments,access.model.quotation.attachments,model_quotation_attachments,,1,1,1,1
 access_model_attachment_tag,access.model.attachment.tag,model_attachment_tag,,1,1,1,1
 access_model_sale_attachments,access.model.sale.attachments,model_sale_attachments,,1,1,1,1
-access_model_sale_order_template_manager,access.model.sale_order_template_manager,sale_management.model_sale_order_template,sales_extra_fields.group_manager_quotation_template,1,1,1,1
-access_model_sale_order_template_user,access.model.sale_order_template_user,sale_management.model_sale_order_template,sales_extra_fields.group_user_quotation_template,1,0,0,0
+
 
 access_model_room_number,access.model.room.number,model_room_number,,1,1,1,1
 access_model_room_view,access.model.view.number,model_room_view,,1,1,1,1
@@ -27,8 +26,8 @@ access_model_responsibility,access.model.responsibility,model_responsibility,,1,
 access_model_visa_situation,access.model.visa.situation,model_visa_situation,,1,1,1,1
 access_model_res_partner_wizard,access.model.res.partner.wizard,model_res_partner_wizard,,1,1,1,1
 
-
-
 access_model_vehicle_type,access.model.vehicle.type,model_vehicle_type,,1,1,1,1
 access_model_notes_notes,access.model.notes.notes,model_notes_notes,,1,1,1,1
 access_model_crm_wizard,access.model.crm.wizard,model_crm_wizard,,1,1,1,1
+
+access_sale_order_template_read_only,sale.order.template,model_sale_order_template,sales_extra_fields.group_sale_order_template_read_only,1,0,0,0

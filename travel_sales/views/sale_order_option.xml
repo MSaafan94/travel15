@@ -68,6 +68,7 @@
                 <xpath expr="//form/sheet/notebook/page/field[@name='sale_order_option_ids']/tree/field[@name='price_unit']" position="after">
                     <field name="available"/>
                     <field name="transfer"/>
+                    <field name="analytic_tag_id" widget="many2many_tags"/>
                 </xpath>
                 <xpath expr="//button[@name='action_confirm']" position="after">
                     <button name="action_set_draft" type="object" string="Update Quotation" states="sale"/>

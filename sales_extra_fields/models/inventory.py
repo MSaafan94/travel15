@@ -12,7 +12,7 @@ class SaleOrderTemplateOption(models.Model):
     inventory = fields.Float(string="Inventory", default=100)
     stock = fields.Float(string="Stock", compute="_compute_stock",)
     available = fields.Float(string="Available", compute="_compute_available")
-    analytic_tag_ids = fields.Many2one('account.analytic.tag', 'Analytic Tags')
+    analytic_tag_ids = fields.Many2many('account.analytic.tag', string='Analytic Tags')
     template_name = fields.Char(related='sale_order_template_id.name', store=True)
     product_category = fields.Selection([('room', 'Room'), ('visa', 'Visa'), ('program', 'Program'),
                                          ('domestic', 'Domestic'), ('international', 'International')], compute='compute_type',)

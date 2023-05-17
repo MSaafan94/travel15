@@ -30,7 +30,6 @@ class AccountPayment2(models.Model):
         }
         if self.sale_id:
             related_record = self.env['payments.payments'].search([('name', '=', payment_data['name'])], limit=1)
-            print('innnnnn')
             if related_record:
                 self.sale_id.write({'payment_quotation': [(2, related_record.id )]})
         super(AccountPayment2, self).action_draft()
@@ -138,10 +137,8 @@ class SaleOrder(models.Model):
             for line in record.payment_quotation:
                 if line.is_added:
                     if line.payment_type == 'outbound':
-                        print('outbound')
                         total_payments -= line.payment_amount
                     else:
-                        print('inbound')
                         total_payments += line.payment_amount
 
             # Update total_payments and total_due for each record
@@ -158,7 +155,7 @@ class SaleOrder(models.Model):
     def transfer_optional_products(self):
         transfers_products = []
         if self.state not in ['draft', 'sent', 'update']:
-            raise UserError(_('You cannot add options to a confirmed order.'))
+            raise UserError(_('You cannot add products to a confirmed order.'))
         for line in self.sale_order_option_ids:
             if line.transfer == True and line.quantity <= line.available:
                 sale_order_line = {
@@ -171,7 +168,7 @@ class SaleOrder(models.Model):
                     'company_id': line.order_id.company_id.id
                 }
                 if line.analytic_tag_id:
-                    sale_order_line['analytic_tag_ids'] = [(4, line.analytic_tag_id.id)]
+                    sale_order_line['analytic_tag_ids'] = [(6, 0, line.analytic_tag_id.ids)]
                 transfers_products.append((0, 0, sale_order_line))
             elif line.transfer == True and line.quantity > line.available:
                 raise UserError(_('You cannot add {} as it is unavailable quantity.'.format(line.name)))

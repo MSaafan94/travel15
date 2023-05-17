@@ -292,12 +292,6 @@ class SaleOrder(models.Model):
             values['team_id'] = self.env.user.sale_team_id.id
         self.update(values)
 
-    # @api.onchange('starttime', 'endtime')
-    # def get_duration(self):
-    #     d1 = self.starttime
-    #     d2 = self.endtime
-    #     self.duration = abs((d2 - d1))
-
     @api.onchange('sale_order_template_id')
     def onchange_sale_order_template_idd(self):
 
@@ -308,7 +302,6 @@ class SaleOrder(models.Model):
         self.endtime = template.endtime
         self.need_room_mate = template.need_room_mate
         self.no_of_accompanying_persons = template.no_of_accompanying_persons
-        # self.name_of_persons = template.name_of_persons
         self.warehouse_id = template.warehouse_id.id
         self.analytic_account_id = template.analytic_account
 
@@ -360,7 +353,7 @@ class SaleOrderTemplate(models.Model):
     individual = fields.Selection([('individual', 'Individual'), ('visa', 'Visa'),('group','Group')],track_visibility='always',string="Branch")
     cut_of_date = fields.Date('Cut Of Date', track_visibility="always")
     analytic_account = fields.Many2one('account.analytic.account', string="Analytic Account", track_visibility="always")
-    analytic_tag_ids = fields.Many2one('account.analytic.tag', 'Analytic Tags', track_visibility="always")
+    analytic_tag_ids = fields.Many2many('account.analytic.tag', string='Analytic Tags', track_visibility="always")
 
     # @api.onchange('endtime')
     # def get_duration(self):
@@ -374,7 +367,7 @@ class SaleOrderTemplate(models.Model):
         if self.analytic_tag_ids:
             if self.sale_order_template_option_ids:
                 for option_product in self.sale_order_template_option_ids:
-                    option_product.analytic_tag_ids = self.analytic_tag_ids.id
+                    option_product.analytic_tag_ids |= self.analytic_tag_ids
             else:
                 raise UserError(_("No Optional products Selected"))
         else:

@@ -8,8 +8,7 @@
             <field name="inherit_id" ref="account.view_move_form"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='payment_reference']" position="after">
-                        <field name="payment_typee" string="payment_type"/>
-<!--                        <field name="payment_type" string="payment_type"/>-->
+                        <field name="payment_typee" string="Payment Type"/>
                         <field name="sale_order_template_id"/>
                         <field name="so" string="SO"/>
 
@@ -28,7 +27,7 @@
                         <field name="payment_typee" required="1" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
                     </group>
                     <footer>
-                        <button string="Create Downpayment" name="create_invoicess" type="object" class="btn-primary"/>
+                        <button string="Create Downpayment" name="create_invoicess" context="{'open_invoices': True}" type="object" class="btn-primary"/>
                         <button string="Cancel" class="btn-secondary" special="cancel"/>
                     </footer>
                 </form>

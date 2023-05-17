@@ -134,7 +134,7 @@ class SaleOrderOption(models.Model):
     transfer = fields.Boolean("Transfer", default=False)
     hotel = fields.Many2one('model.hotel', string="Hotel")
     inventory = fields.Float(string="Inventory")
-    analytic_tag_id = fields.Many2one('account.analytic.tag', 'Analytic Tags')
+    analytic_tag_id = fields.Many2many('account.analytic.tag', string='Analytic Tags')
     available = fields.Float(string="Available", compute="_compute_available")
     product_category = fields.Selection([('room', 'Room'), ('visa', 'Visa'), ('program', 'Program'), ('domestic', 'Domestic'), ('international', 'International')])
 
@@ -148,6 +148,7 @@ class SaleOrderOption(models.Model):
             if sale_order_template_option_id:
                 rec.price_unit = sale_order_template_option_id.price_unit
                 rec.available = sale_order_template_option_id.available
+                rec.analytic_tag_id = sale_order_template_option_id.analytic_tag_ids
 
 
 
@@ -175,6 +176,7 @@ class SaleOrderLine(models.Model):
     #         changee.change = 1
 
     # @api.one
+
     def compute_is_room(self):
         for rec in self:
             rec.product_category = rec.product_id.product_category
