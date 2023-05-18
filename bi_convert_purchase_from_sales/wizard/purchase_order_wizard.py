@@ -39,6 +39,8 @@ class createpurchaseorder(models.TransientModel):
                 'product_uom': record.product_uom.id,
                 'order_id': record.order_id.id,
                 'name': record.name,
+                'analytic_tags': record.analytic_tag_ids,
+                'analytic_account': record.order_id.analytic_account_id,
                 'product_qty': record.product_uom_qty,
                 'price_unit': record.price_unit,
                 'product_subtotal': record.price_subtotal,
@@ -70,11 +72,14 @@ class createpurchaseorder(models.TransientModel):
                 'product_id': data.product_id.id,
                 'name': data.name,
                 'product_qty': data.product_qty,
+                'analytic_tag_ids': data.analytic_tags,
+                'account_analytic_id': data.analytic_account.id,
                 'order_id': data.order_id.id,
                 'product_uom': data.product_uom.id,
                 'taxes_id': data.product_id.supplier_taxes_id.ids,
                 'date_planned': data.date_planned,
                 'price_unit': final_price,
+
             }])
         purchase_order = res.create({
             'partner_id': self.partner_id.id,
@@ -107,6 +112,8 @@ class Getsaleorderdata(models.TransientModel):
     order_id = fields.Many2one('sale.order', string='Order Reference', ondelete='cascade', index=True)
     price_unit = fields.Float(string='Unit Price', digits='Product Price')
     product_subtotal = fields.Float(string="Sub Total", compute='_compute_total')
+    analytic_account = fields.Many2one('account.analytic.account')
+    analytic_tags = fields.Many2many('account.analytic.tag')
 
     @api.depends('product_qty', 'price_unit')
     def _compute_total(self):
