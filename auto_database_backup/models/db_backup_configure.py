@@ -110,7 +110,7 @@ class AutoDatabaseBackup(models.Model):
     gdrive_client_id = fields.Char(string='Google Drive Client ID', copy=False)
     gdrive_client_secret = fields.Char(string='Google Drive Client Secret', copy=False)
     gdrive_token_validity = fields.Datetime(string='Google Drive Token Validity', copy=False)
-    gdrive_redirect_uri = fields.Char(string='Google Drive Redirect URI', compute='_compute_redirect_uri')
+    gdrive_redirect_uri = fields.Char(string='Google Drive Redirect URI')
     onedrive_redirect_uri = fields.Char(string='Onedrive Redirect URI', compute='_compute_redirect_uri')
 
     @api.depends('backup_destination')
