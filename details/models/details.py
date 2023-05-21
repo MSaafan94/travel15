@@ -43,7 +43,6 @@ class SaleOrderr(models.Model):
     revised = fields.Selection([('revised', 'Revised')], track_visibility='always')
     completed = fields.Selection([('completed', 'Completed')], track_visibility='always')
 
-
     infant_inv = fields.Integer(string='Infant', track_visibility='always')
     child_inv = fields.Integer(string='Child', track_visibility='always')
     adult_inv = fields.Integer(string='Adult', track_visibility='always')
@@ -69,12 +68,12 @@ class SaleOrderr(models.Model):
                 self.expired = True
                 return
 
-    def action_confirm(self):
-        print(self.individual)
-        if self.individual == "group" and self.expired:
-            raise UserError("You can not confirm because of expired passport")
-        res = super(SaleOrderr, self).action_confirm()
-        return res
+    # def action_confirm(self):
+    #     print(self.individual)
+    #     if self.individual == "group" and self.expired:
+    #         raise UserError("You can not confirm because of expired passport")
+    #     res = super(SaleOrderr, self).action_confirm()
+    #     return res
 
     def unlink(self):
         if not self.env.user.has_group('details.group_sale_super_manager'):

@@ -31,6 +31,19 @@ class AccountPaymentRegister(models.TransientModel):
 
     def _create_payment_vals_from_wizard(self):
         payment_vals = super()._create_payment_vals_from_wizard()
+        activity_type_id = self.env.ref('mail.mail_activity_data_todo').id
+        if self.trip_reference and self.trip_reference.responsible_cs:
+            user_id = self.trip_reference.responsible_cs.id
+            activity_vals = {
+                'activity_type_id': activity_type_id,
+                'res_id': self.id,
+                'res_model_id': self.env.ref('account.model_account_payment').id,
+                'user_id': user_id,
+                'date_deadline': fields.Date.today(),
+                'summary': 'Payment posted',
+                'note': 'Payment %s has been posted' % self.id,
+            }
+            self.env['mail.activity'].create(activity_vals)
 
         # Add custom field values to the payment
         payment_vals.update({

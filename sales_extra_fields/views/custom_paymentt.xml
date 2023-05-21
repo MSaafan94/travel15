@@ -8,7 +8,7 @@
             <field name="inherit_id" ref="sale.view_order_form"/>
             <field name="arch" type="xml">
                  <xpath expr="//button[@name='action_confirm']" position="after">
-                    <button name="action_down_payment" string="DownPayment" type="object" class="oe_highlight" attrs="{'invisible': [('state', 'in', ['draft', 'sent', 'done', 'cancel', 'expired'])]}"/>
+                    <button name="action_down_payment" string="DownPayment" type="object" class="oe_highlight" attrs="{'invisible': [('state', 'in', ['draft', 'sent', 'cancel', 'expired'])]}"/>
                 </xpath>
             </field>
         </record>

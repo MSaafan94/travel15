@@ -82,8 +82,17 @@ class AccountPayment2(models.Model):
 
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
-    payment_quotation = fields.One2many('payments.payments', 'payment_quotation_id', )
 
+    def send_follower_notification(self):
+        subject = f"Sales Order {self.name} has been confirmed"
+        body = f"Dear follower,<br/>The Sales Order {self.name} has been confirmed. Please check the details."
+        self.message_post(subject=subject, body=body, message_type='notification')
+
+    def get_follower_names(self):
+        follower_names = [follower.partner_id.name for follower in self.message_follower_ids]
+        return follower_names
+
+    payment_quotation = fields.One2many('payments.payments', 'payment_quotation_id', )
     payment_count = fields.Integer(compute='_compute_payment_count', copy=False)
     total_payments = fields.Monetary(compute='_compute_total_paid_amounts', string="Total Paid", store=True)
     total_due = fields.Monetary(compute='_compute_total_paid_amounts', string="Total Due", store=True)

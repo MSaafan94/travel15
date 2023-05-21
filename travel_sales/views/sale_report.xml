@@ -25,8 +25,6 @@
                 <br/>
                 <strong>Need Room Mate :</strong>&#160;<span t-field="doc.need_room_mate"/>
                 <br/>
-                <strong>No of Accompanying Persons :</strong>&#160;<span t-field="doc.no_of_accompanying_persons"/>
-                <br/>
                 <strong>Name of Persons :</strong>&#160;
                 <t t-foreach="doc.name_of_persons" t-as="person">
                     <span t-field="person.name"/>,
