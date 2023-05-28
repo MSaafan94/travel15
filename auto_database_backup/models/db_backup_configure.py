@@ -26,7 +26,7 @@ import odoo
 from odoo.service import db
 from odoo.http import request
 
-# import dropbox
+import dropbox
 
 from werkzeug import urls
 from datetime import timedelta
@@ -330,23 +330,23 @@ class AutoDatabaseBackup(models.Model):
             _logger.exception("Bad microsoft onedrive request : %s !", error.response.content)
             raise error
 
-    # def get_dropbox_auth_url(self):
-    #     """
-    #     Return dropbox authorization url
-    #     """
-    #     dbx_auth = dropbox.oauth.DropboxOAuth2FlowNoRedirect(self.dropbox_client_id, self.dropbox_client_secret,
-    #                                                          token_access_type='offline')
-    #     auth_url = dbx_auth.start()
-    #     return auth_url
+    def get_dropbox_auth_url(self):
+        """
+        Return dropbox authorization url
+        """
+        dbx_auth = dropbox.oauth.DropboxOAuth2FlowNoRedirect(self.dropbox_client_id, self.dropbox_client_secret,
+                                                             token_access_type='offline')
+        auth_url = dbx_auth.start()
+        return auth_url
 
-    # def set_dropbox_refresh_token(self, auth_code):
-    #     """
-    #     Generate and set the dropbox refresh token from authorization code
-    #     """
-    #     dbx_auth = dropbox.oauth.DropboxOAuth2FlowNoRedirect(self.dropbox_client_id, self.dropbox_client_secret,
-    #                                                          token_access_type='offline')
-    #     outh_result = dbx_auth.finish(auth_code)
-    #     self.dropbox_refresh_token = outh_result.refresh_token
+    def set_dropbox_refresh_token(self, auth_code):
+        """
+        Generate and set the dropbox refresh token from authorization code
+        """
+        dbx_auth = dropbox.oauth.DropboxOAuth2FlowNoRedirect(self.dropbox_client_id, self.dropbox_client_secret,
+                                                             token_access_type='offline')
+        outh_result = dbx_auth.finish(auth_code)
+        self.dropbox_refresh_token = outh_result.refresh_token
 
     @api.constrains('db_name')
     def _check_db_credentials(self):
@@ -536,28 +536,28 @@ class AutoDatabaseBackup(models.Model):
                     if rec.notify_user:
                         mail_template_failed.send_mail(rec.id, force_send=True)
             # Dropbox backup
-            # elif rec.backup_destination == 'dropbox':
-            #     temp = tempfile.NamedTemporaryFile(suffix='.%s' % rec.backup_format)
-            #     with open(temp.name, "wb+") as tmp:
-            #         odoo.service.db.dump_db(rec.db_name, tmp, rec.backup_format)
-            #     try:
-            #         dbx = dropbox.Dropbox(app_key=rec.dropbox_client_id, app_secret=rec.dropbox_client_secret, oauth2_refresh_token=rec.dropbox_refresh_token)
-            #         dropbox_destination = rec.dropbox_folder + '/' + backup_filename
-            #         dbx.files_upload(temp.read(), dropbox_destination)
-            #         if rec.auto_remove:
-            #             files = dbx.files_list_folder(rec.dropbox_folder)
-            #             file_entries = files.entries
-            #             expired_files = list(filter(lambda fl: (datetime.datetime.now() - fl.client_modified).days >= rec.days_to_remove, file_entries))
-            #             for file in expired_files:
-            #                 dbx.files_delete_v2(file.path_display)
-            #         if rec.notify_user:
-            #             mail_template_success.send_mail(rec.id, force_send=True)
-            #     except Exception as error:
-            #         rec.generated_exception = error
-            #         _logger.info('Dropbox Exception: %s', error)
-            #         if rec.notify_user:
-            #             mail_template_failed.send_mail(rec.id, force_send=True)
-            # # Onedrive Backup
+            elif rec.backup_destination == 'dropbox':
+                temp = tempfile.NamedTemporaryFile(suffix='.%s' % rec.backup_format)
+                with open(temp.name, "wb+") as tmp:
+                    odoo.service.db.dump_db(rec.db_name, tmp, rec.backup_format)
+                try:
+                    dbx = dropbox.Dropbox(app_key=rec.dropbox_client_id, app_secret=rec.dropbox_client_secret, oauth2_refresh_token=rec.dropbox_refresh_token)
+                    dropbox_destination = rec.dropbox_folder + '/' + backup_filename
+                    dbx.files_upload(temp.read(), dropbox_destination)
+                    if rec.auto_remove:
+                        files = dbx.files_list_folder(rec.dropbox_folder)
+                        file_entries = files.entries
+                        expired_files = list(filter(lambda fl: (datetime.datetime.now() - fl.client_modified).days >= rec.days_to_remove, file_entries))
+                        for file in expired_files:
+                            dbx.files_delete_v2(file.path_display)
+                    if rec.notify_user:
+                        mail_template_success.send_mail(rec.id, force_send=True)
+                except Exception as error:
+                    rec.generated_exception = error
+                    _logger.info('Dropbox Exception: %s', error)
+                    if rec.notify_user:
+                        mail_template_failed.send_mail(rec.id, force_send=True)
+            # Onedrive Backup
             elif rec.backup_destination == 'onedrive':
                 if rec.onedrive_token_validity <= fields.Datetime.now():
                     rec.generate_onedrive_refresh_token()
