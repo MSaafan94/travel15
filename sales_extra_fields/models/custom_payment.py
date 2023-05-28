@@ -10,7 +10,7 @@ from odoo.exceptions import UserError
 class AccountJournal2(models.Model):
     _inherit = 'account.journal'
 
-    responsible_id = fields.Many2one('res.users', string='Responsible')
+    responsible_id = fields.Many2one('hr.employee', string='Responsible')
 
 
 class InvoiceInherit(models.Model):
