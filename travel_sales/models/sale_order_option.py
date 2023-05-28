@@ -83,14 +83,14 @@ class AccountPayment2(models.Model):
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
-    def send_follower_notification(self):
-        subject = f"Sales Order {self.name} has been confirmed"
-        body = f"Dear follower,<br/>The Sales Order {self.name} has been confirmed. Please check the details."
-        self.message_post(subject=subject, body=body, message_type='notification')
-
-    def get_follower_names(self):
-        follower_names = [follower.partner_id.name for follower in self.message_follower_ids]
-        return follower_names
+    # def send_follower_notification(self):
+    #     subject = f"Sales Order {self.name} has been confirmed"
+    #     body = f"Dear follower,<br/>The Sales Order {self.name} has been confirmed. Please check the details."
+    #     self.message_post(subject=subject, body=body, message_type='notification')
+    #
+    # def get_follower_names(self):
+    #     follower_names = [follower.partner_id.name for follower in self.message_follower_ids]
+    #     return follower_names
 
     payment_quotation = fields.One2many('payments.payments', 'payment_quotation_id', )
     payment_count = fields.Integer(compute='_compute_payment_count', copy=False)
@@ -251,6 +251,32 @@ class SaleOrder(models.Model):
             }
             self.env['account.payment'].sudo().create(values)
 
+
+
+    def invoice_action(self):
+        action = self.env.ref('account.action_account_payments_payable').read()[0]
+        # action = self.env['ir.actions.act_window'].for_xml_id('account', 'action_account_payments_payable')
+        action['domain'] = ['|', ('sale_id', '=', self.id), ('partner_id', '=', self.partner_id.id)]
+        action['context'] = {
+            'default_partner_id': self.partner_id.id,
+            'default_currency_id': self.currency_id.id,
+            'default_invoice_ids': [(6, 0, self.invoice_ids.ids)]
+        }
+        return action
+
+    def action_view_invoices(self):
+        payments = self.env['account.payment'].search([
+            ('invoice_ids', 'in', self.invoice_ids.ids)
+        ])
+        action = self.env.ref('account.action_account_payments_payable').read()[0]
+        action['domain'] = [('id', 'in', payments.ids)]
+        action['context'] = {
+            'default_partner_id': self.partner_id.id,
+            'default_currency_id': self.currency_id.id,
+            'default_invoice_ids': [(6, 0, self.invoice_ids.ids)]
+        }
+        return action
+
     def payment_action(self):
         action = self.env.ref('account.action_account_payments_payable').read()[0]
         # action = self.env['ir.actions.act_window'].for_xml_id('account', 'action_account_payments_payable')
@@ -262,19 +288,18 @@ class SaleOrder(models.Model):
         }
         return action
 
-    # def action_view_payments(self):
-    #     self.ensure_one()
-    #     payments = self.env['account.payment'].search([
-    #         ('invoice_ids', 'in', self.invoice_ids.ids)
-    #     ])
-    #     action = self.env.ref('account.action_account_payments_payable').read()[0]
-    #     action['domain'] = [('id', 'in', payments.ids)]
-    #     action['context'] = {
-    #         'default_partner_id': self.partner_id.id,
-    #         'default_currency_id': self.currency_id.id,
-    #         'default_invoice_ids': [(6, 0, self.invoice_ids.ids)]
-    #     }
-    #     return action
+    def action_view_payments(self):
+        payments = self.env['account.payment'].search([
+            ('invoice_ids', 'in', self.invoice_ids.ids)
+        ])
+        action = self.env.ref('account.action_account_payments_payable').read()[0]
+        action['domain'] = [('id', 'in', payments.ids)]
+        action['context'] = {
+            'default_partner_id': self.partner_id.id,
+            'default_currency_id': self.currency_id.id,
+            'default_invoice_ids': [(6, 0, self.invoice_ids.ids)]
+        }
+        return action
 
 
 class Payments(models.Model):

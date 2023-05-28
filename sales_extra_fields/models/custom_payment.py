@@ -7,10 +7,16 @@ from odoo import api, fields, models, _
 from odoo.exceptions import UserError
 
 
+class AccountJournal2(models.Model):
+    _inherit = 'account.journal'
+
+    responsible_id = fields.Many2one('res.users', string='Responsible')
+
+
 class InvoiceInherit(models.Model):
     _inherit = 'account.move'
 
-    payment_typee = fields.Many2one('account.journal',)
+    payment_typee = fields.Many2one('account.journal', domain=[('type', 'in', ['bank', 'cash'])])
     so = fields.Many2one('sale.order')
 
     def action_register_payment(self):
@@ -23,6 +29,22 @@ class InvoiceInherit(models.Model):
             })
         return res
 
+    def action_post(self):
+        res = super(InvoiceInherit, self).action_post()
+        activity_type_id = self.env.ref('mail.mail_activity_data_todo').id
+        user_id = self.payment_typee.responsible_id.id
+        activity_vals = {
+            'activity_type_id': activity_type_id,
+            'res_id': self.id,
+            'res_model_id': self.env.ref('account.model_account_move').id,
+            'user_id': user_id,
+            'date_deadline': fields.Date.today(),
+            'summary': 'DownPayment posted',
+            'note': 'DownPayment %s has been posted' % self.name,
+        }
+        self.env['mail.activity'].create(activity_vals)
+        return res
+
 class AccountPaymentRegister(models.TransientModel):
     _inherit = 'account.payment.register'
 
@@ -31,20 +53,6 @@ class AccountPaymentRegister(models.TransientModel):
 
     def _create_payment_vals_from_wizard(self):
         payment_vals = super()._create_payment_vals_from_wizard()
-        activity_type_id = self.env.ref('mail.mail_activity_data_todo').id
-        if self.trip_reference and self.trip_reference.responsible_cs:
-            user_id = self.trip_reference.responsible_cs.id
-            activity_vals = {
-                'activity_type_id': activity_type_id,
-                'res_id': self.id,
-                'res_model_id': self.env.ref('account.model_account_payment').id,
-                'user_id': user_id,
-                'date_deadline': fields.Date.today(),
-                'summary': 'Payment posted',
-                'note': 'Payment %s has been posted' % self.id,
-            }
-            self.env['mail.activity'].create(activity_vals)
-
         # Add custom field values to the payment
         payment_vals.update({
             'sale_id': self.so.id,
@@ -56,10 +64,25 @@ class AccountPaymentRegister(models.TransientModel):
 class AdvancePayment(models.Model):
     _inherit = 'sale.order'
 
+    invoice_count = fields.Integer(string='Invoice Count', compute='_compute_invoice_count')
+
+    @api.depends('name')
+    def _compute_invoice_count(self):
+        for order in self:
+            order.invoice_count = self.env['account.move'].search_count(
+                [('move_type', 'in', ['out_invoice', 'out_refund']), ('so', '=', order.name)])
+
+    def action_related_invoices(self):
+
+        action = self.env["ir.actions.actions"]._for_xml_id("account.action_move_out_invoice_type")
+        action['domain'] = [('move_type', 'in', ['out_invoice', 'out_refund']), ('so', '=', self.name)]
+        action['context'] = {'search_default_invoice': 1, 'default_type': 'out_invoice'}
+        return action
+
     def _prepare_invoice(self):
 
         invoice = super()._prepare_invoice()
-        invoice.update({'so': self.id,'sale_order_template_id': self.sale_order_template_id})
+        invoice.update({'so': self.id, 'sale_order_template_id': self.sale_order_template_id})
         return invoice
 
     def action_down_payment(self):
@@ -80,7 +103,7 @@ class DownpaymentWizard(models.TransientModel):
     _inherit = "sale.advance.payment.inv"
 
     fixed_amount = fields.Float(string="Fixed Amount", required=True)
-    payment_typee = fields.Many2one('account.journal',)
+    payment_typee = fields.Many2one('account.journal', domain=[('type', 'in', ['bank', 'cash'])])
 
 
 
@@ -91,7 +114,6 @@ class DownpaymentWizard(models.TransientModel):
 
         # Update the invoice with the payment_type value
         invoice.write({'payment_typee': self.payment_typee.id})
-
         return invoice
 
     def create_invoicess(self, advance_payment_method=None, fixed_amount=None):
