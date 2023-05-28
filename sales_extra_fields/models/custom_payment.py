@@ -29,21 +29,21 @@ class InvoiceInherit(models.Model):
             })
         return res
 
-    def action_post(self):
-        res = super(InvoiceInherit, self).action_post()
-        activity_type_id = self.env.ref('mail.mail_activity_data_todo').id
-        user_id = self.payment_typee.responsible_id.id
-        activity_vals = {
-            'activity_type_id': activity_type_id,
-            'res_id': self.id,
-            'res_model_id': self.env.ref('account.model_account_move').id,
-            'user_id': user_id,
-            'date_deadline': fields.Date.today(),
-            'summary': 'DownPayment posted',
-            'note': 'DownPayment %s has been posted' % self.name,
-        }
-        self.env['mail.activity'].create(activity_vals)
-        return res
+    # def action_post(self):
+    #     res = super(InvoiceInherit, self).action_post()
+    #     activity_type_id = self.env.ref('mail.mail_activity_data_todo').id
+    #     user_id = self.payment_typee.responsible_id.id
+    #     activity_vals = {
+    #         'activity_type_id': activity_type_id,
+    #         'res_id': self.id,
+    #         'res_model_id': self.env.ref('account.model_account_move').id,
+    #         'user_id': user_id,
+    #         'date_deadline': fields.Date.today(),
+    #         'summary': 'DownPayment posted',
+    #         'note': 'DownPayment %s has been posted' % self.name,
+    #     }
+    #     self.env['mail.activity'].create(activity_vals)
+    #     return res
 
 class AccountPaymentRegister(models.TransientModel):
     _inherit = 'account.payment.register'
