@@ -16,6 +16,7 @@
                     <field name="service_type"/>
                     <field name="whatsapp_num"/>
                     <field name="birthday"/>
+                    <field name="passport_expiry"/>
                     <label for="years" string="Age"/>
                     <div>
                         <field name="years" nolabel="1" class="oe_inline" force_save="1" readonly="1" />

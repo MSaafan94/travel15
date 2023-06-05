@@ -10,7 +10,7 @@ from odoo.exceptions import UserError
 class AccountJournal2(models.Model):
     _inherit = 'account.journal'
 
-    responsible_id = fields.Many2one('hr.employee', string='Responsible')
+    responsible_id = fields.Many2one('res.users', string='Responsible')
 
 
 class InvoiceInherit(models.Model):
@@ -29,21 +29,22 @@ class InvoiceInherit(models.Model):
             })
         return res
 
-    # def action_post(self):
-    #     res = super(InvoiceInherit, self).action_post()
-    #     activity_type_id = self.env.ref('mail.mail_activity_data_todo').id
-    #     user_id = self.payment_typee.responsible_id.id
-    #     activity_vals = {
-    #         'activity_type_id': activity_type_id,
-    #         'res_id': self.id,
-    #         'res_model_id': self.env.ref('account.model_account_move').id,
-    #         'user_id': user_id,
-    #         'date_deadline': fields.Date.today(),
-    #         'summary': 'DownPayment posted',
-    #         'note': 'DownPayment %s has been posted' % self.name,
-    #     }
-    #     self.env['mail.activity'].create(activity_vals)
-    #     return res
+    def action_post(self):
+        super(InvoiceInherit, self).action_post()
+        activity_type_id = self.env.ref('mail.mail_activity_data_todo').id
+        if self.payment_typee and self.payment_typee.responsible_id:
+            user_id = self.payment_typee.responsible_id.id
+            activity_vals = {
+                'activity_type_id': activity_type_id,
+                'res_id': self.id,
+                'res_model_id': self.env.ref('account.model_account_move').id,
+                'user_id': user_id,
+                'date_deadline': fields.Date.today(),
+                'summary': 'Invoice posted',
+                'note': 'Invoice  %s has been created' % self.name,
+            }
+            self.env['mail.activity'].create(activity_vals)
+
 
 class AccountPaymentRegister(models.TransientModel):
     _inherit = 'account.payment.register'
@@ -104,8 +105,6 @@ class DownpaymentWizard(models.TransientModel):
 
     fixed_amount = fields.Float(string="Fixed Amount", required=True)
     payment_typee = fields.Many2one('account.journal', domain=[('type', 'in', ['bank', 'cash'])])
-
-
 
     @api.model
     def _create_invoice(self, order, so_line, amount):

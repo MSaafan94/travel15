@@ -1,0 +1,87 @@
+<odoo>
+    <template id="journal_items_report_template">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <t t-set="docs" t-value="env['account.move.line'].search(domain)"/>
+                <t t-set="partner_name" t-value="context.get('partner_name', '')"/>
+                <t t-set="from_date" t-value="context.get('from_date', '')"/>
+                <t t-set="to_date" t-value="context.get('to_date', '')"/>
+                <div class="page">
+                    <h3 style="text-align:center;">Account Invoice Report</h3>
+                     <div style="text-align:center;">
+                        <p>Partner: <t t-esc = "partner_name"/></p>
+                        <p>From: <t t-esc="from_date" />     To:<t t-esc="to_date" /></p>
+                    </div>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+<!--                                <th>journal</th>-->
+<!--                                <th>Partner</th>-->
+                                <th>Name</th>
+                                <th>Trip code</th>
+                                <th>Airline</th>
+                                <th>S/N</th>
+                                <th>Route</th>
+                                <th>TKT NO</th>
+                                <th>Reference</th>
+<!--                                <th>cost</th>-->
+                                <th>Debit</th>
+                                <th>Credit</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="docs.sorted(key=lambda r: r.date)" t-as="doc">
+                               <t t-if="doc.account_id.name != 'Account Receivable'">
+                                <tr>
+                                    <td><t t-esc="doc.date"/></td>
+<!--                                    <td><t t-esc="doc.name"/></td>-->
+<!--                                    <td><t t-esc="doc.partner_id.name"/></td>-->
+                                    <td><t t-esc="doc.name_" /></td>
+                                    <td><t t-esc="doc.trip_code" /></td>
+                                    <td><t t-esc="doc.airline" /></td>
+                                    <td><t t-esc="doc.serial_number" /></td>
+                                    <td><t t-esc="doc.route" /></td>
+                                    <td><t t-esc="doc.tkt_no" /></td>
+                                    <td><t t-esc="doc.reference" /></td>
+<!--                                    <td><t t-esc="doc.cost" /></td>-->
+                                    <td><t t-esc="doc.debit" /></td>
+                                    <td><t t-esc="doc.credit" /></td>
+                                </tr>
+<!--                                    <t t-set="total_debit" t-value="total_debit + doc.debit"/>-->
+<!--                                    <t t-set="total_credit" t-value="total_credit + doc.credit"/>-->
+                               </t>
+                            </t>
+                        </tbody>
+
+                            <tr>
+                                <td colspan="9" style="text-align:center;">TOTAL DEBIT</td>
+                                <td><t t-esc="'{:,.2f}'.format(sum(line.debit for line in docs))" /></td>
+                                <tr>
+                                    <td colspan="9" style="text-align:center;">TOTAL CREDIT</td>
+                                    <td><t t-esc="'{:,.2f}'.format(sum(line.credit for line in docs))" /></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="9" style="text-align:center;">TOTAL REQUIRED:</td>
+                                    <td><t t-esc="'{:,.2f}'.format(sum(line.debit for line in docs) - sum(line.credit for line in docs))"/></td>
+                                </tr>
+                            </tr>
+
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <record id="journal_items_report_action" model="ir.actions.report">
+        <field name="name">Journal Items Report</field>
+        <field name="model">account.move.line</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">airpointss.journal_items_report_template</field>
+        <field name="print_report_name">'Journal Items Report'</field>
+        <field name="binding_model_id" ref="account.model_account_move_line"/>
+        <!--        <field name="domain" eval="context.get('domain', [])"/>-->
+    </record>
+
+
+</odoo>

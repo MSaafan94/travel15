@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="report_journal_entries">
+        <t t-call="web.html_container">
+            <t t-call="journal_entry_report.custom_payment_header_footer"/>
+            <t t-call="web.external_layout">
+                <div class="page" style="font-size:15px;">
+                    <table style="border-collapse: collapse; font-size: 14px" width="100%" class="table-bordered  table-striped table-sm">
+                     <tbody class="text-center">
+                        <tr >
+                            <td style="width:30%">
+                                <span>partner</span>
+                            </td>
+                            <td style="width:10%">
+                                <span>name</span>
+                            </td>
+                            <td style="width:5%">
+                                <span>trip code</span>
+                            </td>
+                            <td style="width:5%">
+                                <span> airline</span>
+                            </td>
+                            <td  style="width:5%">
+                                <span>serial number</span>
+                            </td>
+                            <td style="width:5%">
+                                <span>route</span>
+                            </td>
+                            <td style="width:5%">
+                                <span>tkt_no</span>
+                            </td>
+                            <td style="width:5%">
+                                <span>reference</span>
+                            </td>
+                            <td style="width:5%">
+                                <span>cost</span>
+                            </td>
+                            <td style="width:5%">
+                                <span>debit</span>
+                            </td>
+                            <td style="width:5%">
+                                <span>credit</span>
+                            </td>
+                        </tr>
+                     </tbody>
+                    </table>
+                 </div>
+                <t t-foreach="docs" t-as="o">
+                    <t t-set="o" t-value="o.with_context(lang=lang)"/>
+                    <!-- <t t-call="journal_entry_report.custom_journal_footer"/> -->
+                    <t t-call="journal_entry_report.custom_payment_header_footer"/>
+                    <div class="font_cairo">
+                    <div class="page" style="font-size:15px;">
+                        <div class="row">
+                            <table style="border-collapse: collapse; font-size: 14px" width="100%" class="table-bordered  table-striped table-sm">
+                                <tbody class="text-center">
+                                    <t t-set="sequence" t-value="1"/>
+                                    <t t-set="total_credit" t-value="0"/>
+                                    <t t-set="total_debit" t-value="0"/>
+                                    <t t-foreach="o.line_ids" t-as="line">
+                                        <t t-if="line.account_id.name != 'Account Receivable'">
+                                            <tr>
+                                                <td style="width:30%">
+                                                    <span t-field="line.partner_id.name"/>
+                                                </td>
+                                                <td style="width:10%">
+                                                    <span t-field="line.name_"/>
+                                                </td>
+                                                <td style="width:5%">
+                                                    <span t-field="line.trip_code"/>
+                                                </td>
+                                                <td style="width:5%">
+                                                    <span t-field="line.airline"/>
+                                                </td>
+                                                <td style="width:5%">
+                                                    <span t-field="line.serial_number"/>
+                                                </td>
+                                                <td style="width:5%">
+                                                    <span t-field="line.route"/>
+                                                </td>
+                                                <td style="width:5%">
+                                                    <span t-field="line.tkt_no"/>
+                                                </td>
+                                                <td style="width:5%">
+                                                    <span t-field="line.reference"/>
+                                                </td>
+                                                <td style="width:5%">
+                                                    <span t-field="line.cost"/>
+                                                </td>
+                                                <td style="width:5%">
+                                                    <span t-esc="'{:,.2f}'.format(line.debit)"/>
+                                                </td>
+                                                <td style="width:5%">
+                                                    <span t-esc="'{:,.2f}'.format(line.credit)"/>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

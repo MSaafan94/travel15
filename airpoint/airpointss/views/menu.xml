@@ -1,0 +1,29 @@
+<odoo>
+    <record id="action_open_journal_items_report_wizard" model="ir.actions.act_window">
+        <field name="name">Journal Items Report</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">journal.items.wizard</field>
+        <field name="view_mode">form,tree</field>
+        <field name="target">new</field>
+    </record>
+    <menuitem id="accounting_journal_items_report"
+              name="Airpoint Report"
+              parent="account.menu_finance_reports"
+              sequence="0"
+              action="action_open_journal_items_report_wizard"
+              groups="base.group_user"/>
+
+<!--      <record model="ir.actions.act_window" id="action_account_journal_dashboard">-->
+<!--            <field name="name">Customer invoice</field>-->
+<!--            <field name="type">ir.actions.act_window</field>-->
+<!--            <field name="res_model">journal.items.wizard</field>-->
+<!--            <field name="view_mode">form,tree</field>-->
+<!--      </record>-->
+
+<!--         <menuitem id="menu_accounting_menu"-->
+<!--                  name="Accounting Menu"-->
+<!--                  parent="account.menu_finance_reports"-->
+<!--                  sequence="2"-->
+<!--                  action="action_account_journal_dashboard"-->
+<!--                  groups="base.group_user"/>-->
+</odoo>

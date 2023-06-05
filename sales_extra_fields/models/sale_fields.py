@@ -82,12 +82,15 @@ class SaleOrder(models.Model):
         values = {
             'name': '{}/{}/{}'.format(serial, month, year[-2:]),
             'partner_id': self.partner_id.id,
-            'group_id': group[0].id,
+            'group_id': self.env['account.analytic.group'].search([('name', '=', 'Individual')],limit=1).id,
             # 'code': self.name
         }
         self.env['account.analytic.account'].sudo().create(values)
+        print(self.env['account.analytic.account'].search(
+            [('name', '=', '{}/{}/{}'.format(serial, month, year[-2:])),],
+            limit=1))
         self.analytic_account_id = self.env['account.analytic.account'].search(
-            [('name', '=', '{}/{}/{}'.format(serial, month, year[-2:])), ('partner_id', '=', self.partner_id.name)],
+            [('name', '=', '{}/{}/{}'.format(serial, month, year[-2:])),],
             limit=1)
 
     def get_partner(self):

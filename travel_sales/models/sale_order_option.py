@@ -251,8 +251,6 @@ class SaleOrder(models.Model):
             }
             self.env['account.payment'].sudo().create(values)
 
-
-
     def invoice_action(self):
         action = self.env.ref('account.action_account_payments_payable').read()[0]
         # action = self.env['ir.actions.act_window'].for_xml_id('account', 'action_account_payments_payable')
@@ -277,29 +275,50 @@ class SaleOrder(models.Model):
         }
         return action
 
+
+
     def payment_action(self):
-        action = self.env.ref('account.action_account_payments_payable').read()[0]
-        # action = self.env['ir.actions.act_window'].for_xml_id('account', 'action_account_payments_payable')
-        action['domain'] = ['|', ('sale_id', '=', self.id), ('partner_id', '=', self.partner_id.id)]
-        action['context'] = {
-            'default_partner_id': self.partner_id.id,
-            'default_currency_id': self.currency_id.id,
-            'default_invoice_ids': [(6, 0, self.invoice_ids.ids)]
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': 'account.payment',
+            'name': 'Payments',
+            'view_mode': 'tree,form',
+            'target': 'current',
+            'domain': ['|', ('sale_id', '=', self.id), ('partner_id', '=', self.partner_id.id)],
+            'context': {
+                'default_partner_id': self.partner_id.id,
+                'default_currency_id': self.currency_id.id,
+                'default_invoice_ids': [(6, 0, self.invoice_ids.ids)]
+            }
         }
-        return action
 
     def action_view_payments(self):
-        payments = self.env['account.payment'].search([
-            ('invoice_ids', 'in', self.invoice_ids.ids)
-        ])
-        action = self.env.ref('account.action_account_payments_payable').read()[0]
-        action['domain'] = [('id', 'in', payments.ids)]
-        action['context'] = {
-            'default_partner_id': self.partner_id.id,
-            'default_currency_id': self.currency_id.id,
-            'default_invoice_ids': [(6, 0, self.invoice_ids.ids)]
-        }
+        self.ensure_one()
+        action = self.payment_action()
         return action
+
+    # def payment_action(self):
+    #     action = self.env.ref('account.action_account_payments_payable').read()[0]
+    #     action['domain'] = ['|', ('sale_id', '=', self.id), ('partner_id', '=', self.partner_id.id)]
+    #     action['context'] = {
+    #         'default_partner_id': self.partner_id.id,
+    #         'default_currency_id': self.currency_id.id,
+    #         'default_invoice_ids': [(6, 0, self.invoice_ids.ids)]
+    #     }
+    #     return action
+
+    # def action_view_payments(self):
+    #     payments = self.env['account.payment'].search([
+    #         ('invoice_ids', 'in', self.invoice_ids.ids)
+    #     ])
+    #     action = self.env.ref('account.action_account_payments_payable').read()[0]
+    #     action['domain'] = [('id', 'in', payments.ids)]
+    #     action['context'] = {
+    #         'default_partner_id': self.partner_id.id,
+    #         'default_currency_id': self.currency_id.id,
+    #         'default_invoice_ids': [(6, 0, self.invoice_ids.ids)]
+    #     }
+    #     return action
 
 
 class Payments(models.Model):

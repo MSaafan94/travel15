@@ -41,7 +41,7 @@ class SaleOrderr(models.Model):
     individual = fields.Selection([('individual', 'Individual'), ('visa', 'Visa'), ('group', 'Group')],
                                   track_visibility='always', string="Branch")
     revised = fields.Selection([('revised', 'Revised')], track_visibility='always')
-    completed = fields.Selection([('completed', 'Completed')], track_visibility='always')
+    completed = fields.Selection([('completed', 'Completed'), ('refund', 'Refund')], track_visibility='always')
 
     infant_inv = fields.Integer(string='Infant', track_visibility='always')
     child_inv = fields.Integer(string='Child', track_visibility='always')

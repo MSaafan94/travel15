@@ -204,6 +204,7 @@ class ResPartnerWizard(models.TransientModel):
     service_type = fields.Many2one('service.type', "Service Type")
     whatsapp_num = fields.Char("WhatsApp Number")
     destination_1 = fields.Many2one('destination', "Destination 1")
+    passport_expiry = fields.Date("Passport Expiry Date")
 
     @api.onchange('contact')
     def change_values(self):
@@ -250,6 +251,7 @@ class ResPartnerWizard(models.TransientModel):
             self.contact.service_type = self.service_type
             self.contact.whatsapp_num = self.whatsapp_num
             self.contact.destination_1 = self.destination_1
+            self.contact.passport_expiry = self.passport_expiry
             self.contact.parent_id = self._context.get('active_id')
 
         elif not self.contact and self.contact_type == 'Existing':
@@ -269,6 +271,7 @@ class ResPartnerWizard(models.TransientModel):
                 'service_type': self.service_type.id,
                 'whatsapp_num': self.whatsapp_num,
                 'destination_1': self.destination_1.id,
+                'passport_expiry' : self.passport_expiry,
                 'parent_id': self._context.get('active_id')
             })
 
