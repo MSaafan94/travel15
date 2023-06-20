@@ -28,7 +28,7 @@ class AccountPayment2(models.Model):
             'name': self.name,
             'state': self.state,  # Link the payment to the sale order
         }
-        if self.sale_id:
+        if self.sale_id and self.partner_type != 'supplier':
             related_record = self.env['payments.payments'].search([('name', '=', payment_data['name'])], limit=1)
             if related_record:
                 self.sale_id.write({'payment_quotation': [(2, related_record.id )]})
@@ -64,7 +64,8 @@ class AccountPayment2(models.Model):
             'state': self.state,  # Link the payment to the sale order
         }
 
-        if self.sale_id:
+        if self.sale_id and self.partner_type != 'supplier':
+            print(self.partner_type)
             self.sale_id.write({'payment_quotation': [(0, 0, payment_data)]})
         return res
 

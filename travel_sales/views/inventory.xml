@@ -7,8 +7,8 @@
             <field name="inherit_id" ref="product.product_normal_form_view"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='sale_ok']" position="before">
-                    <label for="product_category"/>
-                    <field name="product_category"/>
+                    <label for="product_category_custom"/>
+                    <field name="product_category_custom"/>
                 </xpath>
             </field>
         </record>

@@ -65,12 +65,12 @@ class AccountPaymentRegister(models.TransientModel):
 class AdvancePayment(models.Model):
     _inherit = 'sale.order'
 
-    invoice_count = fields.Integer(string='Invoice Count', compute='_compute_invoice_count')
+    invoice_countt = fields.Integer(string='Invoice Count', compute='_compute_invoice_count')
 
     @api.depends('name')
     def _compute_invoice_count(self):
         for order in self:
-            order.invoice_count = self.env['account.move'].search_count(
+            order.invoice_countt = self.env['account.move'].search_count(
                 [('move_type', 'in', ['out_invoice', 'out_refund']), ('so', '=', order.name)])
 
     def action_related_invoices(self):

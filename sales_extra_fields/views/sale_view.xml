@@ -14,10 +14,10 @@
 <!--                  <field name="purchase"/>-->
                 </xpath>
                 <xpath expr="//tree//field[@name='state']" position="before">
-                        <field name="analytic_account_id" groups="sales_team.group_sale_manager"/>
-                        <field name="adult" sum="adult" groups="sales_team.group_sale_manager"/>
-                        <field name="child" sum="child" groups="sales_team.group_sale_manager"/>
-                        <field name="infant" sum="infant" groups="sales_team.group_sale_manager"/>
+                        <field name="analytic_account_id" groups="sales_team.group_sale_manager" optional="hide"/>
+                        <field name="adult" sum="adult" optional="hide"/>
+                        <field name="child" sum="child" optional="hide"/>
+                        <field name="infant" sum="infant" optional="hide"/>
                 </xpath>
           </field>
       </record>
@@ -58,6 +58,7 @@
                 </xpath>
                 <xpath expr="//field[@name='order_line']//tree/field[@name='tax_id']" position="replace">
                     <field name="tax_id" invisible="1"/>
+
                 </xpath>
 
                 <xpath expr="//field[@name='sale_order_option_ids']//tree/field[@name='discount']" position="replace">

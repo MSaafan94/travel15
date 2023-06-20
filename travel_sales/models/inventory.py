@@ -6,7 +6,7 @@ from odoo.addons import decimal_precision as dp
 class InventoryCustom(models.Model):
     _inherit = 'product.product'
 
-    product_category = fields.Selection([('room', 'Room'), ('visa', 'Visa'), ('program', 'Program'),
+    product_category_custom = fields.Selection([('room', 'Room'), ('visa', 'Visa'), ('program', 'Program'),
                                          ('domestic', 'Domestic'), ('international', 'International')])
 
 
@@ -74,17 +74,21 @@ class SaleOrderTemplateCust(models.Model):
     #@api.multi
     # @api.depends('total_rooms',)
     def _compute_stock(self):
+
         for rec in self:
             rec.stock_rooms = 0
             rec.stock_visa = 0
             rec.stock_program = 0
             rec.stock_domestic = 0
             rec.stock_international = 0
-            sale_order_domain = [('template_name', '=', rec.name), ('state', 'not in', (['draft', 'waiting', 'sent', 'expired']))]
-            sale_order_line_ids_rooms = rec.env['sale.order.line'].sudo().search(sale_order_domain).filtered(lambda x: x.product_category == 'room')
-            if sale_order_line_ids_rooms:
-                for x in range(len(sale_order_line_ids_rooms)):
-                    rec.stock_rooms += sale_order_line_ids_rooms[x].product_uom_qty
+            sale_order_domain = [('template_name', '=', rec.name),
+                                 ('state', 'not in', (['draft', 'waiting', 'sent', 'expired']))]
+            sale_order_lines = rec.env['sale.order.line'].sudo().search(sale_order_domain)
+
+            sale_order_line_ids_rooms = sale_order_lines.filtered(lambda x: x.product_category_custom == "room")
+            print(len(sale_order_line_ids_rooms))
+            for line in sale_order_line_ids_rooms:
+                rec.stock_rooms += line.product_uom_qty
             # sale_order_line_ids_visa = rec.env['sale.order.line'].sudo().search(sale_order_domain).filtered(lambda x: x.product_category == 'visa')
             # sale_order_line_ids_program = rec.env['sale.order.line'].sudo().search(sale_order_domain).filtered(lambda x: x.product_category == 'program')
             # sale_order_line_ids_domestic = rec.env['sale.order.line'].sudo().search(sale_order_domain).filtered(lambda x: x.product_category == 'domestic')
@@ -136,7 +140,7 @@ class SaleOrderOption(models.Model):
     inventory = fields.Float(string="Inventory")
     analytic_tag_id = fields.Many2many('account.analytic.tag', string='Analytic Tags')
     available = fields.Float(string="Available", compute="_compute_available")
-    product_category = fields.Selection([('room', 'Room'), ('visa', 'Visa'), ('program', 'Program'), ('domestic', 'Domestic'), ('international', 'International')])
+    product_category_custom = fields.Selection([('room', 'Room'), ('visa', 'Visa'), ('program', 'Program'), ('domestic', 'Domestic'), ('international', 'International')])
 
     @api.depends('product_id', 'quantity')
     def _compute_available(self):
@@ -159,7 +163,7 @@ class SaleOrderLine(models.Model):
     cost = fields.Float('Cost', related="product_id.standard_price", store=True, readonly=False)
     available = fields.Float(string="Available", compute="_compute_available")
     reserved = fields.Float()
-    product_category = fields.Selection([('room', 'Room'), ('visa', 'Visa'), ('program', 'Program'), ('domestic', 'Domestic'),
+    product_category_custom = fields.Selection([('room', 'Room'), ('visa', 'Visa'), ('program', 'Program'), ('domestic', 'Domestic'),
                                    ('international', 'International')], compute='compute_is_room', store=True)
     template_name = fields.Char(related='order_id.sale_order_template_id.name')
     # product_uom_qty = fields.Float(string='Ordered Quantity', digits=dp.get_precision('Product Unit of Measure'),
@@ -179,7 +183,8 @@ class SaleOrderLine(models.Model):
 
     def compute_is_room(self):
         for rec in self:
-            rec.product_category = rec.product_id.product_category
+            rec.product_category_custom = rec.product_id.product_category_custom
+            print(rec.product_id.product_category_custom)
 
     # @api.one
     @api.depends('product_id', 'product_uom_qty')

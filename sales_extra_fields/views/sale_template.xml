@@ -93,7 +93,7 @@
                     <field name="analytic_tag_ids"  widget="many2many_tags" groups="sales_team.group_sale_manager"/>
                     <field name="template_name" invisible="1"/>
                     <field name="inventory"/>
-                    <field name="product_category" groups="sales_team.group_sale_manager"/>
+                    <field name="product_category_custom" groups="sales_team.group_sale_manager"/>
                     <field name="stock" string="Sold"/>
                     <field name="available"/>
                     <field name="price_unit"/>

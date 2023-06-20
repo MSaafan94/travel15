@@ -19,8 +19,8 @@
               <field name="inherit_id" ref="sale.view_quotation_tree_with_onboarding"/>
               <field name="arch" type="xml">
                   <xpath expr="//field[@name='amount_total']" position="after">
-                         <field name="total_payments"  sum="total_payments" groups="sales_team.group_sale_manager"/>
-                        <field name="total_due" sum="total_due" groups="sales_team.group_sale_manager"/>
+                         <field name="total_payments"  sum="total_payments" optional="hide"/>
+                        <field name="total_due" sum="total_due" optional="hide"/>
                   </xpath>
 
                   <xpath expr="field[@name='user_id']" position="replace">
@@ -56,7 +56,7 @@
                 <xpath expr="//form/sheet/notebook/page/field[@name='order_line']/tree/field[@name='price_unit']" position="before">
                     <field name="available"/>
                     <field name="reserved" invisible="1"/>
-                    <field name="product_category" invisible="1"/>
+                    <field name="product_category_custom" invisible="0"/>
                     <field name="template_name" invisible="1"/>
                 </xpath>
                 <xpath expr="//form/sheet/notebook/page/field[@name='order_line']/tree/field[@name='qty_delivered']" position="attributes">
