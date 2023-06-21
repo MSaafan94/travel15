@@ -29,5 +29,3 @@ access_model_res_partner_wizard,access.model.res.partner.wizard,model_res_partne
 access_model_vehicle_type,access.model.vehicle.type,model_vehicle_type,,1,1,1,1
 access_model_notes_notes,access.model.notes.notes,model_notes_notes,,1,1,1,1
 access_model_crm_wizard,access.model.crm.wizard,model_crm_wizard,,1,1,1,1
-
-access_sale_order_template_read_only,sale.order.template,model_sale_order_template,sales_extra_fields.group_sale_order_template_read_only,1,0,0,0
