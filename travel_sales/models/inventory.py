@@ -183,8 +183,11 @@ class SaleOrderLine(models.Model):
 
     def compute_is_room(self):
         for rec in self:
+            print("Processing record:", rec)
             rec.product_category_custom = rec.product_id.product_category_custom
-            print(rec.product_id.product_category_custom)
+            print("Updated product_category_custom:", rec.product_category_custom)
+
+
 
     # @api.one
     @api.depends('product_id', 'product_uom_qty')
