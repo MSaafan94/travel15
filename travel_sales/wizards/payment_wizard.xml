@@ -28,7 +28,7 @@
         </record>
 
         <record id="payment_wizard_view_form_refund" model="ir.ui.view">
-            <field name="name">payment_wizard_view_form_refund</field>
+            <field name="name">payment_wizard_view_form</field>
             <field name="model">payment.wizard</field>
             <field name="arch" type="xml">
                 <form string="Journal for Payment">

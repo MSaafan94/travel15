@@ -10,12 +10,22 @@
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='payment_transaction_id']" position="after">
                     <field name="trip_reference"  force_save="1"/>
-                    <field name="sale_id" />
+                    <field name="with_cheque"/>
+                    <field name="cheque_number" attrs="{'invisible': [('with_cheque', '=', False)]}"/>
+                    <field name="cheque_date" attrs="{'invisible': [('with_cheque', '=', False)]}"/>
+                    <field name="bank_name" attrs="{'invisible': [('with_cheque', '=', False)]}"/>
                     <field name="user"/>
                     <field name="approved_user"/>
                 </xpath>
                  <xpath expr="//field[@name='journal_id']" position="after">
+                                         <field name="sale_id" />
                  </xpath>
+
+<!--                <xpath expr="//button[@name='post']" position="replace">-->
+<!--&lt;!&ndash;                    <attribute name="attrs">{"invisible":[('payment_type','=','inbound')]}</attribute>&ndash;&gt;-->
+<!--                        <button name="post" class="oe_highlight"  attrs="{'invisible':[('payment_type', '=', 'inbound')]}" states="draft" string="Confirm" type="object"/>-->
+
+<!--                </xpath>-->
             </field>
         </record>
 
