@@ -3,7 +3,7 @@ from odoo import fields, models, api
 
 class PaymentWizards(models.TransientModel):
     _name = 'payment.wizard'
-    _description = 'Description'
+    # _description = 'Description'
 
     journal_id = fields.Many2one('account.journal', "Journal", required=True, domain=[('type', 'in', ('bank', 'cash'))])
     amount = fields.Monetary(string='Payment Amount', required=True)
