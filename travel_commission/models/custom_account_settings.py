@@ -1,28 +1,29 @@
-from odoo import models, fields
+from odoo import models, fields, api
+
+
+class SaleOrderInherit(models.Model):
+    _inherit = 'sale.order'
+
+    @api.model
+    def _prepare_invoice(self):
+        invoice_vals = super(SaleOrderInherit, self)._prepare_invoice()
+        invoice_vals.update({
+            'individual': self.individual,
+            'adult': self.adult,
+            'child': self.child,
+            'infant': self.infant,
+            'salesperson': self.user_id,
+            'final_invoice': True,
+        })
+        return invoice_vals
 
 
 class CustomCompanySettings(models.Model):
     _inherit = 'res.company'
 
-    sales_manager = fields.Many2one('hr.employee', string='Sales Manager')
-    cs_manager = fields.Many2one('hr.employee', string='Customer Service Manager')
+    sales_manager = fields.Many2one('res.users', string='Sales Manager')
+    cs_manager = fields.Many2one('res.users', string='Customer Service Manager')
+    cs_persons = fields.Many2many('res.users', string='Customer Service Manager')
     total_cs_commission = fields.Float(string='Total CS Commission')
-
-class CustomAccountSettings(models.TransientModel):
-    _inherit = 'res.config.settings'
-
-    sales_manager = fields.Many2one(
-        related='company_id.sales_manager',
-        string='Sales Manager',
-        readonly=False,
-    )
-    cs_manager = fields.Many2one(
-        related='company_id.cs_manager',
-        string='Customer Service Manager',
-        readonly=False,
-    )
-    total_cs_commission = fields.Float(
-        related='company_id.total_cs_commission',
-        string='Total CS Commission',
-        readonly=False,
-    )
+    cs_person_share = fields.Float()
+    cs_manager_share = fields.Float()

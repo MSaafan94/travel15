@@ -1,29 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <record id="view_account_config_settings" model="ir.ui.view">
-        <field name="name">res.config.settings.form.inherit</field>
-        <field name="model">res.config.settings</field>
-        <field name="inherit_id" ref="account.res_config_settings_view_form"/>
+<!--    <record id="view_account_config_settings" model="ir.ui.view">-->
+<!--        <field name="name">res.config.settings.form.inherit</field>-->
+<!--        <field name="model">res.config.settings</field>-->
+<!--        <field name="inherit_id" ref="account.res_config_settings_view_form"/>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <xpath expr="//div[@data-key='account']/div" position="after">-->
+<!--                 <div class="row mt16 o_settings_container" name="Commission Config">-->
+<!--                    <div class="col-xs-12 col-md-6 o_setting_box">-->
+<!--                        <div class="o_setting_left_pane"/>-->
+<!--                         <div class="o_setting_right_pane">-->
+<!--                            <label for="total_cs_commission" string="Total CS Commission:"/>-->
+<!--                            <field name="total_cs_commission"/>-->
+<!--                        </div>-->
+<!--                        <div class="o_setting_right_pane">-->
+<!--                            <label for="sales_manager" string="Sales Manager:"/>-->
+<!--                            <field name="sales_manager"/>-->
+<!--                        </div>-->
+<!--                        <div class="o_setting_right_pane">-->
+<!--                            <label for="cs_manager" string="CS Manager:"/>-->
+<!--                            <field name="cs_manager"/>-->
+<!--                        </div>-->
+<!--                        <div class="o_setting_right_pane">-->
+<!--                            <label for="cs_persons" string="CS persons:"/>-->
+<!--                            <field name="cs_persons" widget="many2many_tags"/>-->
+<!--                        </div>-->
+
+<!--                    </div>-->
+<!--                 </div>-->
+<!--            </xpath>-->
+<!--        </field>-->
+<!--    </record>-->
+
+    <record id="view_account_config_settingss" model="ir.ui.view">
+        <field name="name">res.config.settings.form.inheritt</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="base.view_company_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//div[@data-key='account']/div" position="after">
-                 <div class="row mt16 o_settings_container" name="Commission Config">
-                    <div class="col-xs-12 col-md-6 o_setting_box">
-                        <div class="o_setting_left_pane"/>
-                        <div class="o_setting_right_pane">
-                            <label for="sales_manager" string="Sales Manager:"/>
-                            <field name="sales_manager"/>
-                        </div>
-                        <div class="o_setting_right_pane">
-                            <label for="cs_manager" string="CS Manager:"/>
-                            <field name="cs_manager"/>
-                        </div>
-                        <div class="o_setting_right_pane">
-                            <label for="total_cs_commission" string="Total CS Commission:"/>
-                            <field name="total_cs_commission"/>
-                        </div>
-                    </div>
-                 </div>
+            <xpath expr="//field[@name='name']" position="after" >
+                 <label for="total_cs_commission" string="Total CS Commission:"/>
+                <field name="total_cs_commission"/>
+                <label for="sales_manager" string="Manager:"/>
+                <field name="sales_manager"/>
+                 <label for="cs_manager" string="CS Manager:"/>
+                <field name="cs_manager"/>
+                 <label for="cs_persons" string="CS persons:"/>
+                <field name="cs_persons" widget="many2many_tags"/>
+                <label for="cs_person_share" string="CS persons Share:"/>
+                <field name="cs_person_share"/>
+                <label for="cs_manager_share" string="CS Manager Share:"/>
+                <field name="cs_manager_share" />
             </xpath>
+
         </field>
     </record>
 </odoo>

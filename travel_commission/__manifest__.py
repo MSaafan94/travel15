@@ -20,12 +20,13 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'sale', 'sale_management', 'sales_extra_fields'],
+    'depends': ['sale', 'sale_management', 'sales_extra_fields', 'account'],
 
     # always loaded
     'data': [
         'views/commission.xml',
-        'views/custom_account_settings.xml'
+        'views/custom_account_settings.xml',
+        'views/account_move_inherit_view.xml',
     ],
     # only loaded in demonstration mode
 
