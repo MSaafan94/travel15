@@ -52,6 +52,17 @@ class AccountPaymentRegister(models.TransientModel):
     so = fields.Many2one('sale.order', string='SO')
     trip_reference = fields.Many2one('sale.order.template', string='Trip_reference')
 
+    @api.model
+    def default_get(self, fields_list):
+        defaults = super(AccountPaymentRegister, self).default_get(fields_list)
+
+        invoice_defaults = self.env.context.get('active_id')  # Note: not 'active_ids'
+        if invoice_defaults:
+            invoice = self.env['account.move'].browse(invoice_defaults)
+            defaults['journal_id'] = invoice.payment_typee.id
+
+        return defaults
+
     def _create_payment_vals_from_wizard(self):
         payment_vals = super()._create_payment_vals_from_wizard()
         # Add custom field values to the payment

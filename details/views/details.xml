@@ -6,7 +6,7 @@
               <field name="model">sale.order</field>
               <field name="inherit_id" ref="sale.view_quotation_tree_with_onboarding"/>
               <field name="arch" type="xml">
-                  <xpath expr="//tree//field[@name='infant']" position="before">
+                  <xpath expr="//tree//field[@name='infant']" position="after">
                         <field name="completed" optional="show"/>
                         <field name="revised" groups="account.group_account_manager" optional="show"/>
                 </xpath>

@@ -20,7 +20,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'sale', 'crm', 'hr', 'sales_team', 'stock', 'sales_extra_fields', 'account', 'stock_account', 'contacts', 'travel_sales', 'mail', 'report_xlsx'],
+    'depends': ['base', 'sale', 'crm', 'hr', 'sales_team', 'stock', 'sales_extra_fields', 'account', 'stock_account', 'purchase', 'contacts', 'travel_sales', 'mail', 'report_xlsx'],
 
     # always loaded
     'data': [
@@ -29,6 +29,7 @@
         'views/templates.xml',
         'views/details.xml',
         'views/quot_temp.xml',
+        'views/purchase.xml',
         # 'views/invoice.xml',
         'security/security.xml',
         'security/sec.xml',

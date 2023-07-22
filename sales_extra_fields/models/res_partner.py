@@ -33,7 +33,7 @@ class ResPartner(models.Model):
     booking_status = fields.Many2one('booking.status', "Booking Status")
     Description = fields.Text("Description")
     owner = fields.Char("Owner")
-    created_at = fields.Datetime("Created at")
+    # created_at = fields.Datetime("Created at")
     old_data = fields.Boolean("Old Data")
     previous_trips = fields.Char("Previous Trips")
     amount = fields.Float("Amount")

@@ -35,7 +35,7 @@ class CrmLead(models.Model):
     booking_status = fields.Many2one('booking.status', "Booking Status")
     Description = fields.Text("Description")
     owner = fields.Char("Owner")
-    created_at = fields.Datetime("Created at", )
+    # created_at = fields.Datetime("Created at", )
 
     def open_whatsapp_web(self):
         if len(self.whatsapp_num) <= 11:
@@ -121,7 +121,7 @@ class CrmLead(models.Model):
         self.destination_1 = self.partner_id.destination_1
         self.booking_status = self.partner_id.booking_status
         self.owner = self.partner_id.owner
-        self.created_at = self.partner_id.created_at
+        # self.created_at = self.partner_id.created_at
         self.Description = self.partner_id.Description
 
     @api.model
@@ -149,7 +149,7 @@ class CrmLead(models.Model):
             partner['destination_1'] = vals.get('destination_1')
             partner['booking_status'] = vals.get('booking_status')
             partner['owner'] = vals.get('owner')
-            partner['created_at'] = vals.get('created_at')
+            # partner['created_at'] = vals.get('created_at')
             partner['Description'] = vals.get('Description')
 
     @api.depends('birthday')

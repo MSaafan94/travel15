@@ -13,7 +13,7 @@ class AccountInvoice(models.Model):
         if res.extra_amount > 0:
             journal = self.env['account.move'].create({
                 'journal_id': 1, # Set the journal ID that you want to use
-                'ref': 'Extra Amount',
+                'ref': 'Commission for',
                 'line_ids': [(0, 0, {
                     'name': 'Extra Amount',
                     'account_id': res.partner_id.property_account_receivable_id.id, # Set the account ID that you want to use

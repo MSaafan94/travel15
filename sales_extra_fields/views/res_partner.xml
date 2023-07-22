@@ -86,7 +86,7 @@
                     <field name="destination_1"/>
                     <field name="booking_status"/>
                     <field name="owner"/>
-                    <field name="created_at"/>
+<!--                    <field name="created_at"/>-->
                     <field name="Description"/>
                 </xpath>
                 <xpath expr="//field[@name='category_id']" position="after">
@@ -131,7 +131,7 @@
                     <field name="destination_1" filter_domain="[('destination_1','ilike',self)]"/>
                     <field name="booking_status" filter_domain="[('booking_status','ilike',self)]"/>
                     <field name="owner" filter_domain="[('owner','ilike',self)]"/>
-                    <field name="created_at" filter_domain="[('created_at','ilike',self)]"/>
+<!--                    <field name="created_at" filter_domain="[('created_at','ilike',self)]"/>-->
                     <field name="previous_trips" filter_domain="[('previous_trips','ilike',self)]"/>
                     <field name="amount" filter_domain="[('amount','ilike',self)]"/>
                     <field name="points_of_loyalty" filter_domain="[('points_of_loyalty','ilike',self)]"/>

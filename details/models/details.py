@@ -38,7 +38,7 @@ class SaleOrderr(models.Model):
     sale_order_transfer = fields.One2many('sale.order.transfer', 'sale_id', string='transfer')
     sale_order_transfer_inv = fields.One2many('sale.order.transfer.inv', 'sale_id', string='transfer')
     balance = fields.One2many('balance.balance', 'balance_id')
-    individual = fields.Selection([('individual', 'Individual'), ('visa', 'Visa'), ('group', 'Group')],
+    individual = fields.Selection([('individual', 'Individual'), ('visa', 'Visa'), ('group', 'Group'), ('B2B','B2B')],
                                   track_visibility='always', string="Branch")
     revised = fields.Selection([('revised', 'Revised')], track_visibility='always')
     completed = fields.Selection([('completed', 'Completed'), ('refund', 'Refund')], track_visibility='always')
@@ -974,8 +974,7 @@ class SaleOrderVisa(models.Model):
     sale_order_template_id = fields.Many2one('sale.order.template')
     partner_id = fields.Many2one('res.partner', "id")
 
-    # @api.one
-    @api.onchange('endtime')
+
     def _age_on_travel_date(self):
         if self.partner_id.birthday:
             total_days = str(self.sale_id.endtime.date() - self.partner_id.birthday).split()[0]
