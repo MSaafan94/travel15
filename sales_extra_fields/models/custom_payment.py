@@ -176,5 +176,3 @@ class DownpaymentWizard(models.TransientModel):
 
         # Return the updated dictionary
         return invoice_values
-
-
