@@ -33,7 +33,7 @@
                     <field name="trip_code"/>
                     <field name="passport_num"/>
                     <field name="passport_expiry"/>
-                    <field name="lead_source"/>
+                    <field name="lead_source" options="{'no_create': True, 'no_open': True}"/>
                     <field name="id_number"/>
                     <field name="destination_1"/>
                     <field name="booking_status"/>
