@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
 
 from odoo import models, fields, api
+class EmployeePublic(models.Model):
+    _inherit = 'hr.employee.public'
 
+    att_user_id = fields.Char("Attendance User ID")
 class Employee(models.Model):
     _name = "hr.employee"
     _inherit = "hr.employee"
