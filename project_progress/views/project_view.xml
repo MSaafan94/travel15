@@ -1,0 +1,15 @@
+<odoo>
+    <data>
+<!--         Update the existing Kanban view of project.project -->
+<!--        <record id="view_project_kanban_inherit" model="ir.ui.view">-->
+<!--            <field name="name">project.project.kanban.inherit</field>-->
+<!--            <field name="model">project.project</field>-->
+<!--            <field name="inherit_id" ref="project.view_project_kanban"/>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <xpath expr="//field[@name='tag_ids']" position="after">-->
+<!--                    <field name="project_percentage" options="{'precision': 2}"/>-->
+<!--                </xpath>-->
+<!--            </field>-->
+<!--        </record>-->
+    </data>
+</odoo>
