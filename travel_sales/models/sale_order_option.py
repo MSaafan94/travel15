@@ -173,6 +173,7 @@ class SaleOrder(models.Model):
                     'name': line.name,
                     'product_uom_qty': line.quantity,
                     'price_unit': line.price_unit,
+                    'price_usd': line.price_usd,
                     'product_uom': line.uom_id.id,
                     'discount': line.discount,
                     'company_id': line.order_id.company_id.id

@@ -39,7 +39,7 @@
                     <label for="analytic_account_id"/>
                     <div class="o_row">
                             <field name="analytic_account_id"/>
-                            <button name="generate" string="Generate" type="object"  attrs="{'invisible': [('individual', '!=', 'individual')]}" />
+                            <button name="generate" string="Generate" type="object"   attrs="{'invisible': [('individual', 'not in', ('individual', 'incoming', 'education'))]}"/>
                     </div>
                     <field name="adult_inv" attrs="{'invisible': [('individual', '!=', 'individual')],'readonly': [('state','=','sale')]}"/>
                     <field name="child_inv" attrs="{'invisible': [('individual', '!=', 'individual')],'readonly': [('state','=','sale')]}"/>

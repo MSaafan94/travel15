@@ -18,6 +18,7 @@ class SaleOrderTemplateOption(models.Model):
                                                 ('domestic', 'Domestic'), ('international', 'International')],
                                                compute='compute_type', )
     price_unit = fields.Float()
+    price_usd = fields.Float(string='USD')
 
     # @api.one
     def compute_type(self):
@@ -42,6 +43,7 @@ class SaleOrderTemplateOption(models.Model):
                 'name': option.name,
                 'price_extra': option.price_extra,
                 'price_unit': option.price_unit,  # Pass the value of the new field to sale.order.option
+                'price_usd': option.price_usd,  # Pass the value of the new field to sale.order.option
             })
         return order_options
 

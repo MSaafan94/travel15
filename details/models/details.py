@@ -38,7 +38,7 @@ class SaleOrderr(models.Model):
     sale_order_transfer = fields.One2many('sale.order.transfer', 'sale_id', string='transfer')
     sale_order_transfer_inv = fields.One2many('sale.order.transfer.inv', 'sale_id', string='transfer')
     balance = fields.One2many('balance.balance', 'balance_id')
-    individual = fields.Selection([('individual', 'Individual'), ('visa', 'Visa'), ('group', 'Group'), ('B2B','B2B')],
+    individual = fields.Selection([('individual', 'Individual'), ('visa', 'Visa'), ('group', 'Group'), ('B2B','B2B'), ('incoming', 'Incoming'), ('education', 'Education')],
                                   track_visibility='always', string="Branch")
     revised = fields.Selection([('revised', 'Revised')], track_visibility='always')
     completed = fields.Selection([('completed', 'Completed'), ('refund', 'Refund')], track_visibility='always')

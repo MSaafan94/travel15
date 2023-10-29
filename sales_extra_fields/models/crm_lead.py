@@ -37,6 +37,17 @@ class CrmLead(models.Model):
     owner = fields.Char("Owner")
     # created_at = fields.Datetime("Created at", )
 
+
+    won_date = fields.Date(string="Won Date", readonly=True, store=True, compute='_compute_won_date')
+
+    @api.depends('stage_id')
+    def _compute_won_date(self):
+        for lead in self:
+            if lead.stage_id and lead.stage_id.is_won:
+                lead.won_date = fields.Date.today()
+            else:
+                lead.won_date = False
+
     def open_whatsapp_web(self):
         if len(self.whatsapp_num) <= 11:
             if self.whatsapp_num:
@@ -181,7 +192,7 @@ class CrmLead(models.Model):
             'res_model': 'transfer.salesperson',
             'view_type': 'form',
             'view_mode': 'form',
-            'view_id': self.env.ref('sales_extra_fields.transfer_salesperson_view_form', False).id,
+            'view_id': self.env.ref('sales_extra_fields.transfer_salesperson_view_form').id,
             'target': 'new',
             'context': ctx
         }

@@ -41,62 +41,116 @@ class SaleOrder(models.Model):
                               help='The internal user in charge of this contact.', required=True,
                               default=lambda self: self.env.user)
 
+
     def generate(self):
         months = {
-            '1': 'JAN',
-            '2': 'FEB',
-            '3': 'MAR',
-            '4': 'APR',
-            '5': 'MAY',
-            '6': 'JUN',
-            '7': 'JUL',
-            '8': 'AUG',
-            '9': 'SEPT',
-            '10': 'OCT',
-            '11': 'NOV',
-            '12': 'DEC',
+            '1': 'JAN', '2': 'FEB', '3': 'MAR', '4': 'APR',
+            '5': 'MAY', '6': 'JUN', '7': 'JUL', '8': 'AUG',
+            '9': 'SEPT', '10': 'OCT', '11': 'NOV', '12': 'DEC',
         }
         if self.analytic_account_id:
-            raise UserError(_("Analytic account already has value"))
+            raise UserError(_("Analytic account already has a value"))
+
         month = months.get(self.month)
         year = self.sale_order_template_id.name
-        if not month and not self.sale_order_template_id:
+
+        if not month or not self.sale_order_template_id:
             raise UserError(_("Month or trip reference not assigned in quotation template"))
 
-        search_analytics = self.env['account.analytic.account'].search(
-            [('name', 'like', '{}/{}'.format(month, year[-2:]))])
-        group = self.env['account.analytic.group'].search([('name', '=', 'Individual Trips')], limit=1),
-        serial = '0001'
-        if search_analytics:
-            serial = search_analytics[len(search_analytics) - 1].name.partition('/')[0]
-            if serial:
-                if int(serial) < 9:
-                    serial = '000{}'.format(int(serial) + 1)
-                elif int(serial) < 99:
-                    serial = '00{}'.format(int(serial) + 1)
-                elif int(serial) < 1000:
-                    serial = '0{}'.format(int(serial) + 1)
-                else:
-                    serial = '{}'.format(int(serial) + 1)
+        search_analytics = self.env['account.analytic.account'].search([
+            ('name', 'like', '{}/{}'.format(month, year[-2:]))
+        ], order='name desc', limit=1)
 
+        if search_analytics:
+            serial = str(int(search_analytics[0].name.split('/')[0]) + 1).zfill(4)
+        else:
+            serial = '0001'
+
+        # Determine the 'group' based on the 'individual' value
+        group_name = 'Individual'  # Default to 'Individual'
+        if self.individual == 'visa':
+            group_name = 'Visa'
+        elif self.individual == 'group':
+            group_name = 'Group'
+        elif self.individual == 'B2B':
+            group_name = 'B2B'
+        elif self.individual == 'incoming':
+            group_name = 'Incoming'
+        elif self.individual == 'education':
+            group_name = 'Education'
+
+        salesperson_name = self.user_id.name
         values = {
             'name': '{}/{}/{}'.format(serial, month, year[-2:]),
             'partner_id': self.partner_id.id,
-            'group_id': self.env['account.analytic.group'].search([('name', '=', 'Individual')],limit=1).id,
-            # 'code': self.name
+            'group_id': self.env['account.analytic.group'].search([('name', '=', group_name)], limit=1).id,
+            'code': salesperson_name
         }
-        self.env['account.analytic.account'].sudo().create(values)
-        print(self.env['account.analytic.account'].search(
-            [('name', '=', '{}/{}/{}'.format(serial, month, year[-2:])),],
-            limit=1))
-        self.analytic_account_id = self.env['account.analytic.account'].search(
-            [('name', '=', '{}/{}/{}'.format(serial, month, year[-2:])),],
-            limit=1)
+
+        analytic_account = self.env['account.analytic.account'].sudo().create(values)
+        self.analytic_account_id = analytic_account
+
+        print(self.env['account.analytic.account'].search([
+            ('name', '=', '{}/{}/{}'.format(serial, month, year[-2:])),
+        ], limit=1))
+
+
+
+    # def generate(self):
+    #     months = {
+    #         '1': 'JAN',
+    #         '2': 'FEB',
+    #         '3': 'MAR',
+    #         '4': 'APR',
+    #         '5': 'MAY',
+    #         '6': 'JUN',
+    #         '7': 'JUL',
+    #         '8': 'AUG',
+    #         '9': 'SEPT',
+    #         '10': 'OCT',
+    #         '11': 'NOV',
+    #         '12': 'DEC',
+    #     }
+    #     if self.analytic_account_id:
+    #         raise UserError(_("Analytic account already has value"))
+    #     month = months.get(self.month)
+    #     year = self.sale_order_template_id.name
+    #     if not month and not self.sale_order_template_id:
+    #         raise UserError(_("Month or trip reference not assigned in quotation template"))
+    #
+    #     search_analytics = self.env['account.analytic.account'].search(
+    #         [('name', 'like', '{}/{}'.format(month, year[-2:]))])
+    #     group = self.env['account.analytic.group'].search([('name', '=', 'Individual Trips')], limit=1),
+    #     serial = '0001'
+    #     if search_analytics:
+    #         serial = search_analytics[len(search_analytics) - 1].name.partition('/')[0]
+    #         if serial:
+    #             if int(serial) < 9:
+    #                 serial = '000{}'.format(int(serial) + 1)
+    #             elif int(serial) < 99:
+    #                 serial = '00{}'.format(int(serial) + 1)
+    #             elif int(serial) < 1000:
+    #                 serial = '0{}'.format(int(serial) + 1)
+    #             else:
+    #                 serial = '{}'.format(int(serial) + 1)
+    #
+    #     values = {
+    #         'name': '{}/{}/{}'.format(serial, month, year[-2:]),
+    #         'partner_id': self.partner_id.id,
+    #         'group_id': self.env['account.analytic.group'].search([('name', '=', 'Individual')],limit=1).id,
+    #         # 'code': self.name
+    #     }
+    #     self.env['account.analytic.account'].sudo().create(values)
+    #     print(self.env['account.analytic.account'].search(
+    #         [('name', '=', '{}/{}/{}'.format(serial, month, year[-2:])),],
+    #         limit=1))
+    #     self.analytic_account_id = self.env['account.analytic.account'].search(
+    #         [('name', '=', '{}/{}/{}'.format(serial, month, year[-2:])),],
+    #         limit=1)
 
     def get_partner(self):
         # print(self.partner_id.age_type)
         self.partner_age = self.partner_id.age_type
-
 
     @api.onchange('name_of_persons')
     def total_name_of_persons(self):
@@ -376,7 +430,7 @@ class SaleOrderTemplate(models.Model):
     )
     year = fields.Selection([('2022', '2022'), ('2023', '2023'), ('2024', '2024')], default='2023',
                             track_visibility="always")
-    individual = fields.Selection([('individual', 'Individual'), ('visa', 'Visa'),('group','Group'), ('B2B','B2B')],track_visibility='always',string="Branch")
+    individual = fields.Selection([('individual', 'Individual'), ('visa', 'Visa'),('group','Group'), ('B2B','B2B'), ('incoming', 'Incoming'), ('education', 'Education')],track_visibility='always',string="Branch")
     cut_of_date = fields.Date('Cut Of Date', track_visibility="always")
     analytic_account = fields.Many2one('account.analytic.account', string="Analytic Account", track_visibility="always")
     analytic_tag_ids = fields.Many2many('account.analytic.tag', string='Analytic Tags', track_visibility="always")

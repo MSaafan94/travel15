@@ -97,6 +97,7 @@
                     <field name="stock" string="Sold"/>
                     <field name="available"/>
                     <field name="price_unit"/>
+                    <field name="price_usd"/>
                 </xpath>
 
                 <xpath expr="//notebook[@name='main_book']" position="inside">
