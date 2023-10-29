@@ -127,18 +127,18 @@ class ResPartner(models.Model):
     #             if self.mobile == partner.mobile or len(self.mobile) < 11:
     #                 raise UserError("Mobile number is already in used.")
 
-    def get_transfer_wizard(self):
-        ctx = self.env.context
-        return {
-            'type': 'ir.actions.act_window',
-            'name': 'Transfer Sales Person',
-            'res_model': 'transfer.salesperson',
-            'view_type': 'form',
-            'view_mode': 'form',
-            'view_id': self.env.ref('sales_extra_fields.transfer_salesperson_view_form', False).id,
-            'target': 'new',
-            'context': ctx
-        }
+    # def get_transfer_wizard(self):
+    #     ctx = self.env.context
+    #     return {
+    #         'type': 'ir.actions.act_window',
+    #         'name': 'Transfer Sales Person',
+    #         'res_model': 'transfer.salesperson',
+    #         'view_type': 'form',
+    #         'view_mode': 'form',
+    #         'view_id': self.env.ref('sales_extra_fields.transfer_salesperson_view_form', False).id,
+    #         'target': 'new',
+    #         'context': ctx
+    #     }
 
     @api.depends('birthday')
     def _check_employee_age(self):

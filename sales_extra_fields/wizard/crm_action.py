@@ -29,6 +29,7 @@ class PaymentWizards(models.TransientModel):
 
 class CRMLead(models.Model):
     _inherit = "crm.lead"
+    assign_date = fields.Date()
 
     def set_field_wizard(self):
         ctx = self.env.context
