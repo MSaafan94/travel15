@@ -181,7 +181,7 @@ class CrmLead(models.Model):
             'res_model': 'transfer.salesperson',
             'view_type': 'form',
             'view_mode': 'form',
-            'view_id': self.env.ref('sales_extra_fields.transfer_salesperson_view_form').id,
+            'view_id': self.env.ref('sales_extra_fields.transfer_salesperson_view_form', False).id,
             'target': 'new',
             'context': ctx
         }
