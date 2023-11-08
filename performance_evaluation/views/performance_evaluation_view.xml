@@ -77,48 +77,48 @@
                                   <field name="evaluator_employee_id" options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}" attrs="{'readonly':['|',('state','!=','draft'),('evaluator_relationship','in',['own','manager'])],'invisible':[('template_id','=',False)]}"/>
                                   
                                   
-                                  <field name="evaluator_department_id" readonly="1" force_save="1" attrs="{'invisible':[('template_id','=',False)]}"/>
-                                  
-                                  <field name="evaluator_job_id" readonly="1" force_save="1" attrs="{'invisible':[('template_id','=',False)]}"/>
-                                  <field name="evaluator_department_relationship" readonly="1" force_save="1" attrs="{'invisible':[('template_id','=',False)]}"/>
+<!--                                  <field name="evaluator_department_id" readonly="1" force_save="1" attrs="{'invisible':[('template_id','=',False)]}"/>-->
+
+<!--                                  <field name="evaluator_job_id" readonly="1" force_save="1" attrs="{'invisible':[('template_id','=',False)]}"/>-->
+<!--                                  <field name="evaluator_department_relationship" readonly="1" force_save="1" attrs="{'invisible':[('template_id','=',False)]}"/>-->
                                   <field name="evaluator_relationship" readonly="1" force_save="1" attrs="{'invisible':[('template_id','=',False)]}"/>
-                                  
-                                  <field name="date_of_evaluation" readonly="1" force_save="1" string="Evaluation Date" attrs="{'invisible':[('template_id','=',False)]}"/>
-                                  
+
+<!--                                  <field name="date_of_evaluation" readonly="1" force_save="1" string="Evaluation Date" attrs="{'invisible':[('template_id','=',False)]}"/>-->
+<!--                                  -->
                               </group>
-                              <group>
-                                  <field name="country_id" readonly="1" force_save="1"/>
-                                  <field name="birthday" readonly="1" force_save="1"/>
-                                  <field name="job_category" attrs="{'readonly':[('state','!=','draft')]}"/>
-                                  <field name="location" attrs="{'readonly':[('state','!=','draft')]}"/>
-                                  <field name="annual_leave_balance" attrs="{'readonly':[('state','!=','draft')]}"/>
-                                  <field name="annual_leave_consumed_this_year" attrs="{'readonly':[('state','!=','draft')]}"/>
-                              </group>
-                              <group>
-                                  <field name="date_of_joining" attrs="{'readonly':[('state','!=','draft')]}"/>
-                                  <field name="length_of_service" attrs="{'readonly':[('state','!=','draft')]}"/>
-                                  <field name="visa_expire" attrs="{'readonly':[('state','!=','draft')]}"/>
-                                  <field name="visa_days_to_expire" attrs="{'readonly':[('state','!=','draft')]}"/>
-                                  <field name="labor_card_expiry" attrs="{'readonly':[('state','!=','draft')]}"/>
-                                  <field name="labor_card_days_to_expire" attrs="{'readonly':[('state','!=','draft')]}"/>
-                              </group>
+<!--                              <group>-->
+<!--                                  <field name="country_id" readonly="1" force_save="1"/>-->
+<!--                                  <field name="birthday" readonly="1" force_save="1"/>-->
+<!--                                  <field name="job_category" attrs="{'readonly':[('state','!=','draft')]}"/>-->
+<!--                                  <field name="location" attrs="{'readonly':[('state','!=','draft')]}"/>-->
+<!--                                  <field name="annual_leave_balance" attrs="{'readonly':[('state','!=','draft')]}"/>-->
+<!--                                  <field name="annual_leave_consumed_this_year" attrs="{'readonly':[('state','!=','draft')]}"/>-->
+<!--                              </group>-->
+<!--                              <group>-->
+<!--                                  <field name="date_of_joining" attrs="{'readonly':[('state','!=','draft')]}"/>-->
+<!--                                  <field name="length_of_service" attrs="{'readonly':[('state','!=','draft')]}"/>-->
+<!--                                  <field name="visa_expire" attrs="{'readonly':[('state','!=','draft')]}"/>-->
+<!--                                  <field name="visa_days_to_expire" attrs="{'readonly':[('state','!=','draft')]}"/>-->
+<!--                                  <field name="labor_card_expiry" attrs="{'readonly':[('state','!=','draft')]}"/>-->
+<!--                                  <field name="labor_card_days_to_expire" attrs="{'readonly':[('state','!=','draft')]}"/>-->
+<!--                              </group>-->
                               
                         </group>
                         
                         
-                        <group col="2">
-                              <group>
-                                  <field name="manager_remarks" attrs="{'readonly':[('state','!=','in_progress')]}" width="50%%"/>
-                                  <field name="hr_remarks" string="HR Remarks" attrs="{'readonly':[('state','!=','hr_evaluation')]}"/>
-                                  <field name="disciplinary_action" attrs="{'readonly':[('state','!=','hr_evaluation')]}"/>
-                                  <field name="nature_of_disclipinary_action" attrs="{'readonly':[('state','!=','hr_evaluation')]}"/>
-                              </group>
-                              <group>
-                                  <field name="positive_points" attrs="{'readonly':[('state','in',['draft','done','reject'])]}"/>
-                                  <field name="negative_points" attrs="{'readonly':[('state','in',['draft','done','reject'])]}"/>
-                              </group>
-                              
-                        </group>
+<!--                        <group col="2">-->
+<!--                              <group>-->
+<!--                                  <field name="manager_remarks" attrs="{'readonly':[('state','!=','in_progress')]}" width="50%%"/>-->
+<!--                                  <field name="hr_remarks" string="HR Remarks" attrs="{'readonly':[('state','!=','hr_evaluation')]}"/>-->
+<!--                                  <field name="disciplinary_action" attrs="{'readonly':[('state','!=','hr_evaluation')]}"/>-->
+<!--                                  <field name="nature_of_disclipinary_action" attrs="{'readonly':[('state','!=','hr_evaluation')]}"/>-->
+<!--                              </group>-->
+<!--                              <group>-->
+<!--                                  <field name="positive_points" attrs="{'readonly':[('state','in',['draft','done','reject'])]}"/>-->
+<!--                                  <field name="negative_points" attrs="{'readonly':[('state','in',['draft','done','reject'])]}"/>-->
+<!--                              </group>-->
+<!--                              -->
+<!--                        </group>-->
                         
                         
                         <group col="2">
@@ -135,6 +135,9 @@
                               <group string="Overall Scores">
                                   <h3>
                                       <group>
+                                          <field name="personal_section" readonly="1" force_save="1"/>
+                                          <field name="workplace_section" readonly="1" force_save="1"/>
+
                                           <field name="overall_score" readonly="1" force_save="1"/>
                                           <field name="overall_rating" readonly="1" force_save="1" string="Overall Average Rating" invisible="1"/>
                                           <field name="overall_rating_value" readonly="1" force_save="1"/>
@@ -146,10 +149,10 @@
                         
                         <notebook>
                             <page string="Details">
-                                <h2>Personal Competencies
+                                <h2>HR
                                     <field name="overall_personal_score" readonly="1" force_save="1" class="oe_right"/>
                                 </h2>
-                                <field name="personal_ev_line_ids">
+                                <field name="personal_ev_line_ids" attrs="{'invisible':[('personal_section','=',False)]}">
                                     <tree editable="bottom" create="false" delete="false">
                                         <field name="name" readonly="1" force_save="1"/>
                                         <field name="rating" attrs="{'readonly':[('state','!=','in_progress')]}"/>
@@ -159,10 +162,10 @@
                                         <field name="state" optional="hide" readonly="1" force_save="1"/>
                                     </tree>
                                 </field>
-                                <h2>Workplace Competencies
+                                <h2>Team Leader
                                     <field name="overall_workplace_score" readonly="1" force_save="1" class="oe_right"/>
                                 </h2>
-                                <field name="workplace_ev_line_ids">
+                                <field name="workplace_ev_line_ids" attrs="{'invisible':[('workplace_section','=',False)]}">
                                     <tree editable="bottom" create="false" delete="false">
                                         <field name="name" readonly="1" force_save="1"/>
                                         <field name="rating" attrs="{'readonly':[('state','!=','in_progress')]}"/>
@@ -172,60 +175,59 @@
                                         <field name="state" optional="hide" readonly="1" force_save="1"/>
                                     </tree>
                                 </field>
-                                <h2>Other Workplace Competencies
-                                    <field name="overall_workplace_tw_score" readonly="1" force_save="1" class="oe_right"/>
-                                </h2>
-                                <field name="workplace_tw_ev_line_ids">
-                                    <tree editable="bottom" create="false" delete="false">
-                                        <field name="name" readonly="1" force_save="1"/>
-                                        <field name="rating" attrs="{'readonly':[('state','!=','in_progress')]}"/>
-                                        <field name="rating_value" readonly="1" force_save="1"/>
-                                        <field name="rating_star" widget="priority" readonly="1" force_save="1"/>
-                                        <field name="program_id" optional="hide" readonly="1" force_save="1"/>
-                                        <field name="state" optional="hide" readonly="1" force_save="1"/>
-                                    </tree>
-                                </field>
-                                <h2>Technical Competencies
-                                    <field name="overall_technical_score" readonly="1" force_save="1" class="oe_right"/>
-                                </h2>
-                                <field name="technical_ev_line_ids">
-                                    <tree editable="bottom" create="false" delete="false">
-                                        <field name="name" readonly="1" force_save="1"/>
-                                        <field name="rating" attrs="{'readonly':[('state','!=','in_progress')]}"/>
-                                        <field name="rating_value" readonly="1" force_save="1"/>
-                                        <field name="rating_star" widget="priority" readonly="1" force_save="1"/>
-                                        <field name="program_id" optional="hide" readonly="1" force_save="1"/>
-                                        <field name="state" optional="hide" readonly="1" force_save="1"/>
-                                    </tree>
-                                </field>
-                                <h2>Other Competencies
-                                    <field name="overall_other_score" readonly="1" force_save="1" class="oe_right"/>
-                                </h2>
-                                <field name="other_ev_line_ids">
-                                    <tree editable="bottom" create="false" delete="false">
-                                        <field name="name" readonly="1" force_save="1"/>
-                                        <field name="rating" attrs="{'readonly':[('state','!=','in_progress')]}"/>
-                                        <field name="rating_value" readonly="1" force_save="1"/>
-                                        <field name="rating_star" widget="priority" readonly="1" force_save="1"/>
-                                        <field name="program_id" optional="hide" readonly="1" force_save="1"/>
-                                        <field name="state" optional="hide" readonly="1" force_save="1"/>
-                                    </tree>
-                                </field>
+<!--                                <h2>Other Workplace Competencies-->
+<!--                                    <field name="overall_workplace_tw_score" readonly="1" force_save="1" class="oe_right"/>-->
+<!--                                </h2>-->
+<!--                                <field name="workplace_tw_ev_line_ids">-->
+<!--                                    <tree editable="bottom" create="false" delete="false">-->
+<!--                                        <field name="name" readonly="1" force_save="1"/>-->
+<!--                                        <field name="rating" attrs="{'readonly':[('state','!=','in_progress')]}"/>-->
+<!--                                        <field name="rating_value" readonly="1" force_save="1"/>-->
+<!--                                        <field name="rating_star" widget="priority" readonly="1" force_save="1"/>-->
+<!--                                        <field name="program_id" optional="hide" readonly="1" force_save="1"/>-->
+<!--                                        <field name="state" optional="hide" readonly="1" force_save="1"/>-->
+<!--                                    </tree>-->
+<!--                                </field>-->
+<!--                                <h2>Technical Competencies-->
+<!--                                    <field name="overall_technical_score" readonly="1" force_save="1" class="oe_right"/>-->
+<!--                                </h2>-->
+<!--                                <field name="technical_ev_line_ids">-->
+<!--                                    <tree editable="bottom" create="false" delete="false">-->
+<!--                                        <field name="name" readonly="1" force_save="1"/>-->
+<!--                                        <field name="rating" attrs="{'readonly':[('state','!=','in_progress')]}"/>-->
+<!--                                        <field name="rating_value" readonly="1" force_save="1"/>-->
+<!--                                        <field name="rating_star" widget="priority" readonly="1" force_save="1"/>-->
+<!--                                        <field name="program_id" optional="hide" readonly="1" force_save="1"/>-->
+<!--                                        <field name="state" optional="hide" readonly="1" force_save="1"/>-->
+<!--                                    </tree>-->
+<!--                                </field>-->
+<!--                                <h2>Other Competencies-->
+<!--                                    <field name="overall_other_score" readonly="1" force_save="1" class="oe_right"/>-->
+<!--                                </h2>-->
+<!--                                <field name="other_ev_line_ids">-->
+<!--                                    <tree editable="bottom" create="false" delete="false">-->
+<!--                                        <field name="name" readonly="1" force_save="1"/>-->
+<!--                                        <field name="rating" attrs="{'readonly':[('state','!=','in_progress')]}"/>-->
+<!--                                        <field name="rating_value" readonly="1" force_save="1"/>-->
+<!--                                        <field name="rating_star" widget="priority" readonly="1" force_save="1"/>-->
+<!--                                        <field name="program_id" optional="hide" readonly="1" force_save="1"/>-->
+<!--                                        <field name="state" optional="hide" readonly="1" force_save="1"/>-->
+<!--                                    </tree>-->
+<!--                                </field>-->
                                 
                                 <h2>
-                               
                                 <group>
                                     <field name="extra_remarks"/>
                                     </group>
                                 </h2>
                             </page>
-                            <page string="Other Information">
-                                <group>
-                                    <field name="job_description" attrs="{'readonly':[('state','!=','draft')]}"/>
-                                    
-                                    
-                                </group>
-                            </page>
+<!--                            <page string="Other Information">-->
+<!--                                <group>-->
+<!--                                    <field name="job_description" attrs="{'readonly':[('state','!=','draft')]}"/>-->
+<!--                                    -->
+<!--                                    -->
+<!--                                </group>-->
+<!--                            </page>-->
                             
                             
                         </notebook>
@@ -313,10 +315,10 @@
                         <filter string="Evaluator Employee" name="evaluator_employee_id" domain="[]" context="{'group_by': 'evaluator_employee_id'}"/>
                         <filter string="Evaluator Department Relationship" name="evaluator_department_relationship" domain="[]" context="{'group_by': 'evaluator_department_relationship'}"/>
                         <filter string="Evaluator Relationship" name="evaluator_relationship" domain="[]" context="{'group_by': 'evaluator_relationship'}"/>
-                        
+
                         <separator/>
                         <filter string="Overall Rating Value" name="overall_rating_value" domain="[]" context="{'group_by': 'overall_rating_value'}"/>
-                        
+
                     </group>
                 </search>
             </field>
@@ -444,46 +446,46 @@
                                   </group>
                                   
                                   <group string="Add section for Rating Calculation">
-                                      <field name="personal_section"/>
-                                      <field name="workplace_section"/>
-                                      <field name="workplace_tw_section" string="Other Workplace Section"/>
-                                      <field name="technical_section"/>
-                                      <field name="other_section"/>
+                                      <field name="personal_section" string="HR Section"/>
+                                      <field name="workplace_section" string="Team Leader"/>
+<!--                                      <field name="workplace_tw_section" string="Other Workplace Section"/>-->
+<!--                                      <field name="technical_section"/>-->
+<!--                                      <field name="other_section"/>-->
                                   </group>
                               </group>
                               
                               <group>
-                                  <field name="personal_line_ids">
+                                  <field name="personal_line_ids" string="HR">
                                       <tree editable="bottom">
                                           <field name="name" required="1"/>
                                           <field name="config_id" optional="hide"/>
                                       </tree>
                                   </field>
                                   
-                                  <field name="workplace_line_ids">
+                                  <field name="workplace_line_ids" string="Team Leader">
                                       <tree editable="bottom">
                                           <field name="name" required="1"/>
                                           <field name="config_id" optional="hide"/>
                                       </tree>
                                   </field>
-                                  <field name="workplace_tw_line_ids">
-                                      <tree editable="bottom">
-                                          <field name="name" required="1"/>
-                                          <field name="config_id" optional="hide"/>
-                                      </tree>
-                                  </field>
-                                  <field name="technical_line_ids">
-                                      <tree editable="bottom">
-                                          <field name="name" required="1"/>
-                                          <field name="config_id" optional="hide"/>
-                                      </tree>
-                                  </field>
-                                  <field name="other_line_ids">
-                                      <tree editable="bottom">
-                                          <field name="name" required="1"/>
-                                          <field name="config_id" optional="hide"/>
-                                      </tree>
-                                  </field>
+<!--                                  <field name="workplace_tw_line_ids">-->
+<!--                                      <tree editable="bottom">-->
+<!--                                          <field name="name" required="1"/>-->
+<!--                                          <field name="config_id" optional="hide"/>-->
+<!--                                      </tree>-->
+<!--                                  </field>-->
+<!--                                  <field name="technical_line_ids">-->
+<!--                                      <tree editable="bottom">-->
+<!--                                          <field name="name" required="1"/>-->
+<!--                                          <field name="config_id" optional="hide"/>-->
+<!--                                      </tree>-->
+<!--                                  </field>-->
+<!--                                  <field name="other_line_ids">-->
+<!--                                      <tree editable="bottom">-->
+<!--                                          <field name="name" required="1"/>-->
+<!--                                          <field name="config_id" optional="hide"/>-->
+<!--                                      </tree>-->
+<!--                                  </field>-->
                               </group>
                               
                        

@@ -43,8 +43,8 @@ class PerformanceEvaluationProgramConfig(models.Model):
     other_section = fields.Boolean()
     
     performance_evaluator = fields.Selection([
-                                    ('csuite', 'C-Suite'),
-                                    ('manager', 'Manager'),
+                                    # ('csuite', 'C-Suite'),
+                                    # ('manager', 'Manager'),
                                     ('colleague', 'Colleague'),
                                     ('own', 'Own')
                                 ])
@@ -98,11 +98,17 @@ class PerformanceEvaluationProgram(models.Model):
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _order = "name desc"
 
+    personal_section = fields.Boolean()
+    workplace_section = fields.Boolean()
+
 
     @api.onchange('template_id')
     def _onchange_rating(self):
+
         for rec in self:
             if rec.template_id:
+                rec.personal_section = rec.template_id.personal_section
+                rec.workplace_section = rec.template_id.workplace_section
                 rec.personal_ev_line_ids = rec.workplace_ev_line_ids = rec.workplace_tw_ev_line_ids = rec.technical_ev_line_ids = rec.other_ev_line_ids = False
                 for pl in rec.template_id.personal_line_ids:
                     pline = {
@@ -305,8 +311,8 @@ class PerformanceEvaluationProgram(models.Model):
                                                 ('inter', 'Inter Department'),
                                             ], compute="_compute_evaluator_emp_info", store=True)
     evaluator_relationship = fields.Selection([
-                                                ('csuite', 'C-Suite'),
-                                                ('manager', 'Manager'),
+                                                # ('csuite', 'C-Suite'),
+                                                # ('manager', 'Manager'),
                                                 ('colleague', 'Colleague'),
                                                 ('own', 'OWN')
                                             ])
