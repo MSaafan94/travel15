@@ -1,0 +1,58 @@
+<odoo>
+    <data>
+
+        <!-- Employee Data Form View -->
+        <record id="view_employee_data_form" model="ir.ui.view">
+            <field name="name">my_dep_module.employee_data.form</field>
+            <field name="model">my_employee_module.employee_data</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="name"/>
+<!--                        <field name="department_id"/>-->
+                        <field name="month"/>
+                        <field name="salary"/>
+                        <field name="commission"/>
+                        <field name="revenue"/>
+                        <field name="cost"/>
+                        <field name="profit" readonly="1"/>
+                    </group>
+<!--                    <notebook>-->
+<!--                        <page string="Monthly Progress">-->
+<!--                            <field name="monthly_progress_ids" widget="one2many_list">-->
+<!--                                <tree editable="bottom">-->
+<!--                                    <field name="month"/>-->
+<!--                                    <field name="revenue"/>-->
+<!--                                    <field name="cost"/>-->
+<!--                                    <field name="profit" readonly="1"/>-->
+<!--                                </tree>-->
+<!--                                <form>-->
+<!--                                    <group>-->
+<!--                                        <field name="month"/>-->
+<!--                                        <field name="revenue"/>-->
+<!--                                        <field name="cost"/>-->
+<!--                                        <field name="profit" readonly="1"/>-->
+<!--                                    </group>-->
+<!--                                </form>-->
+<!--                            </field>-->
+<!--                        </page>-->
+<!--                    </notebook>-->
+                </form>
+            </field>
+        </record>
+
+          <!-- Monthly Progress List View -->
+<!--        <record id="view_monthly_progress_tree" model="ir.ui.view">-->
+<!--            <field name="name">my_de_module.monthly_progress.tree</field>-->
+<!--            <field name="model">my_employee_module.monthly_progress</field>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <tree>-->
+<!--                    <field name="month"/>-->
+<!--                    <field name="revenue"/>-->
+<!--                    <field name="cost"/>-->
+<!--                    <field name="profit"/>-->
+<!--                </tree>-->
+<!--            </field>-->
+<!--        </record>-->
+    </data>
+</odoo>

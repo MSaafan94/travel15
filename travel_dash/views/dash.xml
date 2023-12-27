@@ -1,0 +1,86 @@
+<odoo>
+    <data>
+
+        <!-- Employee Data Form View -->
+        <record id="view_employee_data_form" model="ir.ui.view">
+            <field name="name">my_employee_module.employee_data.form</field>
+            <field name="model">my_employee_module.employee_data</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+<!--                        <button string="Update Revenue" type="object" name="update_revenue_from_sales_orders" args="[('1', 'salesperson_id')]"/>-->
+                        <field name="name"/>
+<!--                        <field name="employee_id"/>-->
+                        <field name="department_id"/>
+                        <field name="month"/>
+                        <field name="salary"/>
+                        <field name="commission"/>
+                        <field name="revenue" readonly="1"/>
+                        <field name="cost"/>
+                        <field name="profit" readonly="1"/>
+                        <field name="net_profit" readonly="1"/>
+                        <field name="net_profit" readonly="1"/>
+                        <field name="total_cost_per_lead" readonly="1"/>
+                    </group>
+<!--                    <notebook>-->
+<!--                        <page string="Monthly Progress">-->
+<!--                            <field name="monthly_progress_ids" widget="one2many_list">-->
+<!--                                <tree editable="bottom">-->
+<!--                                    <field name="month"/>-->
+<!--                                    <field name="revenue"/>-->
+<!--                                    <field name="cost"/>-->
+<!--                                    <field name="profit" readonly="1"/>-->
+<!--                                </tree>-->
+<!--                                <form>-->
+<!--                                    <group>-->
+<!--                                        <field name="month"/>-->
+<!--                                        <field name="revenue"/>-->
+<!--                                        <field name="cost"/>-->
+<!--                                        <field name="profit" readonly="1"/>-->
+<!--                                    </group>-->
+<!--                                </form>-->
+<!--                            </field>-->
+<!--                        </page>-->
+<!--                    </notebook>-->
+                </form>
+            </field>
+        </record>
+
+           <record id="view_sale_order_form" model="ir.ui.view">
+        <field name="name">sale.order.form</field>
+        <field name="model">sale.order</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <!-- Other fields related to the sale order -->
+                    <notebook>
+                        <!-- First tab -->
+
+                        <!-- Second tab with the status bar -->
+                        <page string="Status" class="oe_inline">
+                            <group>
+                                <field name="state"/>
+                                <!-- Add other fields related to the status here -->
+                            </group>
+                        </page>
+                    </notebook>
+                </group>
+            </form>
+        </field>
+    </record>
+
+          <!-- Monthly Progress List View -->
+<!--        <record id="view_monthly_progress_tree" model="ir.ui.view">-->
+<!--            <field name="name">my_employee_module.monthly_progress.tree</field>-->
+<!--            <field name="model">my_employee_module.monthly_progress</field>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <tree>-->
+<!--                    <field name="month"/>-->
+<!--                    <field name="revenue"/>-->
+<!--                    <field name="cost"/>-->
+<!--                    <field name="profit"/>-->
+<!--                </tree>-->
+<!--            </field>-->
+<!--        </record>-->
+    </data>
+</odoo>

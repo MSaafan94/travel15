@@ -1,0 +1,13 @@
+<odoo>
+    <data>
+<!--      <record id="action_lead_cost_tree" model="ir.actions.act_window">-->
+<!--        <field name="name">Lead Costs</field>-->
+<!--        <field name="res_model">custom_crm_cost_per_lead.lead_cost</field>-->
+<!--        <field name="view_mode">tree,form</field>-->
+<!--        <field name="view_id" ref="travel_dash.lead_cost_tree"/>-->
+<!--      </record>-->
+<!--        <menuitem id="menu_custom_crm_cost_per_lead" name="Custom CRM Cost per Lead" parent="crm.menu_crm_root" />-->
+<!--        <menuitem id="menu_lead_costs" name="Lead Costs" parent="menu_custom_crm_cost_per_lead" action="action_lead_cost_tree"/>-->
+
+    </data>
+</odoo>

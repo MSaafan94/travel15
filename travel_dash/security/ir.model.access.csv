@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_employee_data,employee_data,model_my_employee_module_employee_data,base.group_user,1,1,1,1
+access_dep_data,dep_data,model_my_dep_module_dep_data,base.group_user,1,1,1,1
+access_custom_crm_cost_per_lead.lead_cost,custom_crm_cost_per_lead.lead_cost,model_custom_crm_cost_per_lead_lead_cost,base.group_user,1,1,1,1
