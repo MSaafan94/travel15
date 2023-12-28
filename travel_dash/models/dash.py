@@ -99,3 +99,18 @@ class EmployeeData(models.Model):
                 record.revenue = sum(total_sales_order)
 
                 record._is_calculating_values = False
+
+    @api.model
+    def calculate_values_for_all_salespersons(self):
+        # This method calculates values for all salespersons for the current month
+
+        # Get all salespersons
+        salespersons = self.env['hr.employee'].search([('user_id', '!=', False)])
+
+        for salesperson in salespersons:
+            # Calculate values for each salesperson
+            employee_data = self.create({
+                'name': salesperson.id,
+                'month': datetime.today().month,
+            })
+
