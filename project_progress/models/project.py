@@ -3,6 +3,25 @@ _logger = logging.getLogger(__name__)
 from odoo import models, fields, api
 
 
+class ProjectProject(models.Model):
+    _inherit = 'project.project'
+
+    project_completion_percentage = fields.Float(string="Project Completion Percentage", compute='_compute_project_completion_percentage')
+
+    @api.depends('task_ids.stage_id')
+    def _compute_project_completion_percentage(self):
+        """
+        Compute the project completion percentage based on the completion status of tasks.
+        """
+        for project in self:
+            total_tasks = len(project.task_ids)
+            if total_tasks:
+                completed_tasks = project.task_ids.filtered(lambda t: t.stage_id.name.lower() == 'done')
+                completion_percentage = (len(completed_tasks) / total_tasks) * 100
+                project.project_completion_percentage = completion_percentage
+            else:
+                project.project_completion_percentage = 0.0
+
 class ProjectTask(models.Model):
     _inherit = 'project.task'
 
@@ -33,7 +52,7 @@ class ProjectTask(models.Model):
         for task in self:
             total_subtasks = len(task.child_ids)
             if total_subtasks:
-                in_progress_subtasks = task.child_ids.filtered(lambda t: t.stage_id.name == 'Done')
+                in_progress_subtasks = task.child_ids.filtered(lambda t: t.stage_id.name.lower() == 'Done')
                 task.subtask_percentage = (len(in_progress_subtasks) / total_subtasks) * 100
                 _logger.info('Subtask Percentage: %s', task.subtask_percentage)
             else:
@@ -76,3 +95,4 @@ class ProjectProject(models.Model):
             else:
                 project.project_percentage = 0.0
                 _logger.info('No tasks found.')
+
