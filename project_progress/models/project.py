@@ -3,25 +3,6 @@ _logger = logging.getLogger(__name__)
 from odoo import models, fields, api
 
 
-class ProjectProject(models.Model):
-    _inherit = 'project.project'
-
-    project_completion_percentage = fields.Float(string="Project Completion Percentage", compute='_compute_project_completion_percentage')
-
-    @api.depends('task_ids.stage_id')
-    def _compute_project_completion_percentage(self):
-        """
-        Compute the project completion percentage based on the completion status of tasks.
-        """
-        for project in self:
-            total_tasks = len(project.task_ids)
-            if total_tasks:
-                completed_tasks = project.task_ids.filtered(lambda t: t.stage_id.name.lower() == 'done')
-                completion_percentage = (len(completed_tasks) / total_tasks) * 100
-                project.project_completion_percentage = completion_percentage
-            else:
-                project.project_completion_percentage = 0.0
-
 class ProjectTask(models.Model):
     _inherit = 'project.task'
 
@@ -52,7 +33,7 @@ class ProjectTask(models.Model):
         for task in self:
             total_subtasks = len(task.child_ids)
             if total_subtasks:
-                in_progress_subtasks = task.child_ids.filtered(lambda t: t.stage_id.name.lower() == 'Done')
+                in_progress_subtasks = task.child_ids.filtered(lambda t: t.stage_id.name == 'Done')
                 task.subtask_percentage = (len(in_progress_subtasks) / total_subtasks) * 100
                 _logger.info('Subtask Percentage: %s', task.subtask_percentage)
             else:
@@ -69,11 +50,13 @@ class ProjectTask(models.Model):
             task.parent_task_count = len(project.task_ids.filtered(lambda t: not t.parent_id))
             _logger.info('Parent Task Count: %s', task.parent_task_count)
 
+    parent_percentage = fields.Float(string='parent percentage',)
 
 class ProjectProject(models.Model):
     _inherit = 'project.project'
 
     project_percentage = fields.Float(string="Project Percentage", compute='_compute_project_percentage',)
+    parent_percentage = fields.Float(string='parent percentage',)
 
     @api.depends('task_ids.subtask_percentage')
     def _compute_project_percentage(self):
@@ -83,8 +66,15 @@ class ProjectProject(models.Model):
         for project in self:
             parent_tasks = project.task_ids.filtered(lambda t: not t.parent_id)
             total_tasks = len(parent_tasks)
+            total_done_tasks = project.task_ids.filtered(lambda t: t.stage_id.name == 'Done' and not t.parent_id)
+            len_total_done_tasks = len(total_done_tasks)
+            for item in total_done_tasks:
+                print(item.name)
+            print(len(total_done_tasks))
+            print(total_tasks)
             if total_tasks:
                 completed_task_percentages = [task.subtask_percentage for task in parent_tasks]
+                project.parent_percentage = (len_total_done_tasks/total_tasks)*100
                 if completed_task_percentages:
                     project_percentage = sum(completed_task_percentages) / total_tasks
                     project.project_percentage = project_percentage
@@ -95,4 +85,3 @@ class ProjectProject(models.Model):
             else:
                 project.project_percentage = 0.0
                 _logger.info('No tasks found.')
-
