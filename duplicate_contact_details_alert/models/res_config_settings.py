@@ -27,7 +27,7 @@ from ast import literal_eval
 class ResConfig(models.TransientModel):
     _inherit = 'res.config.settings'
 
-    def _get_contacts_fields_domain(self):
+    def _get_contacts_fields_domain():
         return [
             ('model', '=', 'res.partner'), ('store', '=', True),
             ('ttype', 'in', ['binary', 'char'])]
@@ -35,10 +35,9 @@ class ResConfig(models.TransientModel):
     is_unique_contact = fields.Boolean(string="Unique Contacts Alert")
     unique_contact_ids = fields.Many2many(
         'ir.model.fields', string='Contact Fields',
-        domain=_get_contacts_fields_domain,
+        domain=lambda self: self._get_contacts_fields_domain(),
         help='Warning to avoid duplication of customer/vendor'
              ' details in the system')
-
     def set_values(self):
         super(ResConfig, self).set_values()
         self.env['ir.config_parameter'].set_param(
