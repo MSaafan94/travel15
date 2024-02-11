@@ -23,17 +23,14 @@ class CustomCrmLead(models.Model):
     #     return new_lead
 
     def autofill_leads_customer(self):
-        # Fetch leads in batches of 1000 records
-        leads = self.search([('partner_id', '=', False)], limit=1000)
-
-        contacts = self.env['res.partner'].search([])  # Fetch all contacts
+        # Fetch all leads with empty customer field
+        leads = self.search([('partner_id', '=', False)])
 
         for lead in leads:
-            # Filter contacts based on lead phone numbers
-            matching_contacts = contacts.filtered(lambda c: c.phone == lead.phone)
-            if matching_contacts:
-                # Choose the first matching contact and assign it to the lead
-                lead.partner_id = matching_contacts[0].id
+            # Check if lead phone matches any contact phone
+            contact = self.env['res.partner'].search([('phone', '=', lead.phone)])
+            if contact:
+                lead.partner_id = contact.id
 
     @api.depends('phone')
     def _compute_potential_lead_duplicates(self):

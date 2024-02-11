@@ -2,4 +2,3 @@
 
 from . import models
 from . import crmmm
-from . import partner
