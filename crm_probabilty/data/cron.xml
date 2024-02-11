@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+        <!-- Define cron job for automatic lead customer autofill -->
+        <record id="ir_cron_autofill_leads_customer" model="ir.cron">
+            <field name="name">Autofill Leads Customer</field>
+            <field name="model">crm.lead</field>
+            <field name="function">autofill_leads_customer</field>
+            <field name="interval_number">1</field> <!-- Execute every 1 day -->
+            <field name="interval_type">days</field>
+            <!-- Additional fields for more complex scheduling -->
+            <!-- <field name="numbercall">-1</field> -->
+            <!-- <field name="doall">False</field> -->
+            <!-- <field name="active" eval="True"/> -->
+            <!-- <field name="nextcall" eval="(DateTime.now() + relativedelta(days=+1)).strftime('%Y-%m-%d 01:00:00')"/> -->
+        </record>
+    </data>
+</odoo>

@@ -2,6 +2,7 @@
 
 from odoo import models, fields, api
 
+
 class CrmProbability(models.Model):
     _inherit = 'crm.lead'
 
@@ -13,6 +14,9 @@ class CrmProbability(models.Model):
     visas_check = fields.Boolean()
     bachelor_check = fields.Boolean()
 
+    profession = fields.Selection([])
+    education = fields.Selection([])
+    region = fields.Selection([])
     # @api.one
 
     @api.depends('passport_check', 'professional_job_check', 'bank_account_check', 'visas_check', 'bachelor_check')
