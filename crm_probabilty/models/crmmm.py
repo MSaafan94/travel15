@@ -13,27 +13,24 @@ class CustomCrmLead(models.Model):
 
     stage_name = fields.Char(related='stage_id.name', string='Stage')
 
-    @api.model
-    def create(self, vals):
-        new_lead = super(CustomCrmLead, self).create(vals)
-
-        # Call autofill_leads_customer method for the newly created lead
-        new_lead.autofill_leads_customer()
-
-        return new_lead
+    # @api.model
+    # def create(self, vals):
+    #     new_lead = super(CustomCrmLead, self).create(vals)
+    #
+    #     # Call autofill_leads_customer method for the newly created lead
+    #     new_lead.autofill_leads_customer()
+    #
+    #     return new_lead
 
     def autofill_leads_customer(self):
         # Fetch all leads with empty customer field
-        print('before done')
         leads = self.search([('partner_id', '=', False)])
 
         for lead in leads:
             # Check if lead phone matches any contact phone
             contact = self.env['res.partner'].search([('phone', '=', lead.phone)])
-            print('done')
             if contact:
                 lead.partner_id = contact.id
-
 
     @api.depends('phone')
     def _compute_potential_lead_duplicates(self):

@@ -30,6 +30,7 @@
               <field name="visas_check"/>
               <label for ='bachelor_check' string="bachelor"/>
               <field name="bachelor_check"/>
+              <field name="stage_name" invisibale="True"/>
                   <button name="autofill_leads_customer" string="Autofill Customer" type="object" class="btn-primary"/>
 
               </div>
