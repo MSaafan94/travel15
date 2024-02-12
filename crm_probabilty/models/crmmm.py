@@ -13,14 +13,14 @@ class CustomCrmLead(models.Model):
 
     stage_name = fields.Char(related='stage_id.name', string='Stage')
 
-    # @api.model
-    # def create(self, vals):
-    #     new_lead = super(CustomCrmLead, self).create(vals)
-    #
-    #     # Call autofill_leads_customer method for the newly created lead
-    #     new_lead.autofill_leads_customer()
-    #
-    #     return new_lead
+    @api.model
+    def create(self, vals):
+        new_lead = super(CustomCrmLead, self).create(vals)
+
+        # Call autofill_leads_customer method for the newly created lead
+        new_lead.autofill_leads_customer()
+
+        return new_lead
 
     def autofill_leads_customer(self):
         # Fetch leads in batches of 1000 records
@@ -28,12 +28,16 @@ class CustomCrmLead(models.Model):
 
         contacts = self.env['res.partner'].search([])  # Fetch all contacts
 
+        total_leads_assigned_customer = 0  # Initialize counter
+
         for lead in leads:
             # Filter contacts based on lead phone numbers
             matching_contacts = contacts.filtered(lambda c: c.phone == lead.phone)
             if matching_contacts:
                 # Choose the first matching contact and assign it to the lead
                 lead.partner_id = matching_contacts[0].id
+                total_leads_assigned_customer += 1  # Increment counter
+        print(f"Total leads assigned a customer: {total_leads_assigned_customer}")
 
     @api.depends('phone')
     def _compute_potential_lead_duplicates(self):
