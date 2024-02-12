@@ -13,14 +13,14 @@ class CustomCrmLead(models.Model):
 
     stage_name = fields.Char(related='stage_id.name', string='Stage')
 
-    @api.model
-    def create(self, vals):
-        new_lead = super(CustomCrmLead, self).create(vals)
-
-        # Call autofill_leads_customer method for the newly created lead
-        new_lead.autofill_leads_customer()
-
-        return new_lead
+    # @api.model
+    # def create(self, vals):
+    #     new_lead = super(CustomCrmLead, self).create(vals)
+    #
+    #     # Call autofill_leads_customer method for the newly created lead
+    #     new_lead.autofill_leads_customer()
+    #
+    #     return new_lead
 
     def autofill_leads_customer(self):
         # Fetch leads in batches of 1000 records
