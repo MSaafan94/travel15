@@ -23,21 +23,44 @@ class CustomCrmLead(models.Model):
     #     return new_lead
 
     def autofill_leads_customer(self):
-        # Fetch leads in batches of 1000 records
-        leads = self.search([('partner_id', '=', False)], limit=1000)
+        # Initialize counter for total leads processed
+        total_leads_processed = 0
 
-        contacts = self.env['res.partner'].search([])  # Fetch all contacts
+        # Define batch size
+        batch_size = 1000
 
-        total_leads_assigned_customer = 0  # Initialize counter
+        # Define starting offset
+        offset = 0
 
-        for lead in leads:
-            # Filter contacts based on lead phone numbers
-            matching_contacts = contacts.filtered(lambda c: c.phone == lead.phone)
-            if matching_contacts:
-                # Choose the first matching contact and assign it to the lead
-                lead.partner_id = matching_contacts[0].id
-                total_leads_assigned_customer += 1  # Increment counter
-        print(f"Total leads assigned a customer: {total_leads_assigned_customer}")
+        # Fetch leads in batches until all leads are processed
+        while True:
+            # Fetch leads in batches
+            leads = self.search([('partner_id', '=', False)], limit=batch_size, offset=offset)
+            print(len(leads))
+
+            # Break the loop if no more leads are found
+            if not leads:
+                break
+
+            # Increment offset for the next batch
+            offset += batch_size
+
+            # Fetch contacts with a non-empty phone field
+            contacts = self.env['res.partner'].search([('phone', '!=', False)])
+
+            # Print the length of the contacts list
+            print(f"Total contacts with phone numbers: {len(contacts)}")
+
+            # Process leads in the current batch
+            for lead in leads:
+                # Filter contacts based on lead phone numbers
+                matching_contacts = contacts.filtered(lambda c: c.phone == lead.phone)
+                if matching_contacts:
+                    # Choose the first matching contact and assign it to the lead
+                    lead.partner_id = matching_contacts[0].id
+                    total_leads_processed += 1  # Increment counter
+
+        print(f"Total leads processed: {total_leads_processed}")
 
     @api.depends('phone')
     def _compute_potential_lead_duplicates(self):
