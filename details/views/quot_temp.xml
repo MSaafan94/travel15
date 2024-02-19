@@ -6,56 +6,182 @@
             <field name="model">sale.order.template</field>
             <field name="inherit_id" ref="sale_management.sale_order_template_view_form"/>
             <field name="arch" type="xml">
-<!--                 <xpath expr="//form" position="inside">-->
-<!--            <header>-->
-<!--                <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,done,canceled"/>-->
-<!--            </header>-->
-<!--        </xpath>-->
-                <xpath expr="//notebook[@name='main_book']" position="inside">
-                    <page string="Flight" name="Flight">
-                        <header>
-                            <field name="flight_state" widget="statusbar" options="{'clickable':1}"/>
-                        </header>
-                        <group>
-                           <field name="flight_no"/>
-                           <field name="flight_from"/>
-                           <field name="flight_to"/>
-                           <field name="no_of_tickets"/>
-                        </group>
+<!--                <xpath expr="//field[@name='individual']" position="after">-->
+<!--                    <field name="operation"/>-->
 
-                        <group>
-                            <field name="deposit_dates">
-                                <tree editable="bottom">
-<!--                                    <field name='name'/>-->
-                                    <field name='date_field'/>
-                                    <field name='due_date_field'/>
-                                    <field name='amount' sum="amount"/>
-                                    <field name='quotation_name' invisible="True"/>
-                                    <field name='status'/>
-                                </tree>
-                            </field>
-                        </group>
-                        <group>
-                            <field name="cancellation_policy"/>
-                        </group>
-                        <group>
-                            <field name="cancellation_policy_tree" string="Cancellation Policy" editable="Bottom">
-                                <tree editable="bottom">
-<!--                                    <field name='name'/>-->
-                                    <field name='from_date'/>
-                                    <field name='to_date'/>
-                                    <field name='no_of_tickets'/>
-                                    <field name='amount'/>
-                                    <field name='quotation_name' invisible="True"/>
-                                </tree>
-                            </field>
-                        </group>
+<!--                </xpath>-->
+<!--                <xpath expr="//sheet" position="after">-->
+<!--                    <div class="oe_chatter">-->
+<!--                        <field name="message_follower_ids" widget="mail_followers"/>-->
+<!--&lt;!&ndash;                        <field name="activity_ids" widget="mail_activity"/>&ndash;&gt;-->
+<!--                        <field name="message_ids" widget="mail_thread"/>-->
+<!--                    </div>-->
+<!--                </xpath>-->
+                <xpath expr="//notebook[@name='main_book']" position="inside">
+                    <page string="Accommodation" name="accommodation">
+                        <notebook >
+                            <page string="Main">
+                                <field name="quot_accommodation">
+                                    <tree editable="bottom">
+                                        <field name="individual" invisible='1'/>
+                                        <field name="hotel" widget="many2many_tags"/>
+                                        <field name="check_in"/>
+                                        <field name="check_out"/>
+                                        <field name="room_view"/>
+                                        <field name="meal_plan"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="City1" attrs="{'invisible':[('individual', '=', 'individual')]}">
+                                <field name="quot_accommodation1">
+                                    <tree editable="bottom">
+                                        <field name="individual" invisible='1'/>
+                                        <field name="hotel" widget="many2many_tags"/>
+                                        <field name="check_in"/>
+                                        <field name="check_out"/>
+                                        <field name="room_view"/>
+                                        <field name="meal_plan"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="City2" attrs="{'invisible':[('individual', '=', 'individual')]}">
+                                <field name="quot_accommodation2">
+                                    <tree editable="bottom">
+                                        <field name="individual" invisible='1'/>
+                                        <field name="hotel" widget="many2many_tags"/>
+                                        <field name="check_in"/>
+                                        <field name="check_out"/>
+                                        <field name="room_view"/>
+                                        <field name="meal_plan"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="City3" attrs="{'invisible':[('individual', '=', 'individual')]}">
+                                <field name="quot_accommodation3">
+                                    <tree editable="bottom">
+                                        <field name="individual" invisible='1'/>
+                                        <field name="hotel" widget="many2many_tags"/>
+                                        <field name="check_in"/>
+                                        <field name="check_out"/>
+                                        <field name="room_view"/>
+                                        <field name="meal_plan"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="City4" attrs="{'invisible':[('individual', '=', 'individual')]}">
+                                <field name="quot_accommodation4">
+                                    <tree editable="bottom">
+                                        <field name="individual" invisible='1'/>
+                                        <field name="hotel" widget="many2many_tags"/>
+                                        <field name="check_in"/>
+                                        <field name="check_out"/>
+                                        <field name="room_view"/>
+                                        <field name="meal_plan"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="City5" attrs="{'invisible':[('individual', '=', 'individual')]}">
+                                <field name="quot_accommodation5">
+                                    <tree editable="bottom">
+                                        <field name="individual" invisible='1'/>
+                                        <field name="hotel" widget="many2many_tags"/>
+                                        <field name="check_in"/>
+                                        <field name="check_out"/>
+                                        <field name="room_view"/>
+                                        <field name="meal_plan"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="City6" attrs="{'invisible':[('individual', '=', 'individual')]}">
+                                <field name="quot_accommodation6">
+                                    <tree editable="bottom">
+                                        <field name="individual" invisible='1'/>
+                                        <field name="hotel" widget="many2many_tags"/>
+                                        <field name="check_in"/>
+                                        <field name="check_out"/>
+                                        <field name="room_view"/>
+                                        <field name="meal_plan"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
                     </page>
-                    <page string="Hotel" name="Hotel">
-                        <header>
-                            <field name="hotel_state" widget="statusbar" options="{'clickable':1}"/>
-                        </header>
+                    <page string="Flight" name="flight">
+                        <notebook>
+                            <page string="Flight International">
+                                <field name="flight_international">
+                                    <tree editable="bottom">
+                                        <field name="individual" invisible='1'/>
+                                        <field name="flight_type"/>
+                                        <field name="route"/>
+                                        <field name="supplier"/>
+                                        <field name="dep_flight_no"/>
+                                        <field name="dept_date"/>
+                                        <field name="arr_date"/>
+                                        <field name="deb_flight_route"/>
+                                        <field name="transit_city"/>
+                                        <field name="transit_time"/>
+                                        <field name="arr_flight_no"/>
+                                        <field name="deptt_date"/>
+                                        <field name="arrr_date"/>
+                                        <field name="arr_flight_route"/>
+                                        <field name="transitt_city"/>
+                                        <field name="transitt_time"/>
+                                        <field name="attachment"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Flight Domestic">
+                                  <field name="flight_domestic">
+                                    <tree editable="bottom">
+                                        <field name="individual" invisible='1'/>
+                                        <field name="flight_type"/>
+                                        <field name="route"/>
+                                        <field name="supplier"/>
+                                        <field name="dep_flight_no"/>
+                                        <field name="dept_date"/>
+                                        <field name="arr_date"/>
+                                        <field name="deb_flight_route"/>
+                                        <field name="transit_city"/>
+                                        <field name="transit_time"/>
+                                        <field name="arr_flight_no"/>
+                                        <field name="deptt_date"/>
+                                        <field name="arrr_date"/>
+                                        <field name="arr_flight_route"/>
+                                        <field name="transitt_city"/>
+                                        <field name="transitt_time"/>
+                                        <field name="attachment"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
                     </page>
+                    <page string="Visa" name="visa">
+                        <field name="visa">
+                            <tree editable="bottom">
+                                <field name="individual" invisible='1'/>
+                                <field name="visa_type"/>
+                            </tree>
+                        </field>
+                    </page>
+                    <page string="Vaccination" name="vaccination">
+                        <field name="vaccination">
+                            <tree editable="bottom">
+                                <field name="individual" invisible='1'/>
+                                <field name="pcr_required"/>
+                            </tree>
+                        </field>
+                    </page>
+                    <page string="Program" name="program">
+                        <field name="program">
+                            <tree editable="bottom">
+                                <field name="individual" invisible='1'/>
+                                <field name="program_name" widget="many2many_tags"/>
+                                <field name="status"/>
+                            </tree>
+                        </field>
+                    </page>
+
                 </xpath>
             </field>
         </record>
