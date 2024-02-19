@@ -183,7 +183,6 @@ class SaleOrder(models.Model):
                 transfers_products.append((0, 0, sale_order_line))
             elif line.transfer == True and line.quantity > line.available:
                 raise UserError(_('You cannot add {} as it is unavailable quantity.'.format(line.name)))
-
         self.order_line = transfers_products
         for line in self.sale_order_option_ids:
             line.transfer = False
@@ -276,8 +275,6 @@ class SaleOrder(models.Model):
             'default_invoice_ids': [(6, 0, self.invoice_ids.ids)]
         }
         return action
-
-
 
     def payment_action(self):
         return {

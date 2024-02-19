@@ -7,12 +7,11 @@ class InventoryCustom(models.Model):
     _inherit = 'product.product'
 
     product_category_custom = fields.Selection([('room', 'Room'), ('visa', 'Visa'), ('program', 'Program'),
-                                         ('domestic', 'Domestic'), ('international', 'International')])
+                                         ('domestic', 'Domestic'), ('international', 'International')], track_visibility='always',)
 
 
 class PurchaseCustom(models.Model):
     _inherit = 'purchase.order'
-
 
     def unlink(self):
         if not self.env.user.has_group('details.group_sale_super_manager'):
@@ -71,7 +70,6 @@ class SaleOrderTemplateCust(models.Model):
                 self.total_paid += sale_order_total[x].total_payments
                 self.total_due += sale_order_total[x].total_due
 
-    #@api.multi
     # @api.depends('total_rooms',)
     def _compute_stock(self):
 
@@ -89,10 +87,14 @@ class SaleOrderTemplateCust(models.Model):
             print(len(sale_order_line_ids_rooms))
             for line in sale_order_line_ids_rooms:
                 rec.stock_rooms += line.product_uom_qty
-            # sale_order_line_ids_visa = rec.env['sale.order.line'].sudo().search(sale_order_domain).filtered(lambda x: x.product_category == 'visa')
-            # sale_order_line_ids_program = rec.env['sale.order.line'].sudo().search(sale_order_domain).filtered(lambda x: x.product_category == 'program')
-            # sale_order_line_ids_domestic = rec.env['sale.order.line'].sudo().search(sale_order_domain).filtered(lambda x: x.product_category == 'domestic')
-            # sale_order_line_ids_int = rec.env['sale.order.line'].sudo().search(sale_order_domain).filtered(lambda x: x.product_category == 'international')
+            # sale_order_line_ids_visa = rec.env['sale.order.line'].sudo().search(sale_order_domain).
+            # filtered(lambda x: x.product_category == 'visa')
+            # sale_order_line_ids_program = rec.env['sale.order.line'].sudo().
+            # search(sale_order_domain).filtered(lambda x: x.product_category == 'program')
+            # sale_order_line_ids_domestic = rec.env['sale.order.line'].sudo().
+            # search(sale_order_domain).filtered(lambda x: x.product_category == 'domestic')
+            # sale_order_line_ids_int = rec.env['sale.order.line'].sudo().
+            # search(sale_order_domain).filtered(lambda x: x.product_category == 'international')
 
             # if sale_order_line_ids_visa:
             #     for y in range(len(sale_order_line_ids_visa)):
@@ -180,7 +182,6 @@ class SaleOrderLine(models.Model):
         for rec in self:
             rec.total_usd = rec.product_uom_qty * rec.price_usd
 
-
     # product_uom_qty = fields.Float(string='Ordered Quantity', digits=dp.get_precision('Product Unit of Measure'),
     #                                required=True, default=1.0)
 
@@ -201,8 +202,6 @@ class SaleOrderLine(models.Model):
             rec.product_category_custom = rec.product_id.product_category_custom
             print("Updated product_category_custom:", rec.product_category_custom)
 
-
-
     # @api.one
     @api.depends('product_id', 'product_uom_qty')
     def _compute_available(self):
@@ -214,3 +213,6 @@ class SaleOrderLine(models.Model):
                      ('template_name', '=', self.order_id.sale_order_template_id.name)], limit=1)
                 if sale_order_template_option_id:
                     rec.available = sale_order_template_option_id.available
+
+
+
