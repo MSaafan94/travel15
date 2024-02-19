@@ -7,8 +7,8 @@ from datetime import datetime
 from odoo.exceptions import UserError, ValidationError
 
 
-# class SaleOrderAccommodationInv(models.Model):
-#     _name = 'sale.order.accommodation.inv'
+class SaleOrderAccommodationInv(models.Model):
+    _name = 'sale.order.accommodation.inv'
 #
 #     serial_number = fields.Integer(string="S/N", name="S/N")
 #     gender = fields.Selection([('male', 'Male'), ("female", 'Female')], related='partner_id.gender', string='Gender',
@@ -83,8 +83,8 @@ from odoo.exceptions import UserError, ValidationError
 #
 #
 #
-# class SaleOrderFlightInv(models.Model):
-#     _name = 'sale.order.flightint.inv'
+class SaleOrderFlightInv(models.Model):
+    _name = 'sale.order.flightint.inv'
 #
 #     name = fields.Char(string="Name ______________", related='partner_id.name', readonly=False, store=True)
 #     sequence = fields.Integer(default=10)
@@ -179,8 +179,8 @@ from odoo.exceptions import UserError, ValidationError
 #             self.age_on_travel_date = str(years) + "years " + str(months) + "months"
 #
 #
-# class SaleOrderMedicalInv(models.Model):
-#     _name = 'sale.order.medical.inv'
+class SaleOrderMedicalInv(models.Model):
+    _name = 'sale.order.medical.inv'
 #
 #     name = fields.Char(string="Name", related='partner_id.name', readonly=False, store=True)
 #     age_on_travel_date = fields.Char(string='Age On Travel', )
@@ -204,8 +204,8 @@ from odoo.exceptions import UserError, ValidationError
 #             self.age_on_travel_date = str(years) + "years " + str(months) + "months"
 #
 #
-# # class SaleOrderVaccinationInv(models.Model):
-# #     _name = 'sale.order.vaccination.inv'
+class SaleOrderVaccinationInv(models.Model):
+    _name = 'sale.order.vaccination.inv'
 # #
 # #     name = fields.Char(string="Name", related='partner_id.name', readonly=False, store=True)
 # #     sequence = fields.Integer(default=10)
@@ -267,8 +267,8 @@ from odoo.exceptions import UserError, ValidationError
 #             self.age_on_travel_date = str(years) + "years " + str(months) + "months"
 
 
-# class SaleOrderProgramInv(models.Model):
-#     _name = 'sale.order.program.inv'
+class SaleOrderProgramInv(models.Model):
+    _name = 'sale.order.program.inv'
 #
 #     name = fields.Char(string="Name", related='partner_id.name', readonly=False, store=True)
 #     sequence = fields.Integer(default=10)
@@ -283,8 +283,8 @@ from odoo.exceptions import UserError, ValidationError
 #     partner_id = fields.Many2one('res.partner', "Name")
 #
 
-# class SaleOrderTransferInv(models.Model):
-#     _name = 'sale.order.transfer.inv'
+class SaleOrderTransferInv(models.Model):
+    _name = 'sale.order.transfer.inv'
 #
 #     name = fields.Char(string="Name", related='partner_id.name', readonly=False, store=True)
 #     sequence = fields.Integer(default=10)
