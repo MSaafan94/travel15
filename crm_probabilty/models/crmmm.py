@@ -134,7 +134,7 @@ class CrmLead(models.Model):
         }
 
     relationship_ids = fields.One2many('partner.relationship', 'relation_id', string='Relationships')
-    # acquisition_lead = fields.Many2one('utm.source')
+    acquisition_lead = fields.Many2one('utm.source')
     education = fields.Many2one('education')
     region = fields.Many2one('region')
     area = fields.Many2one('area')
