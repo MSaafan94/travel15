@@ -134,7 +134,7 @@ class CrmLead(models.Model):
         }
 
     relationship_ids = fields.One2many('partner.relationship', 'relation_id', string='Relationships')
-    # acquisition_lead = fields.Many2one('utm.source')
+    acquisition_lead = fields.Many2one('utm.source')
     education = fields.Many2one('education')
     region = fields.Many2one('region')
     area = fields.Many2one('area')
@@ -147,7 +147,7 @@ class CrmLead(models.Model):
 
         if existing_contact:
             # If an existing contact is found, update its fields
-            # self.acquisition_lead = existing_contact.acquisition_lead
+            self.acquisition_lead = existing_contact.acquisition_lead
             existing_contact.write({
                 # 'name': self.name,
                 'whatsapp_num': self.whatsapp_num,
@@ -163,7 +163,7 @@ class CrmLead(models.Model):
             self.partner_id = existing_contact.id
         else:
 
-            # self.acquisition_lead = self.source_id
+            self.acquisition_lead = self.source_id
             # If no existing contact is found, create a new customer
             new_customer = self.env['res.partner'].create({
                 'name': self.name,
@@ -174,7 +174,7 @@ class CrmLead(models.Model):
                 'passport_expiry': self.passport_expiry,
                 'id_number': self.id_number,
                 'email': self.email_from,
-                # 'acquisition_lead': self.acquisition_lead
+                'acquisition_lead': self.acquisition_lead
                 # 'service_type': self.service_type.id if self.service_type else False,
                 # You can fill other fields here based on CRM data
             })
@@ -186,8 +186,8 @@ class CrmLead(models.Model):
         """
         # Assuming phone number is stored in the field 'phone'
         matching_partner = self.env['res.partner'].search([('phone', '=', self.phone)], limit=1)
-        # if matching_partner:
-        #     self.acquisition_lead = matching_partner.acquisition_lead
+        if matching_partner:
+            self.acquisition_lead = matching_partner.acquisition_lead
         return matching_partner
 
     @api.model
@@ -334,9 +334,9 @@ class CustomCrmLead(models.Model):
             lead.duplicate_lead_count = len(duplicate_lead_ids)
 
 
-# class ContactUpdate(models.Model):
-#     _inherit = 'res.partner'
-#     acquisition_lead = fields.Many2one('utm.source')
+class ContactUpdate(models.Model):
+    _inherit = 'res.partner'
+    acquisition_lead = fields.Many2one('utm.source')
 
 
 class SaleOrder(models.Model):
