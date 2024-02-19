@@ -20,7 +20,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'crm', 'contacts', 'sale', 'sales_extra_fields'],
+    'depends': ['base', 'crm', 'sale', 'sales_extra_fields'],
 
     # always loaded
     'data': [
@@ -30,8 +30,8 @@
         # 'views/partner.xml',
     ],
     # only loaded in demonstration mode
-    'demo': [
-        'demo/demo.xml',
-        'data/cron.xml',
-    ],
+    # 'demo': [
+    #     'demo/demo.xml',
+    #     'data/cron.xml',
+    # ],
 }
