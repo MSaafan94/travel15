@@ -80,14 +80,14 @@ class SaleView(models.Model):
 class CrmLead(models.Model):
     _inherit = 'crm.lead'
 
-    def action_sale_quotations_new(self):
-        res = super(CrmLead, self).action_sale_quotations_new()
-        if not self.partner_id:
-            print('sadfsdfasdfadsfasdfasdf')
-            raise ValidationError("Cannot create quotation: Lead does not have a customer.")
-        else:
-            print('ooooooooooooooo')
-            return res
+    # def action_sale_quotations_new(self):
+    #     res = super(CrmLead, self).action_sale_quotations_new()
+    #     if not self.partner_id:
+    #         print('sadfsdfasdfadsfasdfasdf')
+    #         raise ValidationError("Cannot create quotation: Lead does not have a customer.")
+    #     else:
+    #         print('ooooooooooooooo')
+    #         return res
 
     # def action_new_quotation(self):
     #     action = self.env["ir.actions.actions"]._for_xml_id("sale_crm.sale_action_quotations_new")
@@ -147,7 +147,7 @@ class CrmLead(models.Model):
 
         if existing_contact:
             # If an existing contact is found, update its fields
-            self.acquisition_lead = existing_contact.acquisition_lead
+            # self.acquisition_lead = existing_contact.acquisition_lead
             existing_contact.write({
                 # 'name': self.name,
                 'whatsapp_num': self.whatsapp_num,
@@ -174,7 +174,7 @@ class CrmLead(models.Model):
                 'passport_expiry': self.passport_expiry,
                 'id_number': self.id_number,
                 'email': self.email_from,
-                'acquisition_lead': self.acquisition_lead
+                # 'acquisition_lead': self.acquisition_lead
                 # 'service_type': self.service_type.id if self.service_type else False,
                 # You can fill other fields here based on CRM data
             })
