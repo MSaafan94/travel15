@@ -128,8 +128,8 @@ class SaleOrderFlightInv(models.Model):
 #         string='Flight Type(S)')
 #
 #
-# class SaleOrderVisaInv(models.Model):
-#     _name = 'sale.order.visa.inv'
+class SaleOrderVisaInv(models.Model):
+    _name = 'sale.order.visa.inv'
 #
 #     name = fields.Char(string="Name", related='partner_id.name', readonly=False, store=True)
 #     gender = fields.Selection([('male', 'Male'), ("female", 'Female')], related='partner_id.gender', string='Gender',
