@@ -20,18 +20,18 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'crm', 'sale', 'sales_extra_fields'],
+    'depends': ['base', 'crm', 'contacts'],
 
     # always loaded
     'data': [
-        'security/ir.model.access.csv',
+        # 'security/ir.model.access.csv',
         'views/views.xml',
         'views/templates.xml',
         # 'views/partner.xml',
     ],
     # only loaded in demonstration mode
-    # 'demo': [
-    #     'demo/demo.xml',
-    #     'data/cron.xml',
-    # ],
+    'demo': [
+        'demo/demo.xml',
+        'data/cron.xml',
+    ],
 }

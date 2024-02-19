@@ -1,46 +1,12 @@
 <odoo>
   <data>
-
-<!--      <record model="ir.ui.view" id="view_name_of_persons">-->
-<!--          <field name="name">view_name_of_persons</field>-->
-<!--        <field name="model">sale.order</field>-->
-<!--        <field name="inherit_id" ref="sale.view_order_form"/>-->
-<!--          <field name="arch" type="xml">-->
-<!--              <xpath expr="//field[@name='partner_id']" position="before">-->
-<!--                  <field name="relationship_ids" >-->
-<!--                       <tree editable="bottom">-->
-<!--                        <field name="relation_id" invisible="1"/>-->
-<!--                        <field name="name" />-->
-<!--                        <field name="relationship"/>-->
-<!--                        <field name="number"/>-->
-<!--                        <field name="expiry_date"/>-->
-<!--                        <field name="attachment_ids" widget="many2many_binary" invisible="1"/>-->
-<!--                    </tree>-->
-<!--                  </field>-->
-<!--              </xpath>-->
-<!--          </field>-->
-<!--      </record>-->
-
-<!--      <record model="ir.ui.view" id="acquisition_leadd">-->
-<!--      <field name="name">acquisition form</field>-->
-<!--      <field name="model">res.partner</field>-->
-<!--        <field name="inherit_id" ref="base.view_partner_form"/>-->
-<!--      <field name="arch" type="xml">-->
-<!--            <xpath expr="//field[@name='email']" position="after">-->
-<!--                <field name="acquisition_lead"/>-->
-<!--            </xpath>-->
-<!--      </field>-->
-<!--      </record>-->
+    <!-- explicit list view definition -->
 
     <record model="ir.ui.view" id="crm_probabilty">
       <field name="name">crm_probabilty</field>
       <field name="model">crm.lead</field>
         <field name="inherit_id" ref="crm.crm_lead_view_form"/>
       <field name="arch" type="xml">
-          <xpath expr="//button[@name='action_set_won_rainbowman']" position="before">
-            <button name="create_customer_from_crm" string="Create Customer" type="object"/>
-          </xpath>
-
           <xpath expr="//field[@name='probability']" position="attributes">
               <attribute name="invisible">1</attribute>
           </xpath>
@@ -53,42 +19,22 @@
               </h2>
               </div>
               <div>
-                  <label for ='passport_check' string="passport"/>
-                  <field name="passport_check"/>
-                  <label for ='professional_job_check' string="professional job"/>
-                  <field name="professional_job_check"/>
-                  <label for ='bank_account_check' string="bank account"/>
-                  <field name="bank_account_check"/>
-                  <label for ='visas_check' string="visa"/>
-                  <field name="visas_check"/>
-                  <label for ='bachelor_check' string="bachelor"/>
-                  <field name="bachelor_check"/>
-              </div>
+              <label for ='passport_check' string="passport"/>
+              <field name="passport_check"/>
+<!--                          </div>-->
+              <label for ='professional_job_check' string="professional job"/>
+              <field name="professional_job_check"/>
+              <label for ='bank_account_check' string="bank account"/>
+              <field name="bank_account_check"/>
+              <label for ='visas_check' string="visa"/>
+              <field name="visas_check"/>
+              <label for ='bachelor_check' string="bachelor"/>
+              <field name="bachelor_check"/>
+              <field name="stage_name" invisibale="True"/>
+                  <button name="autofill_leads_customer" string="Autofill Customer" type="object" class="btn-primary"/>
 
+              </div>
           </xpath>
-          <xpath expr="//field[@name='tag_ids']" position="after">
-              <field name="stage_name" invisibale="1"/>
-              <button name="autofill_leads_customer" string="Autofill Customer" type="object" class="btn-primary" invisible="1"/>
-              <field name="status_changed" invisible="1"/>
-              <field name="first_action_date" readonly="1"/>
-              <field name="education" options="{'no_create': True, 'no_open': True}"/>
-              <field name="profession" options="{'no_create': True, 'no_open': True}"/>
-              <field name="region" options="{'no_create': True, 'no_open': True}"/>
-              <field name="area" options="{'no_create': True, 'no_open': True}"/>
-<!--              <field name="relationship_ids" options="{'no_create': True, 'no_open': True}"/>-->
-          </xpath>
-<!--          <xpath expr="//field[@name='description']" position="after">-->
-<!--              <field name="relationship_ids" mode="tree">-->
-<!--                    <tree editable="bottom">-->
-<!--                        <field name="relation_id" invisible="1"/>-->
-<!--                        <field name="name" />-->
-<!--                        <field name="relationship"/>-->
-<!--                        <field name="number"/>-->
-<!--                        <field name="expiry_date"/>-->
-<!--                        <field name="attachment_ids" widget="many2many_binary" invisible="1"/>-->
-<!--                    </tree>-->
-<!--              </field>-->
-<!--          </xpath>-->
       </field>
     </record>
   </data>
