@@ -111,16 +111,16 @@
                     <field name="roommate_name"/>
                 </xpath>
 
-                <xpath expr="//page[@name='other_information']" position="after">
-                    <page string="Attachments" name="attachments">
-                        <field name="attachment_ids" nolabel="1">
-                            <tree editable="bottom">
-                                <field name="attachment_id" widget="many2many_binary"/>
-                                <field name="tag_id"/>
-                            </tree>
-                        </field>
-                    </page>
-                </xpath>
+<!--                <xpath expr="//page[@name='other_information']" position="after">-->
+<!--                    <page string="Attachments" name="attachments">-->
+<!--                        <field name="attachment_ids" nolabel="1">-->
+<!--                            <tree editable="bottom">-->
+<!--                                <field name="attachment_id" widget="many2many_binary"/>-->
+<!--                                <field name="tag_id"/>-->
+<!--                            </tree>-->
+<!--                        </field>-->
+<!--                    </page>-->
+<!--                </xpath>-->
 
             </field>
         </record>
