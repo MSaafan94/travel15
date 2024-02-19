@@ -134,7 +134,7 @@ class CrmLead(models.Model):
         }
 
     relationship_ids = fields.One2many('partner.relationship', 'relation_id', string='Relationships')
-    acquisition_lead = fields.Many2one('utm.source')
+    # acquisition_lead = fields.Many2one('utm.source')
     education = fields.Many2one('education')
     region = fields.Many2one('region')
     area = fields.Many2one('area')
@@ -334,9 +334,9 @@ class CustomCrmLead(models.Model):
             lead.duplicate_lead_count = len(duplicate_lead_ids)
 
 
-class ContactUpdate(models.Model):
-    _inherit = 'res.partner'
-    acquisition_lead = fields.Many2one('utm.source')
+# class ContactUpdate(models.Model):
+#     _inherit = 'res.partner'
+#     acquisition_lead = fields.Many2one('utm.source')
 
 
 class SaleOrder(models.Model):
