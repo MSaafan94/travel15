@@ -20,11 +20,11 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'crm', 'contacts'],
+    'depends': ['base', 'crm', 'contacts', 'sale', 'sales_extra_fields'],
 
     # always loaded
     'data': [
-        # 'security/ir.model.access.csv',
+        'security/ir.model.access.csv',
         'views/views.xml',
         'views/templates.xml',
         # 'views/partner.xml',
