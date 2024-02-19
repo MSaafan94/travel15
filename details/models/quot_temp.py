@@ -71,8 +71,8 @@ class CustomCancellationModel(models.Model):
 
 
 
-# # class QuotAccommodation(models.Model):
-# #     _name = 'accommodation.main'
+class QuotAccommodation(models.Model):
+    _name = 'accommodation.main'
 # #
 # #     hotel = fields.Many2many('model.hotel', string='Hotel', copy=True)
 # #     check_in = fields.Date(string="Check In")
@@ -83,8 +83,8 @@ class CustomCancellationModel(models.Model):
 # #     individual = fields.Selection(related='quot_id.individual', )
 # #
 # #
-# # class QuotAccommodation1(models.Model):
-# #     _name = 'accommodation.city1'
+class QuotAccommodation1(models.Model):
+    _name = 'accommodation.city1'
 # #     hotel = fields.Many2many('model.hotel', string='Hotel')
 # #     check_in = fields.Date(string="Check In")
 # #     check_out = fields.Date(string="Check out")
@@ -94,8 +94,8 @@ class CustomCancellationModel(models.Model):
 # #     individual = fields.Selection(related='quot_id.individual', )
 # #
 # #
-# # class QuotAccommodation2(models.Model):
-# #     _name = 'accommodation.city2'
+class QuotAccommodation2(models.Model):
+    _name = 'accommodation.city2'
 # #     hotel = fields.Many2many('model.hotel', string='Hotel')
 # #     check_in = fields.Date(string="Check In")
 # #     check_out = fields.Date(string="Check out")
@@ -105,8 +105,8 @@ class CustomCancellationModel(models.Model):
 # #     individual = fields.Selection(related='quot_id.individual', )
 # #
 # #
-# # class QuotAccommodation3(models.Model):
-# #     _name = 'accommodation.city3'
+class QuotAccommodation3(models.Model):
+    _name = 'accommodation.city3'
 # #     hotel = fields.Many2many('model.hotel', string='Hotel')
 # #     check_in = fields.Date(string="Check In")
 # #     check_out = fields.Date(string="Check out")
@@ -116,8 +116,8 @@ class CustomCancellationModel(models.Model):
 # #     individual = fields.Selection(related='quot_id.individual', )
 # #
 # #
-# # class QuotAccommodation4(models.Model):
-# #     _name = 'accommodation.city4'
+class QuotAccommodation4(models.Model):
+    _name = 'accommodation.city4'
 # #     hotel = fields.Many2many('model.hotel', string='Hotel')
 # #     check_in = fields.Date(string="Check In")
 # #     check_out = fields.Date(string="Check out")
@@ -127,8 +127,8 @@ class CustomCancellationModel(models.Model):
 # #     individual = fields.Selection(related='quot_id.individual', )
 # #
 # #
-# # class QuotAccommodation5(models.Model):
-# #     _name = 'accommodation.city5'
+class QuotAccommodation5(models.Model):
+    _name = 'accommodation.city5'
 # #     hotel = fields.Many2many('model.hotel', string='Hotel')
 # #     check_in = fields.Date(string="Check In")
 # #     check_out = fields.Date(string="Check out")
@@ -138,8 +138,8 @@ class CustomCancellationModel(models.Model):
 # #     individual = fields.Selection(related='quot_id.individual', )
 # #
 # #
-# # class QuotAccommodation6(models.Model):
-# #     _name = 'accommodation.city6'
+class QuotAccommodation6(models.Model):
+    _name = 'accommodation.city6'
 # #     hotel = fields.Many2many('model.hotel', string='Hotel')
 # #     check_in = fields.Date(string="Check In")
 # #     check_out = fields.Date(string="Check out")
@@ -149,8 +149,8 @@ class CustomCancellationModel(models.Model):
 # #     individual = fields.Selection(related='quot_id.individual', )
 # #
 # #
-# # class FlightInternational(models.Model):
-# #     _name = 'quot.flight.international'
+class FlightInternational(models.Model):
+    _name = 'quot.flight.international'
 # #     flight_type = fields.Selection(
 # #         [('int_grp', 'INT-GRP'), ('int_sys', 'INT-SYS'), ('without_flight', 'without flight')], store=True)
 # #
@@ -177,8 +177,8 @@ class CustomCancellationModel(models.Model):
 # #     individual = fields.Selection(related='quot_id.individual')
 # #
 # #
-# # class FlightDomestic(models.Model):
-# #     _name = 'quot.flight.domestic'
+class FlightDomestic(models.Model):
+    _name = 'quot.flight.domestic'
 # #     flight_type = fields.Selection(
 # #         [('dom_sys', 'DOM-SYS'), ('DOM-GRP', 'DOM-GRP'), ('without_flight', 'Without Flight')],
 # #         default='dom_sys', store=True)
@@ -205,8 +205,8 @@ class CustomCancellationModel(models.Model):
 # #     individual = fields.Selection(related='quot_id.individual')
 # #
 # #
-# # class QuotVisa(models.Model):
-# #     _name = 'quot.visa'
+class QuotVisa(models.Model):
+    _name = 'quot.visa'
 # #     visa_type = fields.Selection([('embassy_client', 'Embassy - Client'), ('embassy_company', 'Embassy - Company'),
 # #                                   ('embassy_assist_only', 'Embassy - Assist Only'),
 # #                                   ('online_client', 'Online - Client'), ('online_company', 'Online - Company'),
@@ -216,8 +216,8 @@ class CustomCancellationModel(models.Model):
 # #     individual = fields.Selection(related='quot_id.individual', )
 # #
 # #
-# # class QuotVaccination(models.Model):
-# #     _name = 'quot.vaccination'
+class QuotVaccination(models.Model):
+    _name = 'quot.vaccination'
 # #
 # #     pcr_required = fields.Many2one('pcr.required', string='PCR Required')
 # #
@@ -225,8 +225,8 @@ class CustomCancellationModel(models.Model):
 # #     individual = fields.Selection(related='quot_id.individual', )
 # #
 # #
-# # class QuotProgram(models.Model):
-# #     _name = 'quot.program'
+class QuotProgram(models.Model):
+    _name = 'quot.program'
 # #
 # #     program_name = fields.Many2many('program.city', string='Program Name', )
 # #     status = fields.Selection([('yes', 'Yes'), ('no', 'No')], default='yes', store=True)

@@ -171,8 +171,8 @@ class Balances(models.Model):
             self.balance_id.total_paymentt += self.amount
 
 
-# class SaleOrderAccommodation(models.Model):
-#     _name = 'sale.order.accommodation'
+class SaleOrderAccommodation(models.Model):
+    _name = 'sale.order.accommodation'
 #
 #     serial_number = fields.Integer(string="S/N", name="S/N")
 #     gender = fields.Selection([('male', 'Male'), ("female", 'Female')], related='partner_id.gender', string='Gender',
@@ -263,8 +263,8 @@ class Balances(models.Model):
 #                 rec.age_on_travel_date = str(years) + " years " + str(months) + " months " + str(days) + " days"
 #
 #
-# class SaleOrderCity1(models.Model):
-#     _name = 'sale.order.city1'
+class SaleOrderCity1(models.Model):
+    _name = 'sale.order.city1'
 #
 #     serial_number = fields.Integer(string="S/N", name="S/N")
 #     gender = fields.Selection([('male', 'Male'), ("female", 'Female')], related='partner_id.gender', string='Gender',
@@ -355,8 +355,8 @@ class Balances(models.Model):
 #                 rec.age_on_travel_date = str(years) + " years " + str(months) + " months " + str(days) + " days"
 #
 #
-# class SaleOrderCity2(models.Model):
-#     _name = 'sale.order.city2'
+class SaleOrderCity2(models.Model):
+    _name = 'sale.order.city2'
 #
 #     serial_number = fields.Integer(string="S/N", name="S/N")
 #     gender = fields.Selection([('male', 'Male'), ("female", 'Female')], related='partner_id.gender', string='Gender',
@@ -449,8 +449,8 @@ class Balances(models.Model):
 #             self.age_on_travel_date = str(years) + " years " + str(months) + " months " + str(days) + " days"
 #
 #
-# class SaleOrderCity3(models.Model):
-#     _name = 'sale.order.city3'
+class SaleOrderCity3(models.Model):
+    _name = 'sale.order.city3'
 #
 #     serial_number = fields.Integer(string="S/N", name="S/N")
 #     gender = fields.Selection([('male', 'Male'), ("female", 'Female')], related='partner_id.gender', string='Gender',
@@ -541,8 +541,8 @@ class Balances(models.Model):
 #             self.age_on_travel_date = str(years) + " years " + str(months) + " months " + str(days) + " days"
 #
 #
-# class SaleOrderCity4(models.Model):
-#     _name = 'sale.order.city4'
+class SaleOrderCity4(models.Model):
+    _name = 'sale.order.city4'
 #
 #     serial_number = fields.Integer(string="S/N", name="S/N")
 #     gender = fields.Selection([('male', 'Male'), ("female", 'Female')], related='partner_id.gender', string='Gender',
@@ -633,8 +633,8 @@ class Balances(models.Model):
 #             self.age_on_travel_date = str(years) + " years " + str(months) + " months " + str(days) + " days"
 #
 #
-# class SaleOrderCity5(models.Model):
-#     _name = 'sale.order.city5'
+class SaleOrderCity5(models.Model):
+    _name = 'sale.order.city5'
 #
 #     serial_number = fields.Integer(string="S/N", name="S/N")
 #     gender = fields.Selection([('male', 'Male'), ("female", 'Female')], related='partner_id.gender', string='Gender',
@@ -725,8 +725,8 @@ class Balances(models.Model):
 #             self.age_on_travel_date = str(years) + " years " + str(months) + " months " + str(days) + " days"
 #
 #
-# class SaleOrderCity6(models.Model):
-#     _name = 'sale.order.city6'
+class SaleOrderCity6(models.Model):
+    _name = 'sale.order.city6'
 #
 #     serial_number = fields.Integer(string="S/N", name="S/N")
 #     gender = fields.Selection([('male', 'Male'), ("female", 'Female')], related='partner_id.gender', string='Gender',
@@ -817,8 +817,8 @@ class Balances(models.Model):
 #             self.age_on_travel_date = str(years) + " years " + str(months) + " months " + str(days) + " days"
 #
 #
-# class SaleOrderFlight(models.Model):
-#     _name = 'sale.order.flightint'
+class SaleOrderFlight(models.Model):
+    _name = 'sale.order.flightint'
 #
 #     name = fields.Char(string="Name ______________", related='partner_id.name', readonly=False, store=True)
 #     sequence = fields.Integer(default=10)
@@ -893,8 +893,8 @@ class Balances(models.Model):
 #         #     line.sys=sys
 #
 #
-# class SaleOrderFlightDom(models.Model):
-#     _name = 'sale.order.flightdom'
+class SaleOrderFlightDom(models.Model):
+    _name = 'sale.order.flightdom'
 #
 #     name = fields.Char(string="Name ______________", related='partner_id.name', readonly=False, store=True)
 #     sequence = fields.Integer(default=10)
@@ -937,8 +937,8 @@ class Balances(models.Model):
 #     sale_order_template_id = fields.Many2one('sale.order.template')
 #     partner_id = fields.Many2one('res.partner', "Name ______________")
 #
-# class SaleOrderVisa(models.Model):
-#     _name = 'sale.order.visa'
+class SaleOrderVisa(models.Model):
+    _name = 'sale.order.visa'
 #
 #     name = fields.Char(string="Name", related='partner_id.name', readonly=False, store=True)
 #     gender = fields.Selection([('male', 'Male'), ("female", 'Female')], related='partner_id.gender', string='Gender',
@@ -986,8 +986,8 @@ class Balances(models.Model):
 #             self.age_on_travel_date = str(years) + "years " + str(months) + "months"
 #
 #
-# class SaleOrderMedical(models.Model):
-#     _name = 'sale.order.medical'
+class SaleOrderMedical(models.Model):
+    _name = 'sale.order.medical'
 #
 #     name = fields.Char(string="Name", related='partner_id.name', readonly=False, store=True)
 #     age_on_travel_date = fields.Char(string='Age On Travel',)
@@ -1011,8 +1011,8 @@ class Balances(models.Model):
 #             self.age_on_travel_date = str(years) + "years " + str(months) + "months"
 #
 #
-# class SaleOrderVaccination(models.Model):
-#     _name = 'sale.order.vaccination'
+class SaleOrderVaccination(models.Model):
+    _name = 'sale.order.vaccination'
 #
 #     name = fields.Char(string="Name", related='partner_id.name', readonly=False, store=True)
 #     sequence = fields.Integer(default=10)
@@ -1074,8 +1074,8 @@ class Balances(models.Model):
 #             self.age_on_travel_date = str(years) + "years " + str(months) + "months"
 #
 #
-# class SaleOrderProgram(models.Model):
-#     _name = 'sale.order.program'
+class SaleOrderProgram(models.Model):
+    _name = 'sale.order.program'
 #
 #     name = fields.Char(string="Name", related='partner_id.name', readonly=False, store=True)
 #     sequence = fields.Integer(default=10)
@@ -1090,8 +1090,8 @@ class Balances(models.Model):
 #     partner_id = fields.Many2one('res.partner', "Name")
 #
 #
-# class SaleOrderTransfer(models.Model):
-#     _name = 'sale.order.transfer'
+class SaleOrderTransfer(models.Model):
+    _name = 'sale.order.transfer'
 #
 #     name = fields.Char(string="Name", related='partner_id.name', readonly=False, store=True)
 #     sequence = fields.Integer(default=10)
@@ -1112,21 +1112,21 @@ class Balances(models.Model):
 #     cost = fields.Integer(string='Cost(S)')
 #
 #
-# class ProgramCity(models.Model):
-#     _name = 'program.city'
+class ProgramCity(models.Model):
+    _name = 'program.city'
 #     name = fields.Char(string="Program City")
 #
 #
-# class PcrRequired(models.Model):
-#     _name = 'pcr.required'
+class PcrRequired(models.Model):
+    _name = 'pcr.required'
 #     name = fields.Char(string="PCR Required")
 #
 #
-# class CityHome(models.Model):
-#     _name = 'city.home'
+class CityHome(models.Model):
+    _name = 'city.home'
 #     name = fields.Char(string="City Home")
 #
 #
-# class YearYear(models.Model):
-#     _name = 'year.year'
+class YearYear(models.Model):
+    _name = 'year.year'
 #     year = fields.Integer(string="Year")
