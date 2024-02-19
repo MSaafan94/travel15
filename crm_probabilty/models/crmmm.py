@@ -35,22 +35,22 @@ class PartnerRelationship(models.Model):
 
 
 class Education(models.Model):
-    _name = 'education'
+    _name = 'edu.education'
     name = fields.Char()
 
 
 class Region(models.Model):
-    _name = 'region'
+    _name = 'reg.region'
     name = fields.Char()
 
 
 class Area(models.Model):
-    _name = 'area'
+    _name = 'are.area'
     name = fields.Char()
 
 
 class Profession(models.Model):
-    _name = 'profession'
+    _name = 'pro.profession'
     name = fields.Char()
 
 
