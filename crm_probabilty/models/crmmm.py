@@ -74,14 +74,14 @@ class SaleView(models.Model):
 class CrmLead(models.Model):
     _inherit = 'crm.lead'
 
-    # def action_sale_quotations_new(self):
-    #     res = super(CrmLead, self).action_sale_quotations_new()
-    #     if not self.partner_id:
-    #         print('sadfsdfasdfadsfasdfasdf')
-    #         raise ValidationError("Cannot create quotation: Lead does not have a customer.")
-    #     else:
-    #         print('ooooooooooooooo')
-    #         return res
+    def action_sale_quotations_new(self):
+        res = super(CrmLead, self).action_sale_quotations_new()
+        if not self.partner_id:
+            print('sadfsdfasdfadsfasdfasdf')
+            raise ValidationError("Cannot create quotation: Lead does not have a customer.")
+        else:
+            print('ooooooooooooooo')
+            return res
 
     # def action_new_quotation(self):
     #     action = self.env["ir.actions.actions"]._for_xml_id("sale_crm.sale_action_quotations_new")
