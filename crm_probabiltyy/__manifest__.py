@@ -1,14 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "crm_probabilty",
-
-    'summary': """
-        Short (1 phrase/line) summary of the module's purpose, used as
-        subtitle on modules listing or apps.openerp.com""",
-
-    'description': """
-        Long description of module's purpose
-    """,
+    'name': "crm_probabiltyy",
 
     'author': "My Company",
     'website': "http://www.yourcompany.com",
@@ -20,18 +12,13 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['sale', 'crm', 'base'],
+    'depends': ['base', 'crm', 'sale'],
 
     # always loaded
     'data': [
         # 'security/ir.model.access.csv',
-        'views/views.xml',
-        'views/partner.xml',
+        # 'views/views.xml',
         # 'views/partner.xml',
     ],
     # only loaded in demonstration mode
-    # 'demo': [
-    #     'demo/demo.xml',
-    #     'data/cron.xml',
-    # ],
 }

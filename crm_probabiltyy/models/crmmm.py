@@ -74,14 +74,14 @@ class SaleView(models.Model):
 class CrmLeadd(models.Model):
     _inherit = 'crm.lead'
 
-    def action_sale_quotations_new(self):
-        res = super(CrmLeadd, self).action_sale_quotations_new()
-        if not self.partner_id:
-            print('sadfsdfasdfadsfasdfasdf')
-            raise ValidationError("Cannot create quotation: Lead does not have a customer.")
-        else:
-            print('ooooooooooooooo')
-            return res
+    # def action_sale_quotations_new(self):
+    #     res = super(CrmLeadd, self).action_sale_quotations_new()
+    #     if not self.partner_id:
+    #         print('sadfsdfasdfadsfasdfasdf')
+    #         raise ValidationError("Cannot create quotation: Lead does not have a customer.")
+    #     else:
+    #         print('ooooooooooooooo')
+    #         return res
 
     # def action_new_quotation(self):
     #     action = self.env["ir.actions.actions"]._for_xml_id("sale_crm.sale_action_quotations_new")
@@ -278,14 +278,14 @@ class CustomCrmLead(models.Model):
 
         print(f"Total leads processed: {total_leads_processed}")
 
-    def write(self, vals):
-        # Call super to perform the write operation
-        res = super(CustomCrmLead, self).write(vals)
-
-        # Call autofill_leads_customer method for the newly created lead
-        self.autofill_leads_customer()
-
-        return res
+    # def write(self, vals):
+    #     # Call super to perform the write operation
+    #     res = super(CustomCrmLead, self).write(vals)
+    #
+    #     # Call autofill_leads_customer method for the newly created lead
+    #     self.autofill_leads_customer()
+    #
+    #     return res
 
     @api.depends('phone')
     def _compute_potential_lead_duplicates(self):
