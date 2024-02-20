@@ -105,27 +105,27 @@ class CrmLead(models.Model):
 
 
 
-    def create_sale_quotation(self):
-        # Check if the lead has a customer
-        if not self.partner_id:
-            raise ValidationError("Cannot create quotation: Lead does not have a customer.")
-
-        # Create quotation logic here
-        # Example: You can create a sale order or open the quotation form view
-        # For example, to create a sale order:
-        sale_order = self.env['sale.order'].create({
-            'partner_id': self.partner_id.id,
-            # Add other necessary fields
-        })
-        # Navigate to the sale order view
-        return {
-            'name': 'Sale Order',
-            'view_mode': 'form',
-            'res_model': 'sale.order',
-            'res_id': sale_order.id,
-            'type': 'ir.actions.act_window',
-            'target': 'current',
-        }
+    # def create_sale_quotation(self):
+    #     # Check if the lead has a customer
+    #     if not self.partner_id:
+    #         raise ValidationError("Cannot create quotation: Lead does not have a customer.")
+    #
+    #     # Create quotation logic here
+    #     # Example: You can create a sale order or open the quotation form view
+    #     # For example, to create a sale order:
+    #     sale_order = self.env['sale.order'].create({
+    #         'partner_id': self.partner_id.id,
+    #         # Add other necessary fields
+    #     })
+    #     # Navigate to the sale order view
+    #     return {
+    #         'name': 'Sale Order',
+    #         'view_mode': 'form',
+    #         'res_model': 'sale.order',
+    #         'res_id': sale_order.id,
+    #         'type': 'ir.actions.act_window',
+    #         'target': 'current',
+    #     }
 
     relationship_ids = fields.One2many('partner.relationship', 'relation_id', string='Relationships')
     acquisition_lead = fields.Many2one('utm.source')
