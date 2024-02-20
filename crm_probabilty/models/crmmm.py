@@ -1,10 +1,4 @@
-import logging
-import pytz
-import threading
-from collections import OrderedDict, defaultdict
-from datetime import date, datetime, timedelta
-from psycopg2 import sql
-from odoo import api, fields, models
+from odoo import models, fields, api
 from odoo.exceptions import ValidationError
 
 
