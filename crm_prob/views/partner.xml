@@ -1,0 +1,14 @@
+<odoo>
+  <data>
+        <record model="ir.ui.view" id="acquisition_leadd">-->
+          <field name="name">acquisition form</field>
+          <field name="model">res.partner</field>
+          <field name="inherit_id" ref="base.view_partner_form"/>
+          <field name="arch" type="xml">
+                <xpath expr="//field[@name='email']" position="after">
+                    <field name="acquisition_lead"/>
+                </xpath>
+          </field>
+      </record>
+  </data>
+</odoo>
