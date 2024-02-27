@@ -129,10 +129,10 @@ class CrmLeadd(models.Model):
 
     relationship_ids = fields.One2many('partner.relationshipp', 'relation_id', string='Relationships')
     acquisition_lead = fields.Many2one('utm.source')
-    education = fields.Many2one('education')
-    region = fields.Many2one('region')
-    area = fields.Many2one('area')
-    profession = fields.Many2one('profession')
+    education = fields.Many2one('edu.education')
+    region = fields.Many2one('reg.region')
+    area = fields.Many2one('are.area')
+    profession = fields.Many2one('pro.profession')
 
     # reason = fields.Many2one('disqualified')
 

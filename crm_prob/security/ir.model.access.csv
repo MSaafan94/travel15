@@ -4,4 +4,4 @@ access_edu_education,Edu Education,model_edu_education,,1,1,1,1
 access_pro_profession,Pro Profession,model_pro_profession,,1,1,1,1
 access_reg_region,Reg Region,model_reg_region,,1,1,1,1
 access_are_area,Are Area,model_are_area,,1,1,1,1
-access_partner_relationship,Partner Relationship,model_partner_relationshipp,,1,1,1,1
+access_partner_relationship,partner.relationshipp,model_partner_relationshipp,,1,1,1,1
