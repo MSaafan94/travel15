@@ -2,76 +2,7 @@ from odoo import models, fields, api
 from odoo.exceptions import ValidationError
 
 
-class PartnerRelationship(models.Model):
-    _name = 'partner.relationshipp'
-    relation_id = fields.Integer()
-    name = fields.Char(string='Name')
-    relationship = fields.Selection([('father', 'Father'),
-                                     ('mother', 'Mother'),
-                                     ('son', 'Son'),
-                                     ('daughter', 'Daughter'),
-                                     ('husband', 'Husband'),
-                                     ('wife', 'Wife'),
-                                     ('brother', 'Brother'),
-                                     ('sister', 'Sister'),
-                                     ('grandfather', 'Grandfather'),
-                                     ('grandmother', 'Grandmother'),
-                                     ('uncle', 'Uncle'),
-                                     ('aunt', 'Aunt'),
-                                     ('cousin', 'Cousin'),
-                                     ('fiance', 'Fiance'),
-                                     ('friend', 'Friend')], string="Relationship")
-    number = fields.Char(string='Number')
-    expiry_date = fields.Date()
-    attachment_ids = fields.Many2one('ir.attachment', string='Attachments')
-    # attachment_idss = fields.One2many('sale.attachments', 'sale_id', "Attachments", track_visibility='always')
-
-
-
-class Education(models.Model):
-    _name = 'edu.education'
-    name = fields.Char()
-
-
-class Region(models.Model):
-    _name = 'reg.region'
-    name = fields.Char()
-
-
-class Area(models.Model):
-    _name = 'are.area'
-    name = fields.Char()
-
-
-class Profession(models.Model):
-    _name = 'pro.profession'
-    name = fields.Char()
-
-
-class SaleVieww(models.Model):
-    _inherit = 'sale.order'
-
-    relationship_ids = fields.One2many('partner.relationshipp', 'relation_id', string='Relationships')
-
-    def name_get(self):
-        result = []
-        for record in self:
-            name = record.partner_id.name if record.partner_id else ''
-            result.append((record.id, name))
-        return result
-
-    # @api.model
-    # def create(self, vals):
-    #     templates = super(SaleView, self).write(vals)
-    #
-    #     # fix attachment ownership
-    #     for rec in self.relationship_ids:
-    #         if rec.attachment_ids:
-    #             rec.attachment_ids.write({'res_model': self._name, 'res_id': rec.id})
-    #     return templates
-
-
-class CrmLeadd(models.Model):
+class CrmLead(models.Model):
     _inherit = 'crm.lead'
 
     # def action_sale_quotations_new(self):
@@ -127,12 +58,17 @@ class CrmLeadd(models.Model):
     #         'target': 'current',
     #     }
 
-    relationship_ids = fields.One2many('partner.relationshipp', 'relation_id', string='Relationships')
+    relationship_ids = fields.One2many('partner.relationship', 'relation_id', string='Relationships')
     acquisition_lead = fields.Many2one('utm.source')
+
     education = fields.Many2one('edu.education')
     region = fields.Many2one('reg.region')
     area = fields.Many2one('are.area')
     profession = fields.Many2one('pro.profession')
+
+    stage_name = fields.Char(related='stage_id.name', string='Stage')
+    status_changed = fields.Boolean(string="Status Changed", default=False)
+    first_action_date = fields.Date(string="First Action Date")
 
     # reason = fields.Many2one('disqualified')
 
@@ -157,7 +93,7 @@ class CrmLeadd(models.Model):
             self.partner_id = existing_contact.id
         else:
 
-            self.acquisition_lead = self.source_id
+            # self.acquisition_lead = self.source_id
             # If no existing contact is found, create a new customer
             new_customer = self.env['res.partner'].create({
                 'name': self.name,
@@ -196,35 +132,9 @@ class CrmLeadd(models.Model):
             # You might want to update other lead fields here
 
         # Proceed with regular lead conversion process
-        return super(CrmLeadd, self).create_opportunity(lead_id)
+        return super(CrmLead, self).create_opportunity(lead_id)
 
 
-class Lead2OpportunityPartner(models.TransientModel):
-    _inherit = 'crm.lead2opportunity.partner'
-
-    @api.depends('lead_id')
-    def _compute_action(self):
-        for convert in self:
-            if not convert.lead_id:
-                convert.action = 'nothing'
-            else:
-                matching_partner = convert.lead_id._find_matching_partner_by_phone()
-                if matching_partner:
-                    convert.action = 'exist'
-                    convert.partner_id = matching_partner.id
-                elif convert.lead_id.contact_name:
-                    convert.action = 'create'
-                else:
-                    convert.action = 'nothing'
-
-
-class CustomCrmLead(models.Model):
-    _inherit = 'crm.lead'
-
-    stage_name = fields.Char(related='stage_id.name', string='Stage')
-
-    status_changed = fields.Boolean(string="Status Changed", default=False)
-    first_action_date = fields.Date(string="First Action Date")
 
     @api.onchange('stage_id')
     def _onchange_stage_id(self):
@@ -327,34 +237,3 @@ class CustomCrmLead(models.Model):
             lead.duplicate_lead_ids = duplicate_lead_ids + lead
             lead.duplicate_lead_count = len(duplicate_lead_ids)
 
-
-class ContactUpdate(models.Model):
-    _inherit = 'res.partner'
-    acquisition_lead = fields.Many2one('utm.source')
-
-
-class SaleOrderr(models.Model):
-    _inherit = 'sale.order'
-
-    # is_duplicated = fields.Selection([('update', 'update'), ('confirmed', 'confirmed')])
-
-    def action_cancel(self):
-        # Call super to perform the cancellation of the sale order
-        res = super(SaleOrderr, self).action_cancel()
-
-        # Update opportunity stage to 'cancel' for related opportunities
-        canceled_stage = self.env['crm.stage'].search([('name', '=', 'Canceled')], limit=1)
-        for order in self:
-            if order.opportunity_id:
-                order.opportunity_id.stage_id = canceled_stage.id
-        return res
-
-    def action_confirm(self):
-        res = super(SaleOrderr, self).action_confirm()
-
-        won_stage = self.env['crm.stage'].search([('name', '=', 'won')], limit=1)
-
-        for order in self:
-            if order.opportunity_id:
-                order.opportunity_id.stage_id = won_stage.id
-        return res

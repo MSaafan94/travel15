@@ -1,6 +1,5 @@
 <odoo>
   <data>
-
 <!--      <record model="ir.ui.view" id="view_name_of_persons">-->
 <!--          <field name="name">view_name_of_persons</field>-->
 <!--        <field name="model">sale.order</field>-->
@@ -37,9 +36,9 @@
       <field name="model">crm.lead</field>
         <field name="inherit_id" ref="crm.crm_lead_view_form"/>
       <field name="arch" type="xml">
-<!--          <xpath expr="//button[@name='action_set_won_rainbowman']" position="before">-->
-<!--            <button name="create_customer_from_crm" string="Create Customer" type="object"/>-->
-<!--          </xpath>-->
+          <xpath expr="//button[@name='action_set_won_rainbowman']" position="before">
+            <button name="create_customer_from_crm" string="Create Customer" type="object"/>
+          </xpath>
 
           <xpath expr="//field[@name='probability']" position="attributes">
               <attribute name="invisible">1</attribute>
@@ -66,13 +65,13 @@
               </div>
 
           </xpath>
-          <xpath expr="//field[@name='tag_ids']" position="after">
+          <xpath expr="//field[@name='tag_ids'] " position="after">
               <field name="stage_name" invisibale="1"/>
-<!--              <button name="autofill_leads_customer" string="Autofill Customer" type="object" class="btn-primary" invisible="1"/>-->
+              <button name="autofill_leads_customer" string="Autofill Customer" type="object" class="btn-primary" invisible="1"/>
               <field name="status_changed" invisible="1"/>
               <field name="first_action_date" readonly="1"/>
               <field name="education" options="{'no_create': True, 'no_open': True}"/>
-<!--              <field name="profession" options="{'no_create': True, 'no_open': True}"/>-->
+              <field name="profession" options="{'no_create': True, 'no_open': True}"/>
               <field name="region" options="{'no_create': True, 'no_open': True}"/>
               <field name="area" options="{'no_create': True, 'no_open': True}"/>
 <!--              <field name="relationship_ids" options="{'no_create': True, 'no_open': True}"/>-->
