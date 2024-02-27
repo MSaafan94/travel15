@@ -118,6 +118,7 @@ class CrmLead(models.Model):
         matching_partner = self.env['res.partner'].search([('phone', '=', self.phone)], limit=1)
         if matching_partner:
             self.acquisition_lead = matching_partner.acquisition_lead
+            # self.create_customer_from_crm()
         return matching_partner
 
     @api.model
